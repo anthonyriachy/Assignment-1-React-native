@@ -6,8 +6,10 @@ const AuthContext = createContext<AuthContextType | null>(null);
 
 
 const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
+    // const [user, setUser] = useState<any>(null);
+    // const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
     const [user, setUser] = useState<any>(null);
-    const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+    const [isAuthenticated, setIsAuthenticated] = useState<boolean>(true);
     const logout = ()=>{
         setUser(null);
         setIsAuthenticated(false);

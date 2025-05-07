@@ -9,7 +9,6 @@ const Stack = createStackNavigator();
 export const AppStack = () => {
     const authContext = useAuthContext();
     const isAuthenticated = authContext?.isAuthenticated;
-    console.log('isAuthenticated', isAuthenticated);
     return (
         <Stack.Navigator screenOptions={{ headerShown: false }}>
             {!isAuthenticated ? (

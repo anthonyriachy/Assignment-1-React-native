@@ -4,55 +4,77 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { Home } from '../../pages/Home/Home';
 import { Search } from '../../pages/Search';
 import { BottomTabIcons } from '../../components/atoms/BottomTabIcons/BottomTabIcons';
+import { ItemDetails } from '../../pages/ItemDetails/ItemDetails';
 import { CustomHeader } from '../../components/molecules/CustomHeader';
-import ScreenWrapper from '../../components/templates/ScreenWrapper/ScreenWrapper';
 
 const Tab = createBottomTabNavigator();
-
-//movew to filessss
 const HomeStack = createStackNavigator();
-//movew to filessss
 const SearchStack = createStackNavigator();
 
 const HomeStackScreen = () => (
   <HomeStack.Navigator>
-    <HomeStack.Screen name="Home" component={Home} />
+    <HomeStack.Screen
+      name="HomeScreen"
+      component={Home}
+      options={{
+        headerShown: false,
+      }}
+    />
+    <HomeStack.Screen
+      name="Details"
+      component={ItemDetails}
+      options={{
+        headerShown: false,
+        animation: 'slide_from_bottom',
+        presentation: 'modal',
+        gestureEnabled: true,
+        gestureDirection: 'vertical'
+      }}
+    />
   </HomeStack.Navigator>
-);//movew to filessss
-//move to files
+);
 
 const SearchStackScreen = () => (
-  <SearchStack.Navigator>
-    <SearchStack.Screen name="Search" component={Search} />
+  <SearchStack.Navigator screenOptions={{headerShown:false}}>
+    <SearchStack.Screen name="SearchScreen" component={Search} />
   </SearchStack.Navigator>
 );
 
 const getIconName = (routeName: string) => {
-  if (routeName === 'Home') {return 'Home';}
-  if (routeName === 'Search') {return 'Search';}
+  if (routeName === 'HomeTab') {return 'Home';}
+  if (routeName === 'SearchTab') {return 'Search';}
   return 'Home';
 };
 
 function MainBottomTabs() {
   return (
-    <ScreenWrapper>
-      <Tab.Navigator
-        screenOptions={({ route }) => ({
-          tabBarIcon: ({ focused }) => (
-            <BottomTabIcons name={getIconName(route.name)} selected={focused} />
-          ),
-          header: ({ navigation, route }) => (
-            <CustomHeader
-              title={route.name}
-              showBackButton={navigation.canGoBack()}
-            />
-          ),
-        })}
-      >
-        <Tab.Screen name="Home" component={HomeStackScreen} />
-        <Tab.Screen name="Search" component={SearchStackScreen} />
-      </Tab.Navigator>
-    </ScreenWrapper>
+    <Tab.Navigator
+      screenOptions={({ route }) => ({
+        tabBarIcon: ({ focused }) => (
+          <BottomTabIcons name={getIconName(route.name)} selected={focused} />
+        ),
+        headerShown: route.name === 'HomeTab',
+        header: () => <CustomHeader/>,
+        tabBarStyle: {
+          display: 'flex'
+        }
+      })}
+    >
+      <Tab.Screen 
+        name="HomeTab" 
+        component={HomeStackScreen}
+        options={{
+          headerShown: true
+        }}
+      />
+      <Tab.Screen 
+        name="SearchTab" 
+        component={SearchStackScreen}
+        options={{
+          headerShown: false
+        }}
+      />
+    </Tab.Navigator>
   );
 }
 

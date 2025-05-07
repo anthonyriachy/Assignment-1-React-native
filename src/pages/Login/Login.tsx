@@ -10,7 +10,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { LoginSchemaType } from '../../schemas/Login.schema';
 import { LoginSchema } from '../../schemas/Login.schema';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useAuthContext } from '../../hooks/useAuthContext';
+
 
 function Login({ navigation }: any) {
   const {
@@ -25,13 +25,9 @@ function Login({ navigation }: any) {
     },
   });
 
-  const { setIsAuthenticated, setUser } = useAuthContext();
-
   const onSubmit = (data: LoginSchemaType) => {
-    console.log(data);
     if(data.email === 'eurisko@gmail.com' && data.password === 'academy2025'){
-      setUser({ email: data.email });
-      setIsAuthenticated(true);
+      navigation.navigate(AuthStackRoutes.Verification);
     } else {
       Alert.alert('Invalid email or password');
     }

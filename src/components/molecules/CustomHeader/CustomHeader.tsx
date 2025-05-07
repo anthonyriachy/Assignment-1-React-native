@@ -1,70 +1,24 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { View, Text, Image } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import NotificationIcon from '../../../assets/icons/Notifications.svg';
+import { styles } from './CustomHeader.style';
 
-interface CustomHeaderProps {
-  title: string;
-  showBackButton?: boolean;
-  rightComponent?: React.ReactNode;
-}
-
-export const CustomHeader: React.FC<CustomHeaderProps> = ({
-  title,
-  showBackButton = false,
-  rightComponent,
-}) => {
-  const navigation = useNavigation();
+export const CustomHeader = () => {
+  const insets = useSafeAreaInsets()
 
   return (
-    <View style={styles.container}>
-        <View style={{flexDirection:'row',gap:8}}>
-            <View>
-                <Text>
-                    Image
-                </Text>
-            </View>
-            <View>
-                <Text>Hello,</Text>
-                <Text>John Doe</Text>
-            </View>
-        </View>
+    <View style={[styles.container, { paddingTop: insets.top+20 }]}>
+      <View style={styles.leftContainer}>
+        <Image source={require('../../../assets/images/Profile.png')} style={styles.ImageContainer} />
         <View>
-            <Text>Notif</Text>
+          <Text style={{fontWeight:'light'}}>Hello,</Text>
+          <Text style={styles.name}>John Doe</Text>
         </View>
-        
       </View>
+      <View style={styles.rightContainer}>
+        <NotificationIcon width={50} height={50} />
+      </View>
+    </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    height: 60,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: 16,
-    backgroundColor: '#fff',
-    borderBottomWidth: 1,
-    borderBottomColor: '#e0e0e0',
-  },
-  leftContainer: {
-    flex: 1,
-    alignItems: 'flex-start',
-  },
-  rightContainer: {
-    flex: 1,
-    alignItems: 'flex-end',
-  },
-  title: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: '#000',
-  },
-  backButton: {
-    padding: 8,
-  },
-  backButtonText: {
-    fontSize: 24,
-    color: '#000',
-  },
-}); 

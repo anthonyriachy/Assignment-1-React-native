@@ -13,7 +13,7 @@ function ScreenWrapper({ children, disableSafeArea=false, style }: ScreenWrapper
         );
     }
   return (
-    <SafeAreaView style={[styles.safeArea, style]} edges={['top']}>
+    <SafeAreaView style={[styles.safeArea, style]}>
       {children}
     </SafeAreaView>
   )
