@@ -1,6 +1,5 @@
 import { StyleSheet } from "react-native";
-import { colors } from "../../../constants/colors";
-export const styles = StyleSheet.create({
+export const createStyles = (colors: any) => StyleSheet.create({
     container: {
         flexDirection: 'row',
         justifyContent: 'space-between',
@@ -13,7 +12,7 @@ export const styles = StyleSheet.create({
         borderRadius: 8,
         textAlign: 'center',
         fontSize: 24,
-        backgroundColor: colors.secondary,
-        color: colors.primary,
+        backgroundColor: colors.inputBackground,
+        color: colors.text,
     },
 }); 

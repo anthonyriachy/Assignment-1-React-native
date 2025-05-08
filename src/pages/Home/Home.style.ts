@@ -1,10 +1,14 @@
 import { StyleSheet } from 'react-native';
+import { ThemeColors } from '../../constants/theme';
 
-export const styles = StyleSheet.create({
-    container:{
-        flex:1,
-        paddingHorizontal:16,
-        paddingTop:30,
-        gap:30,
+export const createStyles = (colors: ThemeColors) => StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: colors.background,
+        paddingTop: 30,
     },
+    list: {
+        gap: 25,
+        paddingBottom: 30,
+    }
 });

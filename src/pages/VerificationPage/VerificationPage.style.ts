@@ -1,9 +1,12 @@
 import { StyleSheet } from "react-native";
+import { window } from "../../constants/sizes";
 
-export const styles = StyleSheet.create({
+export const createStyles = (colors: any) => StyleSheet.create({
     container: {
+        paddingTop: window.height * 0.1,
         flex: 1,
         paddingHorizontal: 20,
+        backgroundColor: colors.background,
     },
     content: {
         flex: 1,

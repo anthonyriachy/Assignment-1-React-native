@@ -1,29 +1,33 @@
 import { StyleSheet } from "react-native";
-export const styles = StyleSheet.create({
+import { ThemeColors } from "../../../constants/theme";
+
+export const createStyles = (colors: ThemeColors) => StyleSheet.create({
     container: {
       flexDirection: 'row',
       alignItems: 'center',
       justifyContent: 'space-between',
       paddingHorizontal: 16,
+      backgroundColor: colors.background,
     },
     ImageContainer:{
-      width:50,
-      height:50,
-      borderRadius:100,
-      backgroundColor:'#6055D8',
+      width: 50,
+      height: 50,
+      borderRadius: 100,
+      backgroundColor: colors.primary,
     },
     leftContainer: {
-      flexDirection:'row',
-      gap:8,
-      alignItems:'center',
+      flexDirection: 'row',
+      gap: 8,
+      alignItems: 'center',
     },
     rightContainer: {
-      justifyContent: 'center',
+      flexDirection: 'row',
+      gap: 8,
       alignItems: 'center',
     },
     name:{
-      fontWeight:'bold',
-      fontSize:18,
-      color:'#000',
+      fontWeight: 'bold',
+      fontSize: 18,
+      color: colors.text,
     }, 
 }); 

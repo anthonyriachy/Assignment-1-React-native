@@ -3,12 +3,16 @@ import { AuthHeaderText } from '../../components/atoms/AuthHeaderText';
 import { InputField } from '../../components/atoms/InputField';
 import { CustomButton } from '../../components/atoms/CustomButton';
 import { AuthSmallText } from '../../components/atoms/AuthSmallText';
-import { styles } from './Signup.style';
+import { createStyles } from './Signup.style';
 import { AuthStackRoutes } from '../../constants/AuthStackRoutes';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Controller, useForm } from 'react-hook-form';
 import { SignupSchema, SignupSchemaType } from '../../schemas/Signup.schema.ts';
+import { useTheme } from '../../hooks/UseTheme';
+
 export const Signup = ({navigation}:any)=>{
+  const { colors } = useTheme();
+  const styles = createStyles(colors);
   const {
     control,
     handleSubmit,
@@ -21,8 +25,8 @@ export const Signup = ({navigation}:any)=>{
       password: '',
     },
   });
-  const onSubmit = (data: SignupSchemaType) => {
-    console.log(data);
+  const onSubmit = () => {
+    navigation.navigate(AuthStackRoutes.Verification);
   };
   return (
     <View style={styles.container}>

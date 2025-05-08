@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Alert } from 'react-native';
 import { AuthHeaderText } from '../../components/atoms/AuthHeaderText';
 import { InputField } from '../../components/atoms/InputField';
-import { styles } from './Login.style';
+import { createStyles } from './Login.style';
 import { CustomButton } from '../../components/atoms/CustomButton';
 import { AuthSmallText } from '../../components/atoms/AuthSmallText';
 import { AuthStackRoutes } from '../../constants/AuthStackRoutes';
@@ -10,9 +10,13 @@ import { Controller, useForm } from 'react-hook-form';
 import { LoginSchemaType } from '../../schemas/Login.schema';
 import { LoginSchema } from '../../schemas/Login.schema';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useTheme } from '../../hooks/UseTheme';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 function Login({ navigation }: any) {
+  const { colors } = useTheme();
+  const styles = createStyles(colors);
   const {
     control,
     handleSubmit,
@@ -25,8 +29,9 @@ function Login({ navigation }: any) {
     },
   });
 
-  const onSubmit = (data: LoginSchemaType) => {
+  const onSubmit = async (data: LoginSchemaType) => {
     if(data.email === 'eurisko@gmail.com' && data.password === 'academy2025'){
+      await AsyncStorage.setItem('user', JSON.stringify(data));
       navigation.navigate(AuthStackRoutes.Verification);
     } else {
       Alert.alert('Invalid email or password');

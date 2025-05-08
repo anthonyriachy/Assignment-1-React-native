@@ -1,6 +1,7 @@
 import React, { useRef } from 'react';
 import { View, TextInput } from 'react-native';
-import { styles } from './VerificationCodeInput.style';
+import { createStyles } from './VerificationCodeInput.style';
+import { useTheme } from '../../../hooks/UseTheme';
 
 interface VerificationCodeInputProps {
     onCodeComplete: (code: string) => void; 
@@ -9,9 +10,12 @@ interface VerificationCodeInputProps {
 }
 
 export const VerificationCodeInput = ({ onCodeComplete, code, setCode }: VerificationCodeInputProps) => {
+    const { colors } = useTheme();
+    const styles = createStyles(colors);
     const inputRefs = useRef<Array<TextInput | null>>([]);
 
     const handleCodeChange = (text: string, index: number) => {
+        if(isNaN(Number(text))) return;
         const newCode = [...code];
         newCode[index] = text;
         setCode(newCode);
@@ -27,13 +31,6 @@ export const VerificationCodeInput = ({ onCodeComplete, code, setCode }: Verific
         }
     };
 
-    // const handleKeyPress = (e: any, index: number) => {
-    //     //delete and move back
-    //     console.log('e.nativeEvent.key');
-    //     if (e.nativeEvent.key === 'Backspace' && !code[index] && index > 0) {
-    //         inputRefs.current[index - 1]?.focus();
-    //     }
-    // };
 
     return (
         <View style={styles.container}>
@@ -48,7 +45,6 @@ export const VerificationCodeInput = ({ onCodeComplete, code, setCode }: Verific
                     keyboardType="number-pad"
                     value={code[index]}
                     onChangeText={(text) => handleCodeChange(text, index)}
-                    // onKeyPress={(e) => handleKeyPress(e, index)}
                 />
             ))}
         </View>

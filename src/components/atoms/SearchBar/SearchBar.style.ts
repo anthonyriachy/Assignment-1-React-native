@@ -1,16 +1,19 @@
 import { StyleSheet } from "react-native";
-
-export const styles=StyleSheet.create({
+import { ThemeColors } from "../../../constants/theme";
+export const createStyles = (colors: ThemeColors) => StyleSheet.create({
     container:{
         flexDirection:'row',
         alignItems:'center',
         justifyContent:'center',
-        backgroundColor:'#fff',
+        backgroundColor:colors.inputBackground,
         borderRadius:100,
-        padding:8,
+        height:40,
         paddingHorizontal:16,
+        marginHorizontal:16,
+
     },
     input:{
+        color: colors.inputText ,
         flex:1,
         marginLeft:10,
     }

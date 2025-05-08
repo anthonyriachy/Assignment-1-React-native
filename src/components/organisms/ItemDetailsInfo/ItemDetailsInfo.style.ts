@@ -1,14 +1,14 @@
 import { StyleSheet } from "react-native";
-import { colors } from "../../../constants/colors";
 import { window } from "../../../constants/sizes";
-export const styles = StyleSheet.create({
+import { ThemeColors } from "../../../constants/theme";
+export const createStyles = (colors: ThemeColors) => StyleSheet.create({
 	container: {
 		flex: 1,
-        minHeight:'100%',
         paddingHorizontal:15,
         paddingVertical:15,
         justifyContent:'space-between',
         gap:30,
+
 	},
     infoContainer:{
         gap:20,
@@ -20,20 +20,23 @@ export const styles = StyleSheet.create({
     },
     title:{
         fontSize:24,
-        fontWeight:'bold',
+        fontFamily:'Poppins-SemiBold',
+        color:colors.text,
     },
     price:{
         fontSize:20,
-        fontWeight:'bold',
+        fontFamily:'Poppins-Bold',
         color:colors.primary,
     },
     descriptionTitle:{
         fontSize:18,
-        fontWeight:'bold',
+        fontFamily:'Poppins-SemiBold',
         marginBottom:5,
-    },      
+        color:colors.text,
+    },
     description:{
         fontSize:16,
+        fontFamily:'Poppins-Regular',
         color:colors.text,
     },
     buttonContainer:{
@@ -45,7 +48,7 @@ export const styles = StyleSheet.create({
         width:window.width*0.20,
         height:56,
         borderRadius:100,
-        backgroundColor:colors.secondary,
+        backgroundColor:'#F8F7F7',
         justifyContent:'center',
         alignItems:'center',
     }

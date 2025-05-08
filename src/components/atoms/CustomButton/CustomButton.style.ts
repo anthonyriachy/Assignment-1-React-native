@@ -11,6 +11,6 @@ export const styles = StyleSheet.create({
     text: {
         color: 'white',
         fontSize: 18,
-        fontWeight: 'bold',
+        fontFamily:'Poppins-SemiBold',
     },
 });

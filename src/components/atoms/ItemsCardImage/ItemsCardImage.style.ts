@@ -7,8 +7,7 @@ export const styles = StyleSheet.create({
         padding:15,
         borderTopLeftRadius:15,
         borderTopRightRadius:15,
-        elevation:5,
-		
+        
 	},
     imageContainer: {
       borderRadius:100,

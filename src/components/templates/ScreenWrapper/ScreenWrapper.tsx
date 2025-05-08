@@ -2,9 +2,12 @@ import React from 'react'
 import { View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { ScreenWrapperProps } from './ScreenWrapper.type';
-import { styles } from './ScreenWrapper.style';
+import { createStyles } from './ScreenWrapper.style';
+import { useTheme } from '../../../hooks/UseTheme';
 
 function ScreenWrapper({ children, disableSafeArea=false, style }: ScreenWrapperProps) {
+    const { colors } = useTheme();
+    const styles = createStyles(colors);
     if(disableSafeArea){
         return (
             <View style={style}>
