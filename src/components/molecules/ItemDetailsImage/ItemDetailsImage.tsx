@@ -5,6 +5,8 @@ import { BackArrow } from "../../atoms/BackArrow/index.ts";
 export function ItemDetailsImage({ image }: ItemDetailsImageProps) {
 	return <View style={styles.container}>
 		<Image source={{ uri: image }} style={styles.image} />
-		<BackArrow />
+		<View style={styles.backButton}>
+			<BackArrow />
+		</View>
 	</View>;
 }   

@@ -6,9 +6,9 @@ import { ItemsCardHorizontal } from '../ItemsCardHorizontal';
 import products from '../../../../Products.json';
 import { styles } from './ItemsSection.style';
 
-const HorizontalList = ({ title }: { title: string }) => (
+const HorizontalList = ({ title, onClick }: { title: string, onClick: () => void }) => (
 	<View style={styles.container}>
-		<ItemsSectionHeader title={title} onClick={() => {}} />
+		<ItemsSectionHeader title={title} onClick={onClick} />
 		<FlatList
 			data={products.data}
 			renderItem={({item}) => <ItemsCard item={item} />}
@@ -20,9 +20,9 @@ const HorizontalList = ({ title }: { title: string }) => (
 	</View>
 );
 
-const VerticalList = ({ title }: { title: string }) => (
+const VerticalList = ({ title, onClick }: { title: string, onClick: () => void }) => (
 	<View style={styles.container}>
-		<ItemsSectionHeader title={title} onClick={() => {}} />
+		<ItemsSectionHeader title={title} onClick={onClick} />
 		<View style={styles.verticalListContainer}>
 			{products.data.map((item) => (
 				<ItemsCardHorizontal key={item._id} item={item} />
@@ -31,7 +31,7 @@ const VerticalList = ({ title }: { title: string }) => (
 	</View>
 );
 
-export function ItemsSection({title, horizontal=false}: ItemsSectionProps ) {
-	return horizontal ? <HorizontalList title={title} /> : <VerticalList title={title} />;
+export function ItemsSection({title, horizontal=false, onClick}: ItemsSectionProps ) {
+	return horizontal ? <HorizontalList title={title} onClick={onClick} /> : <VerticalList title={title} onClick={onClick} />;
 }
 

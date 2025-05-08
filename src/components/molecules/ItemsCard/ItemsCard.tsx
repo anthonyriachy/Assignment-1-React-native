@@ -6,7 +6,7 @@ import { ItemsCardProps } from './ItemsCard.type';
 import { useNavigation } from '@react-navigation/native';
 import { CommonActions } from '@react-navigation/native';
 
-export function ItemsCard({item}: ItemsCardProps) {
+export function ItemsCard({item, smaller}: ItemsCardProps) {
 	const navigation = useNavigation<any>();
 	return <Pressable onPress={() => {
 		navigation.dispatch(
@@ -16,7 +16,7 @@ export function ItemsCard({item}: ItemsCardProps) {
 			})
 		);
 	}} style={styles.parentContainer}>
-		<View style={styles.container}>
+		<View style={!smaller ? styles.container : styles.smallerContainer}>
 			<ItemsCardImage image={item.images[0].url} onClick={() => {}} />
 			<ItemsCardInfo title={item.title} price={item.price} />
 		</View>

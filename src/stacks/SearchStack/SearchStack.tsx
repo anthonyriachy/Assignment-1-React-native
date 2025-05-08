@@ -1,5 +1,5 @@
 import { createStackNavigator } from "@react-navigation/stack";
-import { Search } from "../../pages/Search";
+import { Products } from "../../pages/Products";
 
 const SearchStack = createStackNavigator();
 
@@ -7,7 +7,7 @@ const SearchStack = createStackNavigator();
 
 const SearchStackScreen = () => (
   <SearchStack.Navigator screenOptions={{headerShown:false}}>
-    <SearchStack.Screen name="SearchScreen" component={Search} />
+    <SearchStack.Screen name="SearchScreen" component={Products} />
   </SearchStack.Navigator>
 );
 

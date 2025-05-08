@@ -16,5 +16,6 @@ export const createStyles = (colors: ThemeColors) => StyleSheet.create({
         color: colors.inputText ,
         flex:1,
         marginLeft:10,
+        fontFamily:'Poppins-Regular',
     }
 })

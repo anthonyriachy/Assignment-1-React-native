@@ -50,13 +50,13 @@ function MainBottomTabs() {
         name="HomeTab"
         component={HomeStackScreen}
       />
-      {/* <Tab.Screen
+      <Tab.Screen
         name="SearchTab"
         component={SearchStackScreen}
         options={{
           headerShown: false,
         }}
-      /> */}
+      />
         <Tab.Screen name={AppStackRoutes.Profile} component={Profile} />
     </Tab.Navigator>
   );

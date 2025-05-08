@@ -27,4 +27,10 @@ export const styles = StyleSheet.create({
 		height: '100%',
 		resizeMode:'contain',
 	},
+	backButton: {
+		position: 'absolute',
+		top:15,
+        left:15,
+		zIndex: 100,
+	},
 });

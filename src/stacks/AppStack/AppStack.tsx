@@ -8,7 +8,7 @@ import { AuthStackRoutes } from '../../constants/AuthStackRoutes';
 import { ItemDetails } from '../../pages/ItemDetails';
 import { View, ActivityIndicator } from 'react-native';
 import { useTheme } from '../../hooks/UseTheme';
-import { Profile } from '../../pages/Profile';
+import { Products } from '../../pages/Products';
 const Stack = createStackNavigator();
 
 export const AppStack = () => {
@@ -32,6 +32,14 @@ export const AppStack = () => {
                     <Stack.Screen 
                         name="Details" 
                         component={ItemDetails}
+                        options={{
+                            presentation: 'modal',
+                            headerShown: false,
+                        }}
+                    />
+                    <Stack.Screen 
+                        name="Products" 
+                        component={Products}
                         options={{
                             presentation: 'modal',
                             headerShown: false,

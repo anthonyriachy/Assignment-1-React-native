@@ -11,6 +11,7 @@ export interface ThemeColors {
   success: string;
   inputBackground: string;
   inputText: string;
+  
 }
 
 export const lightTheme: ThemeColors = {
