@@ -8,6 +8,7 @@ import { AuthStackRoutes } from '../../constants/AuthStackRoutes';
 import { ItemDetails } from '../../pages/ItemDetails';
 import { View, ActivityIndicator } from 'react-native';
 import { useTheme } from '../../hooks/UseTheme';
+import { Profile } from '../../pages/Profile';
 const Stack = createStackNavigator();
 
 export const AppStack = () => {

@@ -6,12 +6,15 @@ import { useTheme } from '../../hooks/UseTheme';
 import { HomeStackScreen } from '../HomeStack/HomeStack';
 import { SearchStackScreen } from '../SearchStack';
 import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
+import { AppStackRoutes } from '../../constants/AppStackRoutes';
+import { Profile } from '../../pages/Profile/Profile';
 
 const Tab = createBottomTabNavigator();
 
 const getIconName = (routeName: string) => {
   if (routeName === 'HomeTab') {return 'Home';}
   if (routeName === 'SearchTab') {return 'Search';}
+  if (routeName === 'Profile') {return 'Profile';}
   return 'Home';
 };
 
@@ -47,13 +50,14 @@ function MainBottomTabs() {
         name="HomeTab"
         component={HomeStackScreen}
       />
-      <Tab.Screen
+      {/* <Tab.Screen
         name="SearchTab"
         component={SearchStackScreen}
         options={{
           headerShown: false,
         }}
-      />
+      /> */}
+        <Tab.Screen name={AppStackRoutes.Profile} component={Profile} />
     </Tab.Navigator>
   );
 }

@@ -9,7 +9,7 @@ interface VerificationCodeInputProps {
     setCode: (code: string[]) => void;
 }
 
-export const VerificationCodeInput = ({ onCodeComplete, code, setCode }: VerificationCodeInputProps) => {
+export const VerificationCodeInput = ({ code, setCode }: VerificationCodeInputProps) => {
     const { colors } = useTheme();
     const styles = createStyles(colors);
     const inputRefs = useRef<Array<TextInput | null>>([]);
@@ -20,17 +20,11 @@ export const VerificationCodeInput = ({ onCodeComplete, code, setCode }: Verific
         newCode[index] = text;
         setCode(newCode);
 
-        //move to next input
+        
         if (text && index < 3) {
             inputRefs.current[index + 1]?.focus();
         }
-
-        //all inputs are filled
-        if (newCode.every(digit => digit !== '')) {
-            onCodeComplete(newCode.join(''));
-        }
     };
-
 
     return (
         <View style={styles.container}>
@@ -45,6 +39,7 @@ export const VerificationCodeInput = ({ onCodeComplete, code, setCode }: Verific
                     keyboardType="number-pad"
                     value={code[index]}
                     onChangeText={(text) => handleCodeChange(text, index)}
+                    // onKeyPress={(e) => handleKeyPress(e, index)}
                 />
             ))}
         </View>

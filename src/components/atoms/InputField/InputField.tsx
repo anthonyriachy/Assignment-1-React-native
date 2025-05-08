@@ -1,16 +1,14 @@
-import React from 'react';
-import { TextInput, TextInputProps, View, Text   } from 'react-native';
+import React, { useState } from 'react';
+import { TextInput,View, Text, TouchableOpacity } from 'react-native';
 import { createStyles } from './InputField.style';
 import { useTheme } from '../../../hooks/UseTheme';
-
-interface InputFieldProps extends TextInputProps {
-    placeholder: string;
-    error?: string;
-}
-
-export const InputField = ({ placeholder, error, ...props }: InputFieldProps) => {
+import { InputFieldProps } from './InputField.type';
+import Eye from '../../../assets/icons/iconmonstr-eye-1.svg';
+import EyeSlash from '../../../assets/icons/iconmonstr-eye-10.svg';
+export const InputField = ({ placeholder, error, password, ...props }: InputFieldProps) => {
     const { colors } = useTheme();
     const styles = createStyles(colors);
+    const [showPassword, setShowPassword] = useState(false);
     return (
         <View>
             {error && <Text style={styles.errorText}>{error}</Text>}
@@ -20,7 +18,13 @@ export const InputField = ({ placeholder, error, ...props }: InputFieldProps) =>
                     placeholderTextColor={colors.inputText}
                     {...props}
                     style={styles.inputField}
+                    secureTextEntry={password && !showPassword}
                 />
+                 {password && (
+                <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
+                    {showPassword ? <Eye fill={colors.text}/> : <EyeSlash fill={colors.text}/>}
+                </TouchableOpacity>
+            )}
             </View>
         </View>
     );

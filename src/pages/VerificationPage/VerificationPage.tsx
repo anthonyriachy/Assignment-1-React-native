@@ -15,6 +15,7 @@ export const VerificationPage = () => {
     const [code, setCode] = useState(['', '', '', '']);
 
     const handleVerificationComplete = async() => {
+        console.log(code.join(''));
         if(code.join('') === '1234'){
             setUser({ email: 'eurisko@gmail.com' });
             setIsAuthenticated(true);

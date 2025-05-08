@@ -12,10 +12,10 @@ import { LoginSchema } from '../../schemas/Login.schema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTheme } from '../../hooks/UseTheme';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
-
+import { useAuthContext } from '../../hooks/useAuthContext';
 function Login({ navigation }: any) {
   const { colors } = useTheme();
+  const { setIsAuthenticated, setUser } = useAuthContext();
   const styles = createStyles(colors);
   const {
     control,
@@ -30,9 +30,10 @@ function Login({ navigation }: any) {
   });
 
   const onSubmit = async (data: LoginSchemaType) => {
-    if(data.email === 'eurisko@gmail.com' && data.password === 'academy2025'){
+    if(data.email.toLowerCase() === 'eurisko@gmail.com' && data.password === 'academy2025'){
       await AsyncStorage.setItem('user', JSON.stringify(data));
-      navigation.navigate(AuthStackRoutes.Verification);
+      setIsAuthenticated(true);
+      setUser(data);
     } else {
       Alert.alert('Invalid email or password');
     }
@@ -53,7 +54,7 @@ function Login({ navigation }: any) {
           control={control}
           name="password"
           render={({ field:{onChange,value,onBlur} }) => {
-            return <InputField placeholder="Password" error={errors.password?.message} onChangeText={onChange} value={value} onBlur={onBlur} />;
+            return <InputField password={true} placeholder="Password" error={errors.password?.message} onChangeText={onChange} value={value} onBlur={onBlur} />;
           }}
         />
       </View>

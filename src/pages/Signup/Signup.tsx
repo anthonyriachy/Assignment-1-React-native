@@ -50,7 +50,7 @@ export const Signup = ({navigation}:any)=>{
           control={control}
           name="password"
           render={({ field:{onChange,value,onBlur} }) => {
-            return <InputField placeholder="Password" error={errors.password?.message} onChangeText={onChange} value={value} onBlur={onBlur} />;
+            return <InputField password={true} placeholder="Password" error={errors.password?.message} onChangeText={onChange} value={value} onBlur={onBlur} />;
           }}
         />
         
