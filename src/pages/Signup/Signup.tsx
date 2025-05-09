@@ -23,6 +23,7 @@ export const Signup = ({navigation}:any)=>{
       name: '',
       email: '',
       password: '',
+      phoneNumber: '',
     },
   });
   const onSubmit = () => {
@@ -46,6 +47,14 @@ export const Signup = ({navigation}:any)=>{
             return <InputField placeholder="Email" error={errors.email?.message} onChangeText={onChange} value={value} onBlur={onBlur} />;
           }}
         />
+
+<Controller
+          control={control}
+          name="phoneNumber"
+          render={({ field:{onChange,value,onBlur} }) => {
+            return <InputField placeholder="Phone Number" error={errors.phoneNumber?.message} onChangeText={onChange} value={value} onBlur={onBlur} />;
+          }}
+        />
         <Controller
           control={control}
           name="password"
@@ -53,6 +62,8 @@ export const Signup = ({navigation}:any)=>{
             return <InputField password={true} placeholder="Password" error={errors.password?.message} onChangeText={onChange} value={value} onBlur={onBlur} />;
           }}
         />
+
+        
         
         <CustomButton title="Signup" onPress={handleSubmit(onSubmit)} />
         <AuthSmallText text="Already have an account?" linkText="Login" onPress={()=>{navigation.replace(AuthStackRoutes.Login)}} />

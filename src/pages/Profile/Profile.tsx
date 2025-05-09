@@ -1,4 +1,4 @@
-import { Image, Text, TouchableOpacity, View } from 'react-native';
+import { Image, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { createStyles } from './Profile.style';
 import { useTheme } from '../../hooks/UseTheme';
 import { useAuthContext } from '../../hooks/useAuthContext';
@@ -18,7 +18,9 @@ export const Profile = () => {
         setUser(null);
     }
     return (
+       
         <View style={styles.container}>
+            <ScrollView>
             <View>
                 <Image source={require('../../assets/images/Profile.png')} style={styles.profileImage} />
                 <Text style={styles.email}>{user?.email}</Text>
@@ -26,9 +28,11 @@ export const Profile = () => {
                 <ProfileButton title="Settings" icon={Settings} />
                 <ProfileButton title="Help" icon={Help} />
             </View>
+            </ScrollView>
             <TouchableOpacity onPress={handleLogout} style={styles.logoutButton}>
                 <Text style={styles.logoutText}>Logout</Text>
             </TouchableOpacity>
         </View>
+       
     );
 };

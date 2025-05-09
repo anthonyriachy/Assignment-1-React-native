@@ -4,6 +4,7 @@ import { ThemeColors } from '../../constants/theme';
 export const createStyles = (colors: ThemeColors) => StyleSheet.create({
     container: {
         flex: 1,
+        height: '100%',
         backgroundColor: colors.background,
         paddingVertical: 20,
         justifyContent: 'space-between',
