@@ -16,5 +16,6 @@ export const createStyles = (colors: ThemeColors) => StyleSheet.create({
         marginLeft:10,
         fontFamily:'Poppins-Regular',
         alignSelf:'center',
+        paddingVertical:10,
     }
 })
