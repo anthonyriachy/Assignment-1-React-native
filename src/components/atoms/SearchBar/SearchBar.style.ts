@@ -7,15 +7,14 @@ export const createStyles = (colors: ThemeColors) => StyleSheet.create({
         justifyContent:'center',
         backgroundColor:colors.inputBackground,
         borderRadius:100,
-        height:40,
         paddingHorizontal:16,
         marginHorizontal:16,
-
     },
     input:{
         color: colors.inputText ,
         flex:1,
         marginLeft:10,
         fontFamily:'Poppins-Regular',
+        alignSelf:'center',
     }
 })

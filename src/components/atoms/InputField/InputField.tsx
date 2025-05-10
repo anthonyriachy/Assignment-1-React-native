@@ -5,7 +5,7 @@ import { useTheme } from '../../../hooks/UseTheme';
 import { InputFieldProps } from './InputField.type';
 import Eye from '../../../assets/icons/iconmonstr-eye-1.svg';
 import EyeSlash from '../../../assets/icons/iconmonstr-eye-10.svg';
-export const InputField = ({ placeholder, error, password, ...props }: InputFieldProps) => {
+export const InputField = ({ placeholder, error, password=false, ...props }: InputFieldProps) => {
     const { colors } = useTheme();
     const styles = createStyles(colors);
     const [showPassword, setShowPassword] = useState(false);

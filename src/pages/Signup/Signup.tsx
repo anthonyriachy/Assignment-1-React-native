@@ -44,15 +44,15 @@ export const Signup = ({navigation}:any)=>{
           control={control}
           name="email"
           render={({ field:{onChange,value,onBlur} }) => {
-            return <InputField placeholder="Email" error={errors.email?.message} onChangeText={onChange} value={value} onBlur={onBlur} />;
+            return <InputField keyboardType='email-address' placeholder="Email" error={errors.email?.message} onChangeText={onChange} value={value} onBlur={onBlur} />;
           }}
         />
 
-<Controller
+        <Controller
           control={control}
           name="phoneNumber"
           render={({ field:{onChange,value,onBlur} }) => {
-            return <InputField placeholder="Phone Number" error={errors.phoneNumber?.message} onChangeText={onChange} value={value} onBlur={onBlur} />;
+            return <InputField keyboardType='number-pad' placeholder="Phone Number" error={errors.phoneNumber?.message} onChangeText={onChange} value={value} onBlur={onBlur} />;
           }}
         />
         <Controller

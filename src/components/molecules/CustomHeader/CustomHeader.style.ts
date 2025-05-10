@@ -13,7 +13,9 @@ export const createStyles = (colors: ThemeColors) => StyleSheet.create({
       width: 50,
       height: 50,
       borderRadius: 100,
-      backgroundColor: colors.primary,
+      backgroundColor: colors.secondary,
+      alignItems:'center',
+      justifyContent:'center'
     },
     leftContainer: {
       flexDirection: 'row',

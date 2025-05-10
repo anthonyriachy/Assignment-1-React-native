@@ -6,7 +6,7 @@ import { ThemeToggleButton } from '../../atoms/ThemeToggleButton/ThemeToggleButt
 import { useTheme } from '../../../hooks/UseTheme';
 import { AppStackRoutes } from '../../../constants/AppStackRoutes';
 import { useNavigation } from '@react-navigation/native';
-
+import ProfileIcon from '../../../assets/icons/SmallProfile.svg'
 export const CustomHeader = () => {
   const insets = useSafeAreaInsets();
   const { colors } = useTheme();
@@ -15,8 +15,8 @@ export const CustomHeader = () => {
   return (
     <View style={[styles.container, { paddingTop: insets.top+20 }]}>
       <View style={styles.leftContainer}>
-        <Pressable onPress={() => navigation.navigate(AppStackRoutes.Profile)}> 
-          <Image source={require('../../../assets/images/Profile.png')} style={styles.ImageContainer} />
+        <Pressable onPress={() => navigation.navigate(AppStackRoutes.Profile)} style={styles.ImageContainer}> 
+          <ProfileIcon/>
         </Pressable>
         <View>
           <Text style={{fontWeight:'light', color: colors.text}}>Hello,</Text>
