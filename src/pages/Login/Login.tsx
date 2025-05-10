@@ -1,8 +1,8 @@
 import React from 'react';
-import { View, Alert } from 'react-native';
+import { View, Alert, KeyboardAvoidingView, ScrollView, Platform } from 'react-native';
 import { AuthHeaderText } from '../../components/atoms/AuthHeaderText';
 import { InputField } from '../../components/atoms/InputField';
-import { styles } from './Login.style';
+import { createStyles } from './Login.style';
 import { CustomButton } from '../../components/atoms/CustomButton';
 import { AuthSmallText } from '../../components/atoms/AuthSmallText';
 import { AuthStackRoutes } from '../../constants/AuthStackRoutes';
@@ -10,9 +10,13 @@ import { Controller, useForm } from 'react-hook-form';
 import { LoginSchemaType } from '../../schemas/Login.schema';
 import { LoginSchema } from '../../schemas/Login.schema';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useTheme } from '../../hooks/UseTheme';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useAuthContext } from '../../hooks/useAuthContext';
-
 function Login({ navigation }: any) {
+  const { colors } = useTheme();
+  const { setIsAuthenticated, setUser } = useAuthContext();
+  const styles = createStyles(colors);
   const {
     control,
     handleSubmit,
@@ -25,19 +29,19 @@ function Login({ navigation }: any) {
     },
   });
 
-  const { setIsAuthenticated, setUser } = useAuthContext();
-
-  const onSubmit = (data: LoginSchemaType) => {
-    console.log(data);
-    if(data.email === 'eurisko@gmail.com' && data.password === 'academy2025'){
-      setUser({ email: data.email });
+  const onSubmit = async (data: LoginSchemaType) => {
+    if(data.email.toLowerCase() === 'eurisko@gmail.com' && data.password === 'academy2025'){
+      await AsyncStorage.setItem('user', JSON.stringify(data));
       setIsAuthenticated(true);
+      setUser(data);
     } else {
       Alert.alert('Invalid email or password');
     }
   };
 
   return (
+    <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={{backgroundColor:'red'}}>
+      <ScrollView style={{backgroundColor:colors.background}}>
     <View style={styles.container}>
       <AuthHeaderText title="Login" />
       <View style={styles.inputContainer}>
@@ -52,7 +56,7 @@ function Login({ navigation }: any) {
           control={control}
           name="password"
           render={({ field:{onChange,value,onBlur} }) => {
-            return <InputField placeholder="Password" error={errors.password?.message} onChangeText={onChange} value={value} onBlur={onBlur} />;
+            return <InputField password={true} placeholder="Password" error={errors.password?.message} onChangeText={onChange} value={value} onBlur={onBlur} />;
           }}
         />
       </View>
@@ -65,6 +69,8 @@ function Login({ navigation }: any) {
         }}
       />
     </View>
+    </ScrollView>
+    </KeyboardAvoidingView>
   );
 }
 

@@ -1,70 +1,32 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, Image, Pressable } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { createStyles } from './CustomHeader.style';
+import { ThemeToggleButton } from '../../atoms/ThemeToggleButton/ThemeToggleButton';
+import { useTheme } from '../../../hooks/UseTheme';
+import { AppStackRoutes } from '../../../constants/AppStackRoutes';
 import { useNavigation } from '@react-navigation/native';
-
-interface CustomHeaderProps {
-  title: string;
-  showBackButton?: boolean;
-  rightComponent?: React.ReactNode;
-}
-
-export const CustomHeader: React.FC<CustomHeaderProps> = ({
-  title,
-  showBackButton = false,
-  rightComponent,
-}) => {
-  const navigation = useNavigation();
-
+import ProfileIcon from '../../../assets/icons/SmallProfile.svg'
+export const CustomHeader = () => {
+  const insets = useSafeAreaInsets();
+  const { colors } = useTheme();
+  const styles = createStyles(colors);
+  const navigation = useNavigation<any>();
   return (
-    <View style={styles.container}>
-        <View style={{flexDirection:'row',gap:8}}>
-            <View>
-                <Text>
-                    Image
-                </Text>
-            </View>
-            <View>
-                <Text>Hello,</Text>
-                <Text>John Doe</Text>
-            </View>
-        </View>
+    <View style={[styles.container, { paddingTop: insets.top+20 }]}>
+      <View style={styles.leftContainer}>
+        <Pressable onPress={() => navigation.navigate(AppStackRoutes.Profile)} style={styles.ImageContainer}> 
+          <ProfileIcon/>
+        </Pressable>
         <View>
-            <Text>Notif</Text>
+          <Text style={{fontWeight:'light', color: colors.text}}>Hello,</Text>
+          <Text style={styles.name}>John Doe</Text>
         </View>
-        
       </View>
+
+      <View style={styles.rightContainer}>
+        <ThemeToggleButton />
+      </View>
+    </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    height: 60,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: 16,
-    backgroundColor: '#fff',
-    borderBottomWidth: 1,
-    borderBottomColor: '#e0e0e0',
-  },
-  leftContainer: {
-    flex: 1,
-    alignItems: 'flex-start',
-  },
-  rightContainer: {
-    flex: 1,
-    alignItems: 'flex-end',
-  },
-  title: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: '#000',
-  },
-  backButton: {
-    padding: 8,
-  },
-  backButtonText: {
-    fontSize: 24,
-    color: '#000',
-  },
-}); 
