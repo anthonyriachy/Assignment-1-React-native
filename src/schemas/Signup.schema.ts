@@ -3,30 +3,24 @@ import { z } from 'zod';
 export const SignupSchema = z.object({
   name: z.string()
     .trim()
-    .min(2, 'Name must be at least 2 characters')
-    .max(50, 'Name must be less than 50 characters')
-    .regex(/^[a-zA-Z\s]*$/, 'Name can only contain letters and spaces'),
+    .min(2, 'Name is required')
+    .max(50, 'Name must be less than 50 characters'),
   
   email: z.string()
     .trim()
     .email('Invalid email address')
-    .min(5, 'Email must be at least 5 characters')
+    .min(1, 'Email is required')
     .max(100, 'Email must be less than 100 characters'),
   
   password: z.string()
     .trim()
-    .min(8, 'Password must be at least 8 characters')
+    .min(6, 'Password must be at least 6 characters')
     .max(50, 'Password must be less than 50 characters')
-    .regex(/[0-9]/, 'Password must contain at least one number')
-    .regex(/[A-Z]/, 'Password must contain at least one uppercase letter')
-    .regex(/[a-z]/, 'Password must contain at least one lowercase letter')
-    .regex(/[^A-Za-z0-9]/, 'Password must contain at least one special character'),
-  
+    .regex(/[0-9]/, 'Password must contain at least one number'),
   phoneNumber: z.string()
     .trim()
-    .min(10, 'Phone number must be at least 10 digits')
-    .max(15, 'Phone number must be less than 15 digits')
-    .regex(/^[0-9+\-\s()]*$/, 'Phone number can only contain numbers, +, -, spaces, and parentheses'),
+    .min(1, 'Phone number is required')
+    
 });
 
 export type SignupSchemaType = z.infer<typeof SignupSchema>;
