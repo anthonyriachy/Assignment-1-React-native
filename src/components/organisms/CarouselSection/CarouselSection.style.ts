@@ -15,7 +15,7 @@ export const createStyles = (_colors: ThemeColors) =>
       overflow: 'hidden',
     },
     imageContainer: {
-      width: width - 32, // Full width minus margins
+      width: width - 32,
       height: 200,
       borderRadius: 10,
       overflow: 'hidden',

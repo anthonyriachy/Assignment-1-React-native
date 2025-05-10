@@ -38,7 +38,8 @@ export const createStyles = (colors: ThemeColors) => StyleSheet.create({
         paddingTop: 10,
     },
     resultsContainer: {
-        
+        justifyContent:'flex-start',
+        width:'100%',
         paddingVertical: 10,
         flexDirection: 'row',
         alignItems: 'center',
@@ -54,6 +55,7 @@ export const createStyles = (colors: ThemeColors) => StyleSheet.create({
     },
     searchContainer: {
         paddingTop: 20,
+        width:'100%',
     },
     results: {
         flexDirection:'row',

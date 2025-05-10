@@ -19,7 +19,9 @@ function Home() {
     <View style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.list}>
-          <SearchBar search={search} setSearch={setSearch}/>
+          <View style={styles.searchContainer}>
+            <SearchBar search={search} setSearch={setSearch}/>
+          </View>
           <CarouselSection/>
           <ItemsSection title="Featured" horizontal={true} onClick={() => navigateToProducts('Featured')} />
           <ItemsSection title="Most Popular" horizontal={true} onClick={() => navigateToProducts('Most Popular')} />

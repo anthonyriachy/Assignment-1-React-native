@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Alert } from 'react-native';
+import { View, Alert, KeyboardAvoidingView, ScrollView, Platform } from 'react-native';
 import { AuthHeaderText } from '../../components/atoms/AuthHeaderText';
 import { InputField } from '../../components/atoms/InputField';
 import { createStyles } from './Login.style';
@@ -40,6 +40,8 @@ function Login({ navigation }: any) {
   };
 
   return (
+    <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={{backgroundColor:'red'}}>
+      <ScrollView style={{backgroundColor:colors.background}}>
     <View style={styles.container}>
       <AuthHeaderText title="Login" />
       <View style={styles.inputContainer}>
@@ -67,6 +69,8 @@ function Login({ navigation }: any) {
         }}
       />
     </View>
+    </ScrollView>
+    </KeyboardAvoidingView>
   );
 }
 

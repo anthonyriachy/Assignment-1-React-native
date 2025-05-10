@@ -10,5 +10,8 @@ export const createStyles = (colors: ThemeColors) => StyleSheet.create({
     list: {
         gap: 25,
         paddingBottom: 30,
+    },
+    searchContainer: {
+        paddingHorizontal: 15,
     }
 });

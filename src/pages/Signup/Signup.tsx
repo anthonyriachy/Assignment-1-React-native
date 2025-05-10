@@ -1,4 +1,4 @@
-import { View } from 'react-native';
+import { KeyboardAvoidingView, Platform, ScrollView, View } from 'react-native';
 import { AuthHeaderText } from '../../components/atoms/AuthHeaderText';
 import { InputField } from '../../components/atoms/InputField';
 import { CustomButton } from '../../components/atoms/CustomButton';
@@ -30,44 +30,45 @@ export const Signup = ({navigation}:any)=>{
     navigation.navigate(AuthStackRoutes.Verification);
   };
   return (
+      <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+        <ScrollView>
     <View style={styles.container}>
       <AuthHeaderText title="Signup" />
-      <View style={styles.inputContainer}>
-        <Controller
-          control={control}
-          name="name"
-          render={({ field:{onChange,value,onBlur} }) => {
-            return <InputField placeholder="Name" error={errors.name?.message} onChangeText={onChange} value={value} onBlur={onBlur} />;
-          }}
-        />
-        <Controller
-          control={control}
-          name="email"
-          render={({ field:{onChange,value,onBlur} }) => {
-            return <InputField keyboardType='email-address' placeholder="Email" error={errors.email?.message} onChangeText={onChange} value={value} onBlur={onBlur} />;
-          }}
-        />
+        <View style={styles.inputContainer}>
+          <Controller
+            control={control}
+            name="name"
+            render={({ field:{onChange,value,onBlur} }) => {
+              return <InputField placeholder="Name" error={errors.name?.message} onChangeText={onChange} value={value} onBlur={onBlur} />;
+            }}
+          />
+          <Controller
+            control={control}
+            name="email"
+            render={({ field:{onChange,value,onBlur} }) => {
+              return <InputField keyboardType='email-address' placeholder="Email" error={errors.email?.message} onChangeText={onChange} value={value} onBlur={onBlur} />;
+            }}
+          />
 
-        <Controller
-          control={control}
-          name="phoneNumber"
-          render={({ field:{onChange,value,onBlur} }) => {
-            return <InputField keyboardType='number-pad' placeholder="Phone Number" error={errors.phoneNumber?.message} onChangeText={onChange} value={value} onBlur={onBlur} />;
-          }}
-        />
-        <Controller
-          control={control}
-          name="password"
-          render={({ field:{onChange,value,onBlur} }) => {
-            return <InputField password={true} placeholder="Password" error={errors.password?.message} onChangeText={onChange} value={value} onBlur={onBlur} />;
-          }}
-        />
-
-        
-        
-        <CustomButton title="Signup" onPress={handleSubmit(onSubmit)} />
-        <AuthSmallText text="Already have an account?" linkText="Login" onPress={()=>{navigation.replace(AuthStackRoutes.Login)}} />
+          <Controller
+            control={control}
+            name="phoneNumber"
+            render={({ field:{onChange,value,onBlur} }) => {
+              return <InputField keyboardType='number-pad' placeholder="Phone Number" error={errors.phoneNumber?.message} onChangeText={onChange} value={value} onBlur={onBlur} />;
+            }}
+          />
+          <Controller
+            control={control}
+            name="password"
+            render={({ field:{onChange,value,onBlur} }) => {
+              return <InputField password={true} placeholder="Password" error={errors.password?.message} onChangeText={onChange} value={value} onBlur={onBlur} />;
+            }}
+          />
+          <CustomButton title="Signup" onPress={handleSubmit(onSubmit)} />
+          <AuthSmallText text="Already have an account?" linkText="Login" onPress={()=>{navigation.replace(AuthStackRoutes.Login)}} />
       </View>
     </View>
+    </ScrollView>
+        </KeyboardAvoidingView>
     );
 };

@@ -1,3 +1,4 @@
+import React from 'react';
 import { FlatList, Text, View, Animated } from 'react-native';
 import { createStyles } from './Products.style';
 import { useTheme } from '../../hooks/UseTheme';
@@ -44,10 +45,8 @@ export const Products = ({route}: {route: any}) => {
                 <Text style={styles.title}>{params?.title || 'Products'}</Text>
             </View>
         </View>
-        <View style={styles.searchContainer}>
-            <SearchBar search={params?.search || search} setSearch={setSearch}/>
-        </View>
-        {search && 
+       
+        
         <Animated.View style={[
             styles.results,
             {
@@ -55,9 +54,15 @@ export const Products = ({route}: {route: any}) => {
                     inputRange: [0, 1],
                     outputRange: [0, 100]
                 }),
-                overflow: 'hidden'
+                overflow: 'hidden',
+                flexDirection:'column',
             }
         ]}>
+             <View style={styles.searchContainer}>
+            <SearchBar search={params?.search || search} setSearch={setSearch}/>
+        </View>
+            {search&&
+            <>
             <View style={styles.resultsContainer}>
                 <Text style={styles.resultsText}>Result for:</Text>
                 <Text style={styles.resultsText2}>{params?.search || search}</Text>
@@ -66,13 +71,14 @@ export const Products = ({route}: {route: any}) => {
                 <Text style={{fontFamily:'Poppins-Bold',color:colors.primary}}>{products.data.length} </Text>
                 <Text style={styles.resultsText3}> results </Text>
             </View>
-        </Animated.View>}
+            </>}
+        </Animated.View>
         <View style={styles.list}>   
             <FlatList
                 data={products.data}
                 numColumns={2}
                 renderItem={({item}) => <ItemsCard item={item} smaller={true}/>}
-                contentContainerStyle={{ gap: 10, padding: 15 }}
+                contentContainerStyle={{ gap: 10, padding: 15}}
                 columnWrapperStyle={{gap: 10,justifyContent: 'space-between' }}
                 showsVerticalScrollIndicator={false}
                 onScroll={handleScroll}

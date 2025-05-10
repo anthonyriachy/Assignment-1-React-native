@@ -8,7 +8,7 @@ export const createStyles = (colors: ThemeColors) => StyleSheet.create({
         backgroundColor:colors.inputBackground,
         borderRadius:100,
         paddingHorizontal:16,
-        marginHorizontal:16,
+        
     },
     input:{
         color: colors.inputText ,
