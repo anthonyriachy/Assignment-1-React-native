@@ -1,4 +1,5 @@
 export type BottomTabIconsProps = {
-    name:string;
+    name: string;
     selected: boolean;
+    style?: any;
 };

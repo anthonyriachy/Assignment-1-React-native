@@ -3,6 +3,7 @@ import { ItemsCardImageProps } from './ItemsCardImage.type';
 import HeartIcon from '../../../assets/icons/Heart.svg';
 import { styles } from './ItemsCardImage.style';
 export function ItemsCardImage({image, onClick}: ItemsCardImageProps) {
+    
 	return <View style={styles.container}>
         <View style={styles.imageContainer}>
             <Image source={{uri:image}} style={styles.image} />

@@ -10,7 +10,7 @@ export const createStyles = (colors: ThemeColors) =>
     buttonContainer: {
       flexDirection: 'row',
       justifyContent: 'space-between',
-      padding: 16,
+      paddingVertical: 16,
       gap: 12,
     },
     shareButton: {

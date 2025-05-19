@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native';
 import {window} from '../../constants/sizes';
+import { ErrorStyle } from '../../Shared/ErrorStyle';
 
 export const createStyles = (colors: any) => StyleSheet.create({
     container:{
@@ -13,8 +14,5 @@ export const createStyles = (colors: any) => StyleSheet.create({
     inputContainer:{
         gap: 16,
     },
-    errorText:{
-        color: 'red',
-        fontSize: 12,
-    },
+    ...ErrorStyle(colors)
 });

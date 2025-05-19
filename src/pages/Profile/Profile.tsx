@@ -1,24 +1,21 @@
 import { Image, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { createStyles } from './Profile.style';
 import { useTheme } from '../../hooks/UseTheme';
-import { useAuthContext } from '../../hooks/useAuthContext';
 import { ProfileButton } from '../../components/atoms/Profilebutton';
 import SmallProfile from '../../assets/icons/SmallProfile.svg';
 import Settings from '../../assets/icons/Settings.svg';
 import Help from '../../assets/icons/Help.svg';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import useAuthStore from '../../stores/authStore/authStore';
 export const Profile = () => {
     const { colors } = useTheme();
     const styles = createStyles(colors);
-    const { user,setIsAuthenticated,setUser } = useAuthContext();
+    const {logout,user} = useAuthStore();
 
     const handleLogout = async() => {
-        await AsyncStorage.removeItem('user');
-        setIsAuthenticated(false);
-        setUser(null);
-    }
+        logout();
+    };
     return (
-       
+
         <View style={styles.container}>
             <ScrollView>
             <View>
@@ -33,6 +30,6 @@ export const Profile = () => {
                 <Text style={styles.logoutText}>Logout</Text>
             </TouchableOpacity>
         </View>
-       
+
     );
 };

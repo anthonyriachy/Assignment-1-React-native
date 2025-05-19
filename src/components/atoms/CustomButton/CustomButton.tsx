@@ -9,7 +9,7 @@ export const CustomButton = ({title,onPress,disabled,loading,style:customStyle}:
             onPress={onPress}
             disabled={disabled || loading}
         >
-            <Text style={styles.text}>{loading ? 'Loading...' : title}</Text>
+            <Text style={styles.text}>{loading ? title+'...' : title}</Text>
         </TouchableOpacity>
     );
 };

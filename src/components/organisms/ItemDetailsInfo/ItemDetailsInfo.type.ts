@@ -1,5 +1,5 @@
-import { ItemDTO } from "../../../types/ItemDTO";
+import { ProductDTO } from "../../../types/ProductDTO";
 
 export type ItemDetailsInfoProps = {
-	item: ItemDTO;
+	item: ProductDTO;
 };

@@ -1,22 +1,22 @@
 import './gesture-handler';
 import React from 'react';
 import { AuthContextProvider } from './src/context/AuthContext';
-import { NavigationContainer } from '@react-navigation/native';
-import { AppStack } from './src/stacks/AppStack/AppStack';
 import ScreenWrapper from './src/components/templates/ScreenWrapper/ScreenWrapper';
 import { ThemeProvider } from './src/context/ThemeContext';
-
+import { QueryClientProvider } from '@tanstack/react-query';
+import { queryClient } from './src/lib/queryClient';
+import MainNavigation from './src/navigation/MainNavigator';
 function App(): React.JSX.Element {
   return (
-    <ThemeProvider>
-      <AuthContextProvider>
-        <ScreenWrapper>
-          <NavigationContainer>
-            <AppStack />
-          </NavigationContainer>
-        </ScreenWrapper>
-      </AuthContextProvider>
-    </ThemeProvider>
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider>
+        <AuthContextProvider>
+          <ScreenWrapper>
+            <MainNavigation />
+          </ScreenWrapper>
+        </AuthContextProvider>
+      </ThemeProvider>
+    </QueryClientProvider>
   );
 }
 

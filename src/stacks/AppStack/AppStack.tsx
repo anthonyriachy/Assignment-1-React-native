@@ -1,52 +1,43 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import { MainBottomTabs } from '../MainBottomtabs/MainBottomTabs';
-import { AuthStack } from '../AuthStack/AuthStack';
-import { useAuthContext } from '../../hooks/useAuthContext/useAuthContext';
+
 import { AppStackRoutes } from '../../constants/AppStackRoutes';
-import { AuthStackRoutes } from '../../constants/AuthStackRoutes';
 import { ItemDetails } from '../../pages/ItemDetails';
-import { View, ActivityIndicator } from 'react-native';
-import { useTheme } from '../../hooks/UseTheme';
+import { AppStackParamsList } from '../../types/AppStackParamsList';
 import { Products } from '../../pages/Products';
-const Stack = createStackNavigator();
+import { MainBottomTabs } from '../../navigation/MainBottomtabs';
+import { Sell } from '../../pages/Sell';
+
+const Stack = createStackNavigator<AppStackParamsList>();
 
 export const AppStack = () => {
-    const { isAuthenticated, isLoading } = useAuthContext();
-    const { colors } = useTheme();
-    if (isLoading) {
-        return (
-            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: colors.background }}>
-                <ActivityIndicator size="large" />
-            </View>
-        );
-    }
-
     return (
-        <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName={isAuthenticated ? AppStackRoutes.Main : AuthStackRoutes.AuthStack}>
-            {!isAuthenticated ? (
-                <Stack.Screen name={AuthStackRoutes.AuthStack} component={AuthStack} />
-            ) : (
-                <>
-                    <Stack.Screen name={AppStackRoutes.Main} component={MainBottomTabs} />
-                    <Stack.Screen 
-                        name="Details" 
-                        component={ItemDetails}
-                        options={{
-                            presentation: 'modal',
-                            headerShown: false,
-                        }}
-                    />
-                    <Stack.Screen 
-                        name="Products" 
-                        component={Products}
-                        options={{
-                            presentation: 'modal',
-                            headerShown: false,
-                        }}
-                    />
-                </>
-            )}
+        <Stack.Navigator screenOptions={{ headerShown: false }}>
+            <Stack.Screen name={AppStackRoutes.BottomTabs} component={MainBottomTabs} />
+            <Stack.Screen 
+                name={AppStackRoutes.Details} 
+                component={ItemDetails}
+                options={{
+                    presentation: 'modal',
+                    headerShown: false,
+                }}
+            />
+            <Stack.Screen 
+                name={AppStackRoutes.Products} 
+                component={Products}
+                options={{
+                    presentation: 'modal',
+                    headerShown: false,
+                }}
+            />
+            <Stack.Screen 
+                name="SellModal" 
+                component={Sell}
+                options={{
+                    presentation: 'modal',
+                    headerShown: false,
+                }}
+            />
         </Stack.Navigator>
     );
 };

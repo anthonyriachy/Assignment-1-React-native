@@ -8,21 +8,48 @@ export const createStyles = (colors: ThemeColors, theme: ThemeType) => StyleShee
         paddingVertical:5,
         borderBottomRightRadius:15,
         borderBottomLeftRadius:15,
-        height:70,
-        justifyContent:'space-around',
+        height:120,
+        justifyContent:'space-between',
         ...(theme === 'dark' && {
             borderWidth: 1,
             borderColor: colors.border,
         }),
     },
     title:{
-        fontSize:18,
-        fontFamily:'Poppins-SemiBold',
+        fontSize:17,
+        fontFamily:'Poppins-normal',
         color:colors.text,
+        lineHeight:40,
+        flexShrink: 1,
     },
     price:{
         fontSize:16,
         fontFamily:'Poppins-Bold',
         color:colors.primary,
+        lineHeight:16,
+        marginBottom: 4,
+    },
+    dateContainer:{
+        flexDirection:'row',
+        alignItems:'center',
+        gap:5,
+    },
+    locationContainer:{
+        flexDirection:'row',
+        alignItems:'center',
+        gap:5,
+    },
+    date:{
+        fontSize:12,
+        fontFamily:'Poppins-Regular',
+        color:colors.text,
+    },
+    location:{
+        fontSize:12,
+        fontFamily:'Poppins-Regular',
+        color:colors.text,
+    },
+    bottomContainer:{
+        gap:5
     },
 });

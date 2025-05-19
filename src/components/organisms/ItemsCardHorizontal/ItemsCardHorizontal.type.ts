@@ -1,4 +1,4 @@
-import { ItemDTO } from "../../../types/ItemDTO";
+import { ItemDTO } from "../../../types/ProductDTO";
 
 export type ItemsCardHorizontalProps = {
     item: ItemDTO;

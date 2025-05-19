@@ -5,7 +5,7 @@ import { useTheme } from '../../../hooks/UseTheme';
 import { CarouselDots } from '../../molecules/CarouselDots';
 import Products  from '../.././../../Products.json';
 const { width } = Dimensions.get('window');
-console.log(Products.data[0].images[0].url);
+
 const carouselImages = [
   Products.data[0].images[0].url,
   Products.data[1].images[0].url,

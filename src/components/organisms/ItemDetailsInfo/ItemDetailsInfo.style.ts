@@ -4,19 +4,24 @@ import { ThemeColors } from "../../../constants/theme";
 export const createStyles = (colors: ThemeColors) => StyleSheet.create({
 	container: {
 		flex: 1,
-        paddingHorizontal:15,
-        paddingVertical:15,
+        paddingTop:15,
         justifyContent:'space-between',
         gap:30,
 
 	},
+    moreDetails:{
+        gap:10,
+        paddingHorizontal:15,
+    },
     infoContainer:{
-        gap:20,
+        gap:15,
+        
     },
     titleContainer:{
         flexDirection:'row',
         justifyContent:'space-between',
         alignItems:'center',
+        paddingHorizontal:15,
     },
     title:{
         fontSize:24,
@@ -43,6 +48,7 @@ export const createStyles = (colors: ThemeColors) => StyleSheet.create({
         gap:10,
         flexDirection:'row',
         alignItems:'center',
+        paddingHorizontal:15,
     },
     cardBtn:{
         width:window.width*0.20,
@@ -51,5 +57,65 @@ export const createStyles = (colors: ThemeColors) => StyleSheet.create({
         backgroundColor:'#F8F7F7',
         justifyContent:'center',
         alignItems:'center',
-    }
+    },
+    sellerContainer:{
+        flexDirection:'row',
+        alignItems:'center',
+        justifyContent:'space-between',
+        borderTopColor:'#A9A6A6',
+        borderTopWidth:1,
+        borderBottomColor:'#A9A6A6',
+        borderBottomWidth:1,
+        paddingVertical:20,
+        paddingHorizontal:15,
+        
+    },
+    sellerName:{
+        fontSize:16,
+        fontFamily:'Poppins-SemiBold',
+        color:colors.text,
+    },
+    descriptionContainer:{
+        paddingHorizontal:15,
+    },
+    sellerImage:{
+        width:70,
+        height:70,
+        borderRadius:100,
+        alignItems:'center',
+        justifyContent:'center',
+        backgroundColor:colors.secondary,
+    },
+    sellerInfoContainer:{
+        flexDirection:'row',
+        alignItems:'center',
+        gap:10,
+    },
+    dateContainer:{
+        flexDirection:'row',
+        alignItems:'center',
+        gap:5,
+    },
+    locationContainer:{
+        flexDirection:'row',
+        alignItems:'center',
+        gap:5,
+    },
+    date:{
+        fontSize:12,
+        fontFamily:'Poppins-Regular',
+        color:colors.text,
+    },
+    location:{
+        fontSize:12,
+        fontFamily:'Poppins-Regular',
+        color:colors.text,
+    },
+    mapContainer:{
+        height:200,
+        backgroundColor:colors.secondary,
+        borderRadius:10,
+        overflow:'hidden',
+        marginHorizontal:15,
+    },
 });
