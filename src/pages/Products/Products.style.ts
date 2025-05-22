@@ -1,6 +1,7 @@
 import { StyleSheet } from "react-native";
 import { ThemeColors } from "../../constants/theme";
 
+
 export const createStyles = (colors: ThemeColors) => StyleSheet.create({
     container: {
         flex: 1,
@@ -17,7 +18,7 @@ export const createStyles = (colors: ThemeColors) => StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
-        paddingHorizontal: 20,
+        paddingHorizontal: 15,
         paddingVertical: 10,
         fontFamily: "Poppins-Bold",
 
@@ -38,11 +39,22 @@ export const createStyles = (colors: ThemeColors) => StyleSheet.create({
         paddingTop: 10,
     },
     resultsContainer: {
-        justifyContent:'flex-start',
-        width:'100%',
-        paddingVertical: 10,
+        marginTop:5,
         flexDirection: 'row',
         alignItems: 'center',
+        paddingHorizontal:15,
+        justifyContent:'space-between',
+    },
+
+    resultsContainerLeft:{
+        flexDirection:'row',
+        alignItems:'center',
+    },
+    results:{
+        fontFamily:'Poppins-Regular',
+        flexDirection:'row',
+        alignItems:'center',
+        justifyContent:'space-between',
     },
     resultsText: {
         fontFamily: "Poppins-Regular",
@@ -56,17 +68,32 @@ export const createStyles = (colors: ThemeColors) => StyleSheet.create({
     searchContainer: {
         paddingTop: 20,
         width:'100%',
+        paddingHorizontal:15,
+        
     },
-    results: {
+  
+    resultsText3Container:{
         flexDirection:'row',
         alignItems:'center',
-        justifyContent:'space-between',
-        paddingHorizontal: 20 ,
     },
     resultsText3: {
         fontFamily:'Poppins-Bold',
         color: colors.text,
-        flexDirection:'row',
-        alignItems:'center',
-    }
+        
+    },
+    centerContent: {
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    errorText: {
+        color: colors.error,
+        fontFamily: 'Poppins-Regular',
+        fontSize: 16,
+        textAlign: 'center',
+        padding: 20,
+    },
+    footerLoader: {
+        paddingVertical: 20,
+        alignItems: 'center',
+    },
 });

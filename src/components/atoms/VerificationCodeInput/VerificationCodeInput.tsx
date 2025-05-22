@@ -21,14 +21,14 @@ export const VerificationCodeInput = ({ code, setCode }: VerificationCodeInputPr
         setCode(newCode);
 
         
-        if (text && index < 3) {
+        if (text && index < 5) {
             inputRefs.current[index + 1]?.focus();
         }
     };
 
     return (
         <View style={styles.container}>
-            {[0, 1, 2, 3].map((index) => (
+            {[0, 1, 2, 3,4,5].map((index) => (
                 <TextInput
                     key={index}
                     ref={(ref) => {

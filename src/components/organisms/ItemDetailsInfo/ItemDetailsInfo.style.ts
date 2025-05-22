@@ -4,19 +4,24 @@ import { ThemeColors } from "../../../constants/theme";
 export const createStyles = (colors: ThemeColors) => StyleSheet.create({
 	container: {
 		flex: 1,
-        paddingHorizontal:15,
-        paddingVertical:15,
         justifyContent:'space-between',
         gap:30,
-
+        paddingTop:15,
+        
 	},
+    moreDetails:{
+        gap:10,
+        paddingHorizontal:15,
+    },
     infoContainer:{
-        gap:20,
+        gap:15,
+        
     },
     titleContainer:{
         flexDirection:'row',
         justifyContent:'space-between',
         alignItems:'center',
+        paddingHorizontal:15,
     },
     title:{
         fontSize:24,
@@ -43,13 +48,93 @@ export const createStyles = (colors: ThemeColors) => StyleSheet.create({
         gap:10,
         flexDirection:'row',
         alignItems:'center',
+        paddingHorizontal:15,
+        paddingBottom:15,
+        height:60,
     },
     cardBtn:{
         width:window.width*0.20,
-        height:56,
-        borderRadius:100,
+        height:'100%',
+        borderRadius:10,
         backgroundColor:'#F8F7F7',
         justifyContent:'center',
         alignItems:'center',
-    }
+    },
+    sellerContainer:{
+        flexDirection:'row',
+        alignItems:'center',
+        justifyContent:'space-between',
+        borderTopColor:'#A9A6A6',
+        borderTopWidth:1,
+        borderBottomColor:'#A9A6A6',
+        borderBottomWidth:1,
+        paddingVertical:20,
+        paddingHorizontal:15,
+        
+    },
+    sellerNameContainer:{ 
+        alignItems:'flex-start',
+        gap:5,
+        
+    },
+
+    sellerName:{
+        fontSize:16,
+        fontFamily:'Poppins-SemiBold',
+        color:colors.text,
+    },
+    descriptionContainer:{
+        paddingHorizontal:15,
+    },
+    sellerImage:{
+        width:70,
+        height:70,
+        borderRadius:100,
+        alignItems:'center',
+        justifyContent:'center',
+        backgroundColor:colors.secondary,
+    },
+    sellerInfoContainer:{
+        flexDirection:'row',
+        alignItems:'center',
+        gap:10,
+    },
+    dateContainer:{
+        flexDirection:'row',
+        alignItems:'center',
+        gap:5,
+    },
+    locationContainer:{
+        flexDirection:'row',
+        alignItems:'center',
+        gap:5,
+    },
+    date:{
+        fontSize:12,
+        fontFamily:'Poppins-Regular',
+        color:colors.text,
+    },
+    location:{
+        fontSize:12,
+        fontFamily:'Poppins-Regular',
+        color:colors.text,
+    },
+    mapContainer:{
+        marginHorizontal:15,
+    },
+
+    sellerContactContainer:{
+        flexDirection:'row',
+        alignItems:'center',
+        justifyContent:'center',
+        backgroundColor:colors.primary,
+        paddingHorizontal:10,
+        paddingVertical:5,
+        borderRadius:10,
+    },
+    sellerContact:{
+        fontSize:11,
+        fontFamily:'Poppins-SemiBold',
+        color:'white',
+    },
 });

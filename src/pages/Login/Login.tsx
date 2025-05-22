@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Alert, KeyboardAvoidingView, ScrollView, Platform } from 'react-native';
+import { View, KeyboardAvoidingView, ScrollView, Platform, Alert, SafeAreaView } from 'react-native';
 import { AuthHeaderText } from '../../components/atoms/AuthHeaderText';
 import { InputField } from '../../components/atoms/InputField';
 import { createStyles } from './Login.style';
@@ -11,12 +11,38 @@ import { LoginSchemaType } from '../../schemas/Login.schema';
 import { LoginSchema } from '../../schemas/Login.schema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTheme } from '../../hooks/UseTheme';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useAuthContext } from '../../hooks/useAuthContext';
+
+import { UserService } from '../../services/UserService/UserService';
+import useAuthStore from '../../stores/authStore/authStore';
+import { useMutation } from '@tanstack/react-query';
+import { handleError } from '../../lib/handleError';
+
 function Login({ navigation }: any) {
   const { colors } = useTheme();
-  const { setIsAuthenticated, setUser } = useAuthContext();
+  const { setTokens, setUser } = useAuthStore();
   const styles = createStyles(colors);
+  
+  const {mutate, isPending} = useMutation({
+    mutationFn: async (data: LoginSchemaType) => {
+      const loginResponse = await UserService.login(data);
+      if (loginResponse.success) {
+        setTokens(loginResponse.data.accessToken, loginResponse.data.refreshToken);
+        // Then fetch user profile
+        const userResponse = await UserService.getUserProfile();
+        return { loginResponse, userResponse };
+      }
+      return { loginResponse, userResponse: null };
+    },
+    onSuccess: (data) => {
+      if (data.loginResponse.success && data.userResponse?.success && data.userResponse.data?.user) {
+        setUser(data.userResponse.data.user);
+      }
+    },
+    onError: (error) => {
+      Alert.alert('Error', handleError(error), [{ text: 'OK' }]);
+    }
+  });
+
   const {
     control,
     handleSubmit,
@@ -30,47 +56,62 @@ function Login({ navigation }: any) {
   });
 
   const onSubmit = async (data: LoginSchemaType) => {
-    if(data.email.toLowerCase() === 'eurisko@gmail.com' && data.password === 'academy2025'){
-      await AsyncStorage.setItem('user', JSON.stringify(data));
-      setIsAuthenticated(true);
-      setUser(data);
-    } else {
-      Alert.alert('Invalid email or password');
-    }
+    try {
+      mutate({
+        ...data,
+        email: data.email.toLowerCase()
+      });
+    } catch (error) {
+      Alert.alert('Error', handleError(error), [{ text: 'OK' }]);
+    } 
   };
 
   return (
-    <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={{backgroundColor:'red'}}>
-      <ScrollView style={{backgroundColor:colors.background}}>
-    <View style={styles.container}>
-      <AuthHeaderText title="Login" />
-      <View style={styles.inputContainer}>
-        <Controller
-          control={control}
-          name="email"
-          render={({ field:{onChange,value,onBlur} }) => {
-            return <InputField placeholder="Email" error={errors.email?.message} onChangeText={onChange} value={value} onBlur={onBlur} />;
-          }}
-        />
-        <Controller
-          control={control}
-          name="password"
-          render={({ field:{onChange,value,onBlur} }) => {
-            return <InputField password={true} placeholder="Password" error={errors.password?.message} onChangeText={onChange} value={value} onBlur={onBlur} />;
-          }}
-        />
-      </View>
-      <CustomButton title="Login" onPress={handleSubmit(onSubmit)} />
-      <AuthSmallText
-        text="Don't have an account?"
-        linkText="Sign up"
-        onPress={() => {
-          navigation.replace(AuthStackRoutes.Signup);
-        }}
-      />
-    </View>
-    </ScrollView>
-    </KeyboardAvoidingView>
+    <SafeAreaView style={{ flex: 1, backgroundColor: colors.background }}>
+      <KeyboardAvoidingView 
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'} 
+        style={{ flex: 1, backgroundColor: colors.background }}
+      >
+        <ScrollView 
+          style={styles.scrollView} 
+          contentContainerStyle={styles.scrollViewContent}
+          keyboardShouldPersistTaps="handled"
+        >
+          <View style={styles.container}>
+            <AuthHeaderText title="Login" />
+            <View style={styles.inputContainer}>
+              <Controller
+                control={control}
+                name="email"
+                render={({ field:{onChange,value,onBlur} }) => {
+                  return <InputField placeholder="Email" error={errors.email?.message} onChangeText={onChange} value={value} onBlur={onBlur} />;
+                }}
+              />
+              <Controller
+                control={control}
+                name="password"
+                render={({ field:{onChange,value,onBlur} }) => {
+                  return <InputField password={true} placeholder="Password" error={errors.password?.message} onChangeText={onChange} value={value} onBlur={onBlur} />;
+                }}
+              />
+            </View>
+            <CustomButton 
+              title="Login" 
+              loading={isPending}
+              onPress={handleSubmit(onSubmit)} 
+              disabled={isPending}
+            />
+            <AuthSmallText
+              text="Don't have an account?"
+              linkText="Sign up"
+              onPress={() => {
+                navigation.replace(AuthStackRoutes.Signup);
+              }}
+            />
+          </View>
+        </ScrollView>
+      </KeyboardAvoidingView>
+    </SafeAreaView>
   );
 }
 

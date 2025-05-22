@@ -5,7 +5,7 @@ export const createStyles = (colors: ThemeColors) => StyleSheet.create({
     input:{
         borderRadius: 8,
         backgroundColor: colors.inputBackground,
-        height: 60,
+        
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',

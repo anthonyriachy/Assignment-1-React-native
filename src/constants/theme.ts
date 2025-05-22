@@ -11,7 +11,8 @@ export interface ThemeColors {
   success: string;
   inputBackground: string;
   inputText: string;
-  
+  lightText:string;
+  placeholder:string
 }
 
 export const lightTheme: ThemeColors = {
@@ -25,6 +26,8 @@ export const lightTheme: ThemeColors = {
   success: '#34C759',
   inputBackground: '#F2F2F7',
   inputText: '#000000',
+  lightText:'#8E8E8E',
+  placeholder:'rgba(0, 0, 0, 0.8)'
 };
 
 export const darkTheme: ThemeColors = {
@@ -38,6 +41,8 @@ export const darkTheme: ThemeColors = {
   success: '#32D74B',
   inputBackground: '#29292C',
   inputText: '#FFFFFF',
+  lightText:'#8E8E8E',
+  placeholder:'rgba(0, 0, 0, 0.8)'
 };
 
 export const getThemeColors = (theme: ThemeType): ThemeColors => {

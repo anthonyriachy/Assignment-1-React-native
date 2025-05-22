@@ -6,8 +6,8 @@ export const createStyles = (colors: ThemeColors) => StyleSheet.create({
         alignItems:'center',
         justifyContent:'center',
         backgroundColor:colors.inputBackground,
-        borderRadius:100,
-        paddingHorizontal:16,
+        borderRadius:8,
+        paddingHorizontal:15,
         
     },
     input:{

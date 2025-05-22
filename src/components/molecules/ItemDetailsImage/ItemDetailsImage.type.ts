@@ -1,3 +1,3 @@
 export type ItemDetailsImageProps = {
-	image: string;
+	images: {url:string}[];
 };

@@ -1,6 +1,6 @@
-import { ItemDTO } from "../../../types/ItemDTO";
+import { ProductDTO } from "../../../types/ProductDTO";
 
 export type ItemsCardProps = {
-    item: ItemDTO;
+    item: ProductDTO;
     smaller?: boolean;
 };
