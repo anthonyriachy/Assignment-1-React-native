@@ -5,7 +5,6 @@ import useAuthStore from '../../stores/authStore/authStore';
 import { TokenResponse } from './axiosInstance.type';
 import { UserService } from '../../services/UserService';
 import { handleError } from '../handleError';
-import { Alert } from 'react-native';
 
 const axiosInstance = axios.create({
   baseURL: config.BASE_URL,
@@ -81,8 +80,6 @@ axiosInstance.interceptors.response.use(
         // console.log('token refreshed');
         return axiosInstance(originalRequest);
       } catch (refreshError) {
-        // Clear tokens on refresh failure
-        Alert.alert('Error', 'Failed to refresh token');
         useAuthStore.getState().clearTokens();
         return Promise.reject(refreshError);
       }

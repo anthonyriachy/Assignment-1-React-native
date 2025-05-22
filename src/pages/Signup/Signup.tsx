@@ -28,8 +28,8 @@ export const Signup = ({navigation}:any)=>{
       Alert.alert('Error', result.error);
       return;
     }
-    if (result.uri) {
-      setProfileImage(result.uri);
+    if (result.uris[0]) {
+      setProfileImage(result.uris[0]);
     }
   };
 

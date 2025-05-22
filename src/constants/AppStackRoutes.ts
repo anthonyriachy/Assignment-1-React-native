@@ -5,5 +5,5 @@ export enum AppStackRoutes{
     BottomTabs='BottomTabs',
     Details='Details',
     Products='Products',
-    Sell='Sell'
+    SellModal='SellModal'
 }

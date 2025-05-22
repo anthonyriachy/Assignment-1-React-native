@@ -3,22 +3,21 @@ import { BottomTabNavigationProp, createBottomTabNavigator } from '@react-naviga
 import { BottomTabIcons } from '../../components/atoms/BottomTabIcons/BottomTabIcons';
 import { CustomHeader } from '../../components/molecules/CustomHeader';
 import { useTheme } from '../../hooks/UseTheme';
-import { Text, View } from 'react-native';
+import { Text, TouchableOpacity, View } from 'react-native';
 import { getFocusedRouteNameFromRoute, useNavigation } from '@react-navigation/native';
 
-import { Profile } from '../../pages/Profile/Profile';
 import { BottomTabParamsList } from '../../types/BottomTabParamsList';
 import { BottomTabRoutes } from '../../constants/BottomTabRoutes';
 import { HomeStackScreen } from '../../stacks/HomeStack/HomeStack';
 import { SearchStackScreen } from '../../stacks/SearchStack';
-
+import { ProfileStackScreen } from '../../stacks/ProfileStack/ProfileStack.tsx';
 const Tab = createBottomTabNavigator<BottomTabParamsList>();
 
 const getIconName = (routeName: string) => {
   if (routeName === 'Home') {return 'Home';}
   if (routeName === 'Search') {return 'Search';}
   if (routeName === 'Sell') {return 'Sell';}
-  if (routeName === 'Profile') {return 'Profile';}
+  if (routeName === 'ProfileStack') {return 'Profile';}
   if (routeName === 'Cart') {return 'Cart';}
   return 'Home';
 };
@@ -40,7 +39,7 @@ function MainBottomTabs() {
               fontSize: 10,
               fontWeight: focused ? '700' : '400',
             }}>
-              {route.name}
+              {route.name === 'ProfileStack' ? 'Profile' : route.name}
             </Text>
           ),
           
@@ -83,22 +82,22 @@ function MainBottomTabs() {
         }}
         options={{
           tabBarIcon: ({ focused }) => (
-            <View style={{ marginTop: -60 }}>
+            <TouchableOpacity style={{ marginTop: -40 }} onPress={() => navigation.navigate(BottomTabRoutes.SellModal)}>
               <BottomTabIcons 
                 name={getIconName('Sell')} 
                 selected={focused}
               />
-            </View>
+            </TouchableOpacity>
           ),
         }}
       />
       <Tab.Screen 
         name={BottomTabRoutes.Cart} 
-        component={Profile} 
+        component={ProfileStackScreen} 
       />
       <Tab.Screen 
-        name={BottomTabRoutes.Profile} 
-        component={Profile} 
+        name={BottomTabRoutes.ProfileStack} 
+        component={ProfileStackScreen} 
       />
     </Tab.Navigator>
   );

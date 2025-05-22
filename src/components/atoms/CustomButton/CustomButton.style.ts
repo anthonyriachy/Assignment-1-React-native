@@ -4,13 +4,14 @@ import { colors } from '../../../constants/colors';
 export const styles = StyleSheet.create({
     button:{
         backgroundColor:colors.primary,
-        padding: 16,
-        borderRadius: 50,
+        padding: 10,
+        borderRadius: 10,
         alignItems: 'center',
+        justifyContent:'center',
     },
     text: {
         color: 'white',
-        fontSize: 18,
+        fontSize: 16,
         fontFamily:'Poppins-SemiBold',
     },
 });

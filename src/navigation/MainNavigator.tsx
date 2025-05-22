@@ -3,7 +3,6 @@ import { NavigationContainer } from '@react-navigation/native';
 import { AppStack } from '../stacks/AppStack/AppStack';
 import { ActivityIndicator } from 'react-native';
 import { useTheme } from '../hooks/UseTheme';
-import { useAuthContext } from '../hooks/useAuthContext';
 import { View } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 
@@ -30,7 +29,7 @@ export default function MainNavigator() {
         <NavigationContainer>
             <Stack.Navigator screenOptions={{ headerShown: false }}>
                 {accessToken ? (
-                    <Stack.Screen   
+                    <Stack.Screen
                         name={MainNavigatorRoutes.AppStack}
                         component={AppStack}
                        />

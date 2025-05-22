@@ -1,14 +1,8 @@
-import { ProductDTO } from '../../../../types/ProductDTO';
+import { GetProductsResponse } from '../../../../services/ProductService/ProductService.type';
 
-export interface GetProductsParams {
+export type GetProductsParams = {
     page?: number;
     limit?: number;
-    searchQuery?: string;
-}
+};
 
-export interface ProductsResponse {
-    data: ProductDTO[];
-    total: number;
-    page: number;
-    limit: number;
-}
+export type { GetProductsResponse };

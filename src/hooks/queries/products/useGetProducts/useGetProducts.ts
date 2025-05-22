@@ -1,27 +1,17 @@
-import { useQuery } from '@tanstack/react-query';
-import { ProductService } from '../../../../services/ProductService';
-import { GetProductsParams } from './useGetProducts.type';
+import { useInfiniteQuery } from "@tanstack/react-query";
+import { ProductService } from "../../../../services/ProductService";
+import { GetProductsParams } from "./useGetProducts.type";
 
-
-
-export const useGetProducts = (params: GetProductsParams = {}) => {
-    const { page = 1, limit = 10, searchQuery } = params;
-
-    return useQuery({
-        queryKey: ['products', { page, limit, searchQuery }],
-        queryFn: async () => {
-            try {
-                const response = await ProductService.getProducts(page, limit);
-                return response;
-            } catch (error) {
-                throw error;
+export const useGetProducts = ({ page, limit = 10 }: GetProductsParams = {}) => {
+    return useInfiniteQuery({
+        queryKey: ["products", page, limit] as const,
+        queryFn: ({ pageParam = 1 }) => ProductService.getProducts(pageParam, limit),
+        getNextPageParam: (lastPage) => {
+            if (!lastPage.success || !lastPage.pagination.hasNextPage) {
+                return undefined;
             }
+            return lastPage.pagination.currentPage + 1;
         },
-        select: (response) => {
-            if (!response.success || !response.data) {
-                return [];
-            }
-            return response.data;
-        }
+        initialPageParam: 1,
     });
 };

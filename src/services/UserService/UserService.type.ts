@@ -45,6 +45,7 @@ export type UserResponse={
     data?:{
         user:UserDTO;
     }
+    
     error?: {
         statusCode:number;
         message:string;
@@ -56,6 +57,18 @@ export type RefreshTokenResponse={
     data:{
         accessToken:string;
         refreshToken:string;
+    }
+    error?: {
+        statusCode:number;
+        message:string;
+    }
+}
+
+export type EditProfileResponse={
+    success:boolean;
+    data?:{
+        message:string;
+        user:UserDTO;
     }
     error?: {
         statusCode:number;

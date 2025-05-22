@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, KeyboardAvoidingView, ScrollView, Platform, Alert } from 'react-native';
+import { View, KeyboardAvoidingView, ScrollView, Platform, Alert, SafeAreaView } from 'react-native';
 import { AuthHeaderText } from '../../components/atoms/AuthHeaderText';
 import { InputField } from '../../components/atoms/InputField';
 import { createStyles } from './Login.style';
@@ -15,21 +15,31 @@ import { useTheme } from '../../hooks/UseTheme';
 import { UserService } from '../../services/UserService/UserService';
 import useAuthStore from '../../stores/authStore/authStore';
 import { useMutation } from '@tanstack/react-query';
-import { LoginResponse } from '../../services/UserService/UserService.type';
 import { handleError } from '../../lib/handleError';
 
 function Login({ navigation }: any) {
   const { colors } = useTheme();
-  const {setTokens}=useAuthStore()
+  const { setTokens, setUser } = useAuthStore();
   const styles = createStyles(colors);
   
-  const {mutate,isPending} = useMutation({
-    mutationFn: UserService.login,
-    onSuccess: (data:LoginResponse) => {
-      setTokens(data.data?.accessToken, data.data.refreshToken);
+  const {mutate, isPending} = useMutation({
+    mutationFn: async (data: LoginSchemaType) => {
+      const loginResponse = await UserService.login(data);
+      if (loginResponse.success) {
+        setTokens(loginResponse.data.accessToken, loginResponse.data.refreshToken);
+        // Then fetch user profile
+        const userResponse = await UserService.getUserProfile();
+        return { loginResponse, userResponse };
+      }
+      return { loginResponse, userResponse: null };
+    },
+    onSuccess: (data) => {
+      if (data.loginResponse.success && data.userResponse?.success && data.userResponse.data?.user) {
+        setUser(data.userResponse.data.user);
+      }
     },
     onError: (error) => {
-     Alert.alert('Error', handleError(error), [{ text: 'OK' }]);
+      Alert.alert('Error', handleError(error), [{ text: 'OK' }]);
     }
   });
 
@@ -47,49 +57,61 @@ function Login({ navigation }: any) {
 
   const onSubmit = async (data: LoginSchemaType) => {
     try {
-      mutate(data);
+      mutate({
+        ...data,
+        email: data.email.toLowerCase()
+      });
     } catch (error) {
       Alert.alert('Error', handleError(error), [{ text: 'OK' }]);
     } 
   };
 
   return (
-    <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={{backgroundColor:colors.background}}>
-      <ScrollView style={{backgroundColor:colors.background}}>
-        <View style={styles.container}>
-          <AuthHeaderText title="Login" />
-          <View style={styles.inputContainer}>
-            <Controller
-              control={control}
-              name="email"
-              render={({ field:{onChange,value,onBlur} }) => {
-                return <InputField placeholder="Email" error={errors.email?.message} onChangeText={onChange} value={value} onBlur={onBlur} />;
-              }}
+    <SafeAreaView style={{ flex: 1, backgroundColor: colors.background }}>
+      <KeyboardAvoidingView 
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'} 
+        style={{ flex: 1, backgroundColor: colors.background }}
+      >
+        <ScrollView 
+          style={styles.scrollView} 
+          contentContainerStyle={styles.scrollViewContent}
+          keyboardShouldPersistTaps="handled"
+        >
+          <View style={styles.container}>
+            <AuthHeaderText title="Login" />
+            <View style={styles.inputContainer}>
+              <Controller
+                control={control}
+                name="email"
+                render={({ field:{onChange,value,onBlur} }) => {
+                  return <InputField placeholder="Email" error={errors.email?.message} onChangeText={onChange} value={value} onBlur={onBlur} />;
+                }}
+              />
+              <Controller
+                control={control}
+                name="password"
+                render={({ field:{onChange,value,onBlur} }) => {
+                  return <InputField password={true} placeholder="Password" error={errors.password?.message} onChangeText={onChange} value={value} onBlur={onBlur} />;
+                }}
+              />
+            </View>
+            <CustomButton 
+              title="Login" 
+              loading={isPending}
+              onPress={handleSubmit(onSubmit)} 
+              disabled={isPending}
             />
-            <Controller
-              control={control}
-              name="password"
-              render={({ field:{onChange,value,onBlur} }) => {
-                return <InputField password={true} placeholder="Password" error={errors.password?.message} onChangeText={onChange} value={value} onBlur={onBlur} />;
+            <AuthSmallText
+              text="Don't have an account?"
+              linkText="Sign up"
+              onPress={() => {
+                navigation.replace(AuthStackRoutes.Signup);
               }}
             />
           </View>
-          <CustomButton 
-            title="Login" 
-            loading={isPending}
-            onPress={handleSubmit(onSubmit)} 
-            disabled={isPending}
-          />
-          <AuthSmallText
-            text="Don't have an account?"
-            linkText="Sign up"
-            onPress={() => {
-              navigation.replace(AuthStackRoutes.Signup);
-            }}
-          />
-        </View>
-      </ScrollView>
-    </KeyboardAvoidingView>
+        </ScrollView>
+      </KeyboardAvoidingView>
+    </SafeAreaView>
   );
 }
 

@@ -16,7 +16,7 @@ export const getRelativeTime = (isoDate: string): string => {
   const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
 
   // Check if the date is from today
-  if (diffInDays === 0) {
+  if (diffInDays <=0) {
     return 'today';
   }
 

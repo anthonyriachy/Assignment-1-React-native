@@ -1,11 +1,18 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { Alert, AlertButton } from 'react-native';
 import { UseErrorAlertProps } from './useErrorAlert.type';
 
-
 export const useErrorAlert = ({ error, onRetry, onDismiss }: UseErrorAlertProps) => {
+    const isMounted = useRef(true);
+
     useEffect(() => {
-        if (!error) return;
+        return () => {
+            isMounted.current = false;
+        };
+    }, []);
+
+    useEffect(() => {
+        if (!error || !isMounted.current) return;
 
         const buttons: AlertButton[] = [];
 
@@ -32,6 +39,11 @@ export const useErrorAlert = ({ error, onRetry, onDismiss }: UseErrorAlertProps)
             });
         }
 
-        Alert.alert('Error', error.message, buttons);
+        // Wrap in setTimeout to ensure the alert is shown after the component is fully mounted
+        setTimeout(() => {
+            if (isMounted.current) {
+                Alert.alert('Error', error.message, buttons);
+            }
+        }, 0);
     }, [error, onRetry, onDismiss]);
 }; 

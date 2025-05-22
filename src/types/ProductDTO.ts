@@ -1,5 +1,4 @@
-import { UserDTO } from "./UserDTO";
-
+ 
 export type ProductDTO={
     location:LocationDTO;
 	_id:string;
@@ -7,7 +6,10 @@ export type ProductDTO={
 	description:string;
 	price:number;
 	images:ImageDTO[];
-	user:UserDTO;
+	user:{
+		_id:string;
+		email:string;
+	}
 	createdAt:string;
 	updatedAt:string;
 	score:number;
@@ -18,7 +20,7 @@ export type LocationDTO={
 	name:string;
 	longitude:number;
 	latitude:number;
-}
+ }
 
 export type ImageDTO={
 	url:string;

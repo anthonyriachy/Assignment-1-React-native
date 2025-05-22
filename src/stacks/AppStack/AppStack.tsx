@@ -31,7 +31,7 @@ export const AppStack = () => {
                 }}
             />
             <Stack.Screen 
-                name="SellModal" 
+                name={AppStackRoutes.SellModal} 
                 component={Sell}
                 options={{
                     presentation: 'modal',

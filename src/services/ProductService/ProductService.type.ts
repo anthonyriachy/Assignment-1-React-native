@@ -24,4 +24,14 @@ export type PaginationDTO={
     hasPrevPage:boolean,
     limit:number,
     totalItems:number,
-    totalPages:number}
+    totalPages:number
+}
+
+export type CreateProductResponse={
+    data:ProductDTO,
+    success:boolean,
+    error: {
+        statusCode:number,
+        message:string,
+    }
+}   

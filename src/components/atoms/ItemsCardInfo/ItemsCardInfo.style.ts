@@ -5,10 +5,9 @@ export const createStyles = (colors: ThemeColors, theme: ThemeType) => StyleShee
     container:{
         backgroundColor:colors.background,
         paddingHorizontal:15,
-        paddingVertical:5,
+        paddingVertical:10,
         borderBottomRightRadius:15,
         borderBottomLeftRadius:15,
-        height:120,
         justifyContent:'space-between',
         ...(theme === 'dark' && {
             borderWidth: 1,
@@ -38,6 +37,7 @@ export const createStyles = (colors: ThemeColors, theme: ThemeType) => StyleShee
         flexDirection:'row',
         alignItems:'center',
         gap:5,
+        overflow:'hidden'
     },
     date:{
         fontSize:12,
@@ -48,6 +48,7 @@ export const createStyles = (colors: ThemeColors, theme: ThemeType) => StyleShee
         fontSize:12,
         fontFamily:'Poppins-Regular',
         color:colors.text,
+        flexShrink: 1,
     },
     bottomContainer:{
         gap:5

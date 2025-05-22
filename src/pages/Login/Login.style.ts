@@ -9,10 +9,16 @@ export const createStyles = (colors: any) => StyleSheet.create({
         gap: 40,
         flex:1,
         backgroundColor: colors.background,
-        height:window.height,
     },
     inputContainer:{
         gap: 16,
+    },
+    scrollView: {
+        flex: 1,
+        backgroundColor: colors.background,
+    },
+    scrollViewContent: {
+        flexGrow: 1,
     },
     ...ErrorStyle(colors)
 });

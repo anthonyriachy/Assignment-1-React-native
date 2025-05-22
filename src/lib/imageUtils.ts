@@ -1,16 +1,83 @@
 import { Platform, Alert, ActionSheetIOS } from 'react-native';
-import { launchImageLibrary, launchCamera, ImagePickerResponse } from 'react-native-image-picker';
+import { launchImageLibrary, launchCamera, ImagePickerResponse, PhotoQuality } from 'react-native-image-picker';
 import { config } from '../constants/Config';
 
 interface ImagePickerResult {
-  uri: string | null;
+  uris: string[];
   error?: string;
 }
 
 const defaultImageOptions = {
   mediaType: 'photo' as const,
-  maxHeight: 500,
-  maxWidth: 500,
+  maxHeight: 1200,
+  maxWidth: 1200,
+  quality: 0.7 as PhotoQuality,
+  includeBase64: false,
+  saveToPhotos: false,
+  selectionLimit: 5,
+  includeExtra: true,
+  presentationStyle: 'pageSheet' as const,
+  compressImageQuality: 0.7,
+  compressImageMaxWidth: 1200,
+  compressImageMaxHeight: 1200,
+};
+
+const validateImageResponse = (result: ImagePickerResponse): ImagePickerResult => {
+  if (result.didCancel) {
+    return { uris: [] };
+  }
+
+  if (result.errorCode) {
+    console.error('ImagePicker Error:', result.errorMessage);
+    let errorMessage = 'Failed to process image. Please try again.';
+    
+    switch (result.errorCode) {
+      case 'camera_unavailable':
+        errorMessage = 'Camera is not available. Please check your camera permissions.';
+        break;
+      case 'permission':
+        errorMessage = 'Permission denied. Please grant camera and photo library access.';
+        break;
+      case 'others':
+        errorMessage = result.errorMessage || errorMessage;
+        break;
+    }
+    
+    return { 
+      uris: [], 
+      error: errorMessage 
+    };
+  }
+
+  if (!result.assets || result.assets.length === 0) {
+    return { 
+      uris: [], 
+      error: 'No images were selected. Please try again.' 
+    };
+  }
+
+  const uris = result.assets
+    .map(asset => {
+      if (!asset?.uri) return null;
+      
+      // Validate file size (max 10MB)
+      if (asset.fileSize && asset.fileSize > 10 * 1024 * 1024) {
+        console.warn('Image too large:', asset.uri);
+        return null;
+      }
+      
+      return asset.uri;
+    })
+    .filter((uri): uri is string => typeof uri === 'string' && uri.length > 0);
+
+  if (uris.length === 0) {
+    return { 
+      uris: [], 
+      error: 'No valid images were selected. Please ensure images are less than 10MB.' 
+    };
+  }
+
+  return { uris };
 };
 
 export const showImagePickerOptions = (): Promise<ImagePickerResult> => {
@@ -22,14 +89,22 @@ export const showImagePickerOptions = (): Promise<ImagePickerResult> => {
           cancelButtonIndex: 0,
         },
         async (buttonIndex) => {
-          if (buttonIndex === 1) {
-            const result = await handleCameraLaunch();
-            resolve(result);
-          } else if (buttonIndex === 2) {
-            const result = await handleImageLibraryLaunch();
-            resolve(result);
-          } else {
-            resolve({ uri: null });
+          try {
+            if (buttonIndex === 1) {
+              const result = await handleCameraLaunch();
+              resolve(result);
+            } else if (buttonIndex === 2) {
+              const result = await handleImageLibraryLaunch();
+              resolve(result);
+            } else {
+              resolve({ uris: [] });
+            }
+          } catch (error) {
+            console.error('Error in image picker:', error);
+            resolve({ 
+              uris: [], 
+              error: 'Failed to process image selection. Please try again.' 
+            });
           }
         }
       );
@@ -38,14 +113,30 @@ export const showImagePickerOptions = (): Promise<ImagePickerResult> => {
         'Select Image',
         'Choose an option',
         [
-          { text: 'Cancel', style: 'cancel', onPress: () => resolve({ uri: null }) },
+          { text: 'Cancel', style: 'cancel', onPress: () => resolve({ uris: [] }) },
           { text: 'Take Photo', onPress: async () => {
-            const result = await handleCameraLaunch();
-            resolve(result);
+            try {
+              const result = await handleCameraLaunch();
+              resolve(result);
+            } catch (error) {
+              console.error('Error taking photo:', error);
+              resolve({ 
+                uris: [], 
+                error: 'Failed to take photo. Please try again.' 
+              });
+            }
           }},
           { text: 'Choose from Library', onPress: async () => {
-            const result = await handleImageLibraryLaunch();
-            resolve(result);
+            try {
+              const result = await handleImageLibraryLaunch();
+              resolve(result);
+            } catch (error) {
+              console.error('Error choosing from library:', error);
+              resolve({ 
+                uris: [], 
+                error: 'Failed to choose image. Please try again.' 
+              });
+            }
           }},
         ]
       );
@@ -53,57 +144,42 @@ export const showImagePickerOptions = (): Promise<ImagePickerResult> => {
   });
 };
 
-
 export const handleImageLibraryLaunch = async (): Promise<ImagePickerResult> => {
   try {
-    const result: ImagePickerResponse = await launchImageLibrary(defaultImageOptions);
+    const result: ImagePickerResponse = await launchImageLibrary({
+      ...defaultImageOptions,
+      mediaType: 'photo',
+    });
 
-    if (result.didCancel) {
-      return { uri: null };
-    }
-
-    if (result.errorCode) {
-      console.log('ImagePicker Error: ', result.errorMessage);
-      return { uri: null, error: 'Failed to pick image. Please try again.' };
-    }
-
-    if (result.assets && result.assets[0]?.uri) {
-      return { uri: result.assets[0].uri };
-    }
-
-    return { uri: null, error: 'No image was selected. Please try again.' };
+    return validateImageResponse(result);
   } catch (error) {
-    console.error('Error picking image:', error);
-    return { uri: null, error: 'Failed to pick image. Please try again.' };
+    console.error('Error picking images:', error);
+    return { 
+      uris: [], 
+      error: 'Failed to pick images. Please try again.' 
+    };
   }
 };
 
-
 export const handleCameraLaunch = async (): Promise<ImagePickerResult> => {
   try {
-    const result: ImagePickerResponse = await launchCamera(defaultImageOptions);
+    const result: ImagePickerResponse = await launchCamera({
+      ...defaultImageOptions,
+      mediaType: 'photo',
+      saveToPhotos: true,
+    });
 
-    if (result.didCancel) {
-      return { uri: null };
-    }
-
-    if (result.errorCode) {
-      console.log('Camera Error: ', result.errorMessage);
-      return { uri: null, error: 'Failed to take photo. Please try again.' };
-    }
-
-    if (result.assets && result.assets[0]?.uri) {
-      return { uri: result.assets[0].uri };
-    }
-
-    return { uri: null, error: 'No image was captured. Please try again.' };
+    return validateImageResponse(result);
   } catch (error) {
     console.error('Error taking photo:', error);
-    return { uri: null, error: 'Failed to take photo. Please try again.' };
+    return { 
+      uris: [], 
+      error: 'Failed to take photo. Please try again.' 
+    };
   }
-}; 
-
+};
 
 export const getImageUrl = (image: string) => {
+  if (!image) return '';
   return config.BASE_URL?.replace('/api', '') + image;
 };

@@ -2,7 +2,7 @@ export enum BottomTabRoutes{
     Home='Home',
     Search='Search',
     Sell='Sell',
-    Profile='Profile',
+    ProfileStack='ProfileStack',
     Cart='Cart',
     SellModal='SellModal'
 }

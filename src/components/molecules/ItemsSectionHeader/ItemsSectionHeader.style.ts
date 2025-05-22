@@ -6,7 +6,7 @@ export const createStyles = (colors: ThemeColors) => StyleSheet.create({
 		flexDirection: 'row',
 		justifyContent: 'space-between',
 		alignItems: 'center',
-        paddingHorizontal:16,
+
 
 	},
 	title: {

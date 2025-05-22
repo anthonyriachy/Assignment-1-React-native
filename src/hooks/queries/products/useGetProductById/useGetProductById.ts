@@ -6,7 +6,8 @@ export const useGetProductById = (productId: string) => {
         queryKey: ['products', productId],
         queryFn: async () => {
             try {
-                const response=await ProductService.getProductById(productId);                return response
+                const response=await ProductService.getProductById(productId);
+                return response
             } catch (error) {
                 throw handleError(error);
             }
@@ -16,6 +17,7 @@ export const useGetProductById = (productId: string) => {
                 return null
             }
             return response.data
-        }
+        },
+        enabled: !!productId
     });
 }

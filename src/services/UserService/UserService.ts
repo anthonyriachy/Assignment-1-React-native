@@ -1,7 +1,7 @@
 import { endpoints } from '../../constants/endpoints';
 import axiosInstance from '../../lib/axiosInstance/axiosInstance';
 import { LoginSchemaType } from '../../schemas/Login.schema';
-import { LoginResponse, resendOTPType, SignUpResponse, VerifyOTPType, VerifyOTPResponse, RefreshTokenResponse } from './UserService.type';
+import { LoginResponse, resendOTPType, SignUpResponse, VerifyOTPType, VerifyOTPResponse, RefreshTokenResponse, UserResponse, EditProfileResponse } from './UserService.type';
 import { handleError } from '../../lib/handleError';
 
 export class UserService {
@@ -53,5 +53,24 @@ export class UserService {
         }
     }
     
+    static async getUserProfile(): Promise<UserResponse> {
+        try {
+            const { data } = await axiosInstance.get(endpoints.auth.getUserProfile);
+            return data;
+        } catch (error) {
+            throw new Error(handleError(error));
+        }
+    }
 
+    static async updateUser(user: FormData): Promise<EditProfileResponse> {
+        try {
+            const res = await axiosInstance.put(endpoints.auth.updateUser, user, {
+                headers: { 'Content-Type': 'multipart/form-data' },
+            });
+            console.log('res',res);
+            return res.data;
+        } catch (error) {
+            throw new Error(handleError(error));
+        }
+    }
 }

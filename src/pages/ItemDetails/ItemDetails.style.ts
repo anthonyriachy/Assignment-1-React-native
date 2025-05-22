@@ -7,15 +7,19 @@ export const createStyles = (colors: ThemeColors) =>
       flex: 1,
       backgroundColor: colors.background,
     },
+    imageContainer: {
+      zIndex: 100,
+    },
     buttonContainer: {
       flexDirection: 'row',
       justifyContent: 'space-between',
-      paddingVertical: 16,
-      gap: 12,
+      paddingVertical: 10,
+      gap: 10,
+      paddingHorizontal: 15,
     },
     shareButton: {
       flex: 1,
-      backgroundColor: colors.secondary,
+      backgroundColor: colors.primary,
     },
     cartButton: {
       flex: 1,
