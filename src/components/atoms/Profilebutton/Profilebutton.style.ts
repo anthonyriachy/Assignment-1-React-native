@@ -1,16 +1,15 @@
     import { StyleSheet } from "react-native";
 import { ThemeColors } from "../../../constants/theme";
+import { globalStyles } from "../../../constants/globalStyles";
 
 export const createStyles = (colors: ThemeColors) => StyleSheet.create({
     container: {
         flexDirection: 'row',
         justifyContent:'space-between',
         backgroundColor: colors.inputBackground,
-        paddingVertical: 15,
-        paddingHorizontal: 20,
-        borderRadius: 15,
-        marginVertical: 10,
-        marginHorizontal: 15,
+        paddingVertical: 10,
+        paddingHorizontal: 15, 
+        borderRadius: 8,
         borderWidth: 1,
         borderColor: colors.border,
         elevation: 1,
@@ -21,7 +20,7 @@ export const createStyles = (colors: ThemeColors) => StyleSheet.create({
     },
     title: {
         fontSize: 16,
-        fontFamily: 'Poppins-SemiBold',
+        fontFamily: globalStyles.semiBold,
         color: colors.inputText,
     },
     leftContainer: {
@@ -30,8 +29,8 @@ export const createStyles = (colors: ThemeColors) => StyleSheet.create({
        gap: 10,
     },
     icon: {
-        width: 40,
-        height: 40,
+        width: 30,
+        height: 30,
     },
     
 })  

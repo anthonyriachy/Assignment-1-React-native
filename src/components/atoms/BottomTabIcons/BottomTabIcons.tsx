@@ -5,6 +5,7 @@ import BottomTabSearch from '../../../assets/icons/BottomTabSearch.svg';
 import Profile from '../../../assets/icons/ProfileFooter.svg';
 import ProfileSelected from '../../../assets/icons/SmallProfileSelected.svg';
 import SellIcon from '../../../assets/icons/plus-circle-fill-svgrepo-com.svg';
+import CartIcon from '../../../assets/icons/shopping-cart-outline-svgrepo-com (2).svg';
 
 export function BottomTabIcons({ name, selected, style }: BottomTabIconsProps) {
     const iconProps = { width: 25, height: 25, style };
@@ -18,6 +19,8 @@ export function BottomTabIcons({ name, selected, style }: BottomTabIconsProps) {
             return selected ? <ProfileSelected {...iconProps} /> : <Profile {...iconProps} />;
         case 'search':
             return selected ? <BottomTabSearch {...iconProps} /> : <BottomTabSearch {...iconProps} />;
+        case 'cart':
+            return selected ? <CartIcon {...iconProps} /> : <CartIcon {...iconProps} />;
         default:
             return selected ? <HomeSelected {...iconProps} /> : <HomeIcon {...iconProps} />;
     }

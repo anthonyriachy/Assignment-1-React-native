@@ -7,19 +7,21 @@ import { ProductSchemaType } from '../../../schemas/Product.schema';
 import { config } from '../../../constants/Config.ts';
 import { useRef, useCallback, useEffect, useMemo, useState } from 'react';
 import { Text, View, TextInputProps } from 'react-native';
-import { InputField } from '../../atoms/InputField/InputField';
+import { InputFieldSell } from '../../atoms/InputFieldSell/InputFieldSell.tsx';
+import { CustomText } from '../../atoms/CustomText/CustomText.tsx';
 
 type LocationAutocompleteProps = {
     setValue: UseFormSetValue<ProductSchemaType>;
     value?: string;
+    onLocationSelect?: (location: { name: string; latitude: number; longitude: number }) => void;
 };
 
-export const LocationAutocomplete = ({ setValue, value }: LocationAutocompleteProps) => {
+export const LocationAutocomplete = ({ setValue, value, onLocationSelect }: LocationAutocompleteProps) => {
     const { colors } = useTheme();
     const styles = useMemo(() => createStyles(colors), [colors]);
     const ref = useRef<any>(null);
     const [isDropdownVisible, setIsDropdownVisible] = useState(false);
-    const [inputValue, setInputValue] = useState(value || '');
+    const [inputValue, setInputValue] = useState('');
 
     useEffect(() => {
         if (value && ref.current) {
@@ -29,23 +31,33 @@ export const LocationAutocomplete = ({ setValue, value }: LocationAutocompletePr
     }, [value]);
 
     const handleLocationSelect = useCallback((data: any, details: any) => {
-        console.log('data', data);
-        console.log('details', details);
-        
         try {
             if (details) {
                 const locationName = data.description;
-             
+                const latitude = details.geometry.location.lat;
+                const longitude = details.geometry.location.lng;
+
+                // Update form values
                 setValue('location.name', locationName, { shouldValidate: true });
-                setValue('location.latitude', details.geometry.location.lat, { shouldValidate: true });
-                setValue('location.longitude', details.geometry.location.lng, { shouldValidate: true });
-                setInputValue(locationName);
+                setValue('location.latitude', latitude, { shouldValidate: true });
+                setValue('location.longitude', longitude, { shouldValidate: true });
+
+                // Call the onLocationSelect callback if provided
+                if (onLocationSelect) {
+                    onLocationSelect({ name: locationName, latitude, longitude });
+                }
+
+                // Clear the search input
+                setInputValue('');
+                if (ref.current) {
+                    ref.current.setAddressText('');
+                }
                 setIsDropdownVisible(false);
             }
         } catch (error) {
             console.error('Error selecting location:', error);
         }
-    }, [setValue]);
+    }, [setValue, onLocationSelect]);
 
     const handleFail = (error: any) => {
         console.error('Google Places API Error:', error);
@@ -53,7 +65,7 @@ export const LocationAutocomplete = ({ setValue, value }: LocationAutocompletePr
 
     const renderEmptyComponent = () => (
         <View style={styles.emptyContainer}>
-            <Text style={styles.emptyText}>No locations found</Text>
+            <CustomText style={styles.emptyText}>No locations found</CustomText>
         </View>
     );
 
@@ -74,9 +86,10 @@ export const LocationAutocomplete = ({ setValue, value }: LocationAutocompletePr
                     setInputValue(text);
                 },
                 render: (props: TextInputProps) => (
-                    <InputField
+                    <InputFieldSell
                         {...props}
                         placeholder="Search location"
+                        label="Search location"
                         value={inputValue}
                         onChangeText={(text) => {
                             setInputValue(text);
@@ -94,7 +107,7 @@ export const LocationAutocomplete = ({ setValue, value }: LocationAutocompletePr
                 language: 'en',
                 types: 'geocode',
                 location: '33.888630,35.495480',  // Beirut coords
-                radius: 50000,                     // in meters
+                radius: 50000,                    
                 offset: 0  
             }}
             styles={{

@@ -38,11 +38,10 @@ export const createStyles = (colors: ThemeColors) => StyleSheet.create({
         right:-10,
         padding:8,
         borderRadius:100,
-        backgroundColor:colors.background,
+        backgroundColor:colors.white,
         borderWidth:1,
     },
     buttonContainer:{
         marginTop:'auto',
     },
-    ...ErrorStyle(colors)
 }); 

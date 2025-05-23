@@ -1,16 +1,17 @@
 import { View, FlatList, Dimensions, TouchableOpacity, Alert, Image } from "react-native";
 import { ItemDetailsImageProps } from "./ItemDetailsImage.type.ts";
-import { BackArrow } from "../../atoms/BackArrow/index.ts";
-import { useState, useCallback, memo } from "react";
+import { useState, useCallback } from "react";
 import { getImageUrl } from "../../../lib/imageUtils.ts";
 import { useTheme } from "../../../hooks/UseTheme/UseTheme.tsx";
 import { createStyles } from "./ItemDetailsImage.style.ts";
 import { FullScreenImageViewer } from "../FullScreenImageViewer/FullScreenImageViewer";
 import { downloadImage } from "../../../lib/imageDownloadUtils";
+import ShimmerPlaceholder from 'react-native-shimmer-placeholder';
+import LinearGradient from 'react-native-linear-gradient';
 
 const { width } = Dimensions.get('window');
 
-const ImageItem = memo(({ 
+const ImageItem = ({ 
 	imageUrl, 
 	onPress, 
 	onLongPress,
@@ -20,24 +21,38 @@ const ImageItem = memo(({
 	onPress: () => void; 
 	onLongPress: () => void;
 	styles: any;
-}) => (
-	<TouchableOpacity 
-		style={styles.imageContainer}
-		onPress={onPress}
-		onLongPress={onLongPress}
-		activeOpacity={0.9}
-		delayLongPress={500}
-	>
-		<Image
-			source={{ uri: imageUrl }}
-			style={styles.image}
-			resizeMode="contain"
-			fadeDuration={0}
-		/>
-	</TouchableOpacity>
-));
+}) => {
+	const [isLoading, setIsLoading] = useState(true);
+	const { colors } = useTheme();
 
-export const ItemDetailsImage = memo(({ images }: ItemDetailsImageProps) => {
+	return (
+		<TouchableOpacity 
+			style={styles.imageContainer}
+			onPress={onPress}
+			onLongPress={onLongPress}
+			activeOpacity={0.9}
+			delayLongPress={500}
+		>
+			{isLoading && (
+				<ShimmerPlaceholder
+					style={styles.image}
+					LinearGradient={LinearGradient}
+					shimmerColors={[colors.background, colors.border, colors.background]}
+				/>
+			)}
+			<Image
+				source={{ uri: imageUrl }}
+				style={[styles.image, isLoading && { position: 'absolute', opacity: 0 }]}
+				resizeMode="contain"
+				fadeDuration={0}
+				onLoadStart={() => setIsLoading(true)}
+				onLoadEnd={() => setIsLoading(false)}
+			/>
+		</TouchableOpacity>
+	);
+};
+
+export const ItemDetailsImage = ({ images }: ItemDetailsImageProps) => {
 	const [currentIndex, setCurrentIndex] = useState(0);
 	const [isFullScreenVisible, setIsFullScreenVisible] = useState(false);
 	const { colors } = useTheme();
@@ -88,32 +103,12 @@ export const ItemDetailsImage = memo(({ images }: ItemDetailsImageProps) => {
 				onMomentumScrollEnd={handleMomentumScrollEnd}
 				renderItem={renderItem}
 				keyExtractor={keyExtractor}
-				removeClippedSubviews={true}
-				maxToRenderPerBatch={2}
-				windowSize={2}
-				initialNumToRender={1}
-				updateCellsBatchingPeriod={50}
-				scrollEventThrottle={16}
 			/>
-			<View style={styles.backButton}>
-				<BackArrow />
-			</View>
-			<View style={styles.paginationContainer}>
-				{images.map((_, index) => (
-					<View
-						key={index}
-						style={[
-							styles.paginationDot,
-							index === currentIndex && styles.paginationDotActive
-						]}
-					/>
-				))}
-			</View>
 			<FullScreenImageViewer
 				visible={isFullScreenVisible}
-				onClose={() => setIsFullScreenVisible(false)}
 				imageUrl={getImageUrl(images[currentIndex].url)}
+				onClose={() => setIsFullScreenVisible(false)}
 			/>
 		</View>
 	);
-});   
+};   

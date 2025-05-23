@@ -20,6 +20,8 @@ export const SignupSchema = z.object({
     .min(6, 'Password must be at least 6 characters')
     .max(50, 'Password must be less than 50 characters')
     .regex(/[0-9]/, 'Password must contain at least one number'),
+
+ 
 });
 
 export type SignupSchemaType = z.infer<typeof SignupSchema>;

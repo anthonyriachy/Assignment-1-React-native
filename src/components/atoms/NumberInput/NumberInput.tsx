@@ -2,13 +2,14 @@ import { Text, TextInput, View } from "react-native";
 import { createStyles } from "./NumberInput.style";
 import { NumberInputProps } from "./NumberInput.type";
 import { useTheme } from "../../../hooks/UseTheme";
+import { CustomText } from "../CustomText/CustomText";
 
 export const NumberInput=({Icon,label,error,...props}:NumberInputProps)=>{
     const {colors}=useTheme()       
     const styles=createStyles(colors)
     return <View style={styles.container}>
-        <Text style={styles.label}>{label}</Text>
-        {error && <Text style={styles.error}>{error}</Text>}
+        <CustomText style={styles.label}>{label}</CustomText>
+        {error && <CustomText style={styles.error}>{error}</CustomText>}
         <View style={styles.inputContainer}>
             <View style={styles.iconContainer}>
                 {Icon}
@@ -17,6 +18,7 @@ export const NumberInput=({Icon,label,error,...props}:NumberInputProps)=>{
                 {...props}
                 style={styles.input}
                 keyboardType="numeric"
+                placeholderTextColor={colors.placeholder}
                 onChangeText={(text) => {
                     if (text === '' || !isNaN(Number(text))) {
                         props.onChangeText?.(Number(text));

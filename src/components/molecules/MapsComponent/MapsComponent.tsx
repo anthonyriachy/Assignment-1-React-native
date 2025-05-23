@@ -9,7 +9,7 @@ import { MapComponentProps } from "./MapsComponent.type";
 import { BackArrow } from "../../atoms/BackArrow";
 import FullScreenIcon from "../../../assets/icons/fullscreen-svgrepo-com.svg";
 
-export const MapComponent = ({setValue, latitude, longitude, locationName}: MapComponentProps) => {
+export const MapComponent = ({setValue, latitude, longitude, locationName,isView}: MapComponentProps) => {
     const { colors } = useTheme();
     const styles = createStyles(colors);
     const [isMapModalVisible, setIsMapModalVisible] = useState(false);
@@ -33,6 +33,7 @@ export const MapComponent = ({setValue, latitude, longitude, locationName}: MapC
     }, [latitude, longitude]);
 
     const onMapPress = (e: any) => {
+        if(isView) return;
         const { latitude, longitude } = e.nativeEvent.coordinate;
         const newRegion = {
             ...selectedLocation,
@@ -72,6 +73,8 @@ export const MapComponent = ({setValue, latitude, longitude, locationName}: MapC
                 </MapView>
             </View>
 
+
+{/* full screen map */}
             <Modal
                 animationType="slide"
                 transparent={false}

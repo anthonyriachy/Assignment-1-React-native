@@ -8,6 +8,7 @@ export interface ItemsSectionProps {
 	onLoadMore?: () => void;
 	isLoading?: boolean;
 	hasMore?: boolean;
+	isFetchingMore?: boolean;
 }
 export interface VerticalListProps {
 	title: string, 
@@ -15,5 +16,6 @@ export interface VerticalListProps {
 	data?: ProductDTO[],
 	onLoadMore?: () => void,
 	isLoading?: boolean,
-	hasMore?: boolean
+	hasMore?: boolean,
+	isFetchingMore?: boolean
 }

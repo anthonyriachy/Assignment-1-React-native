@@ -10,5 +10,16 @@ export const createStyles = () => StyleSheet.create({
 		paddingVertical: 16,
 		alignItems: 'center',
 		width: '100%',
-	}
+	},
+	headerContainer: {
+
+		width: '100%',
+	},
+
+  listContainer: {
+    gap:20,
+  },
+  verticalContainer: {
+    gap:20,
+  }
 }); 

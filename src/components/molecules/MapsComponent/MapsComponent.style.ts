@@ -44,7 +44,7 @@ export const createStyles = (colors: any) => StyleSheet.create({
     mapContainer: {
         height: 200,
         marginVertical: 10,
-        borderRadius: 20,
+        borderRadius: 8,
         overflow: 'hidden',
         position: 'relative',
     },

@@ -9,8 +9,7 @@ export const useUpdateProduct = (productId: string) => {
             const response = await ProductService.updateProduct(productId, product);
             return response.data;
         },
-        onSuccess: (resposne) => {
-            console.log(resposne);
+        onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['products'] });
             queryClient.invalidateQueries({ queryKey: ['products', productId] });
         },

@@ -1,28 +1,41 @@
-import { Platform, KeyboardAvoidingView, ScrollView, Text, View, ActivityIndicator } from "react-native";
-import { BackArrow } from "../../components/atoms/BackArrow";
-import { createStyles } from "./Sell.style";
-import { Controller, useForm } from "react-hook-form";
-import { ProductSchema, ProductSchemaType } from "../../schemas/Product.schema";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { InputFieldSell } from "../../components/atoms/InputFieldSell/InputFieldSell";
-import { CustomButton } from "../../components/atoms/CustomButton";
-import { NumberInput } from "../../components/atoms/NumberInput";
-import CurrencyDollarIcon from "../../assets/icons/dollar-svgrepo-com.svg";
-import { MapComponent } from "../../components/molecules/MapsComponent";
-import { LocationAutocomplete } from "../../components/molecules/LocationAutocomplete";
-import { useCreateProduct } from "../../hooks/queries/products/useCreateProduct";
-import { useGetProductById } from "../../hooks/queries/products/useGetProductById";
-import { useErrorAlert } from "../../hooks/useErrorAlert";
-import { useSuccessAlert } from "../../hooks/useSuccessAlert";
-import { ImagePicker } from "../../components/molecules/ImagePicker";
-import { useNavigation, useRoute, RouteProp } from "@react-navigation/native";
-import { useEffect, useMemo, useCallback } from "react";
-import { useUpdateProduct } from "../../hooks/queries/products/useUpdateProduct";
-import { useTheme } from "../../hooks/UseTheme";
-import { AppStackRoutes } from "../../constants/AppStackRoutes";
-import { CommonActions } from "@react-navigation/native";
+import { Platform, KeyboardAvoidingView, ScrollView, View } from 'react-native';
+import { createStyles } from './Sell.style';
+import { Controller, useForm } from 'react-hook-form';
+import { ProductSchema, ProductSchemaType } from '../../schemas/Product.schema';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { InputFieldSell } from '../../components/atoms/InputFieldSell/InputFieldSell';
+import { CustomButton } from '../../components/atoms/CustomButton';
+import { NumberInput } from '../../components/atoms/NumberInput';
+import CurrencyDollarIcon from '../../assets/icons/dollar-svgrepo-com.svg';
+import { MapComponent } from '../../components/molecules/MapsComponent';
+import { LocationAutocomplete } from '../../components/molecules/LocationAutocomplete';
+import { useCreateProduct } from '../../hooks/queries/products/useCreateProduct';
+import { useGetProductById } from '../../hooks/queries/products/useGetProductById';
+import { useErrorAlert } from '../../hooks/useErrorAlert';
+import { useSuccessAlert } from '../../hooks/useSuccessAlert';
+import { ImagePicker } from '../../components/molecules/ImagePicker';
+import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
+import { useEffect, useCallback } from 'react';
+import { useUpdateProduct } from '../../hooks/queries/products/useUpdateProduct';
+import { useTheme } from '../../hooks/UseTheme';
+import { AppStackRoutes } from '../../constants/AppStackRoutes';
+import { CommonActions } from '@react-navigation/native';
+import { AppStackParamsList } from '../../types/AppStackParamsList';
+import { Loading } from '../../components/atoms/Loading';
 
-type SellScreenRouteProp = RouteProp<{ Sell: { productId?: string; }; }>;
+type SellScreenRouteProp = RouteProp<AppStackParamsList, AppStackRoutes.SellModal>;
+
+const defaultValues = {
+    title: '',
+    description: '',
+    price: 0,
+    images: [],
+    location: {
+        name: '',
+        longitude: 0,
+        latitude: 0,
+    },
+};
 
 export function Sell() {
     const { colors } = useTheme();
@@ -33,10 +46,10 @@ export function Sell() {
 
     const isEditMode = !!productId;
 
-    const { data: productData, isLoading: isProductLoading } = useGetProductById(productId || '');
+    const { data: productData, isLoading: isProductLoading, error: productError } = useGetProductById(productId || '');
     const { mutate: createProduct, error: createError, isPending: isCreatePending, isSuccess: isCreateSuccess } = useCreateProduct();
     const { mutate: updateProduct, error: updateError, isPending: isUpdatePending, isSuccess: isUpdateSuccess } = useUpdateProduct(productId || '');
-    const error = createError || updateError;
+    const error = createError || updateError || productError;
     const isPending = isCreatePending || isUpdatePending;
     const isSuccess = isCreateSuccess || isUpdateSuccess;
 
@@ -46,31 +59,19 @@ export function Sell() {
 
     useSuccessAlert({
         success: isSuccess,
-        message: isEditMode ? "Product updated successfully!" : "Product created successfully!",
+        message: isEditMode ? 'Product updated successfully!' : 'Product created successfully!',
         onDismiss: () => {
             if (isEditMode) {
                 navigation.goBack();
             } else {
                 navigation.dispatch(
                     CommonActions.navigate({
-                        name: AppStackRoutes.BottomTabs
+                        name: AppStackRoutes.BottomTabs,
                     })
                 );
             }
-        }
+        },
     });
-
-    const defaultValues = useMemo(() => ({
-        title: '',
-        description: '',
-        price: 0,
-        images: [],
-        location: {
-            name: '',
-            longitude: 0,
-            latitude: 0,
-        }
-    }), []);
 
     const {
         control,
@@ -81,11 +82,11 @@ export function Sell() {
         formState: { errors },
     } = useForm<ProductSchemaType>({
         resolver: zodResolver(ProductSchema),
-        defaultValues
+        defaultValues,
     });
 
     const resetFormWithProductData = useCallback((data: typeof productData) => {
-        if (!data) return;
+        if (!data) {return;}
 
         reset({
             title: data.title,
@@ -96,7 +97,7 @@ export function Sell() {
                 name: data.location.name,
                 longitude: data.location.longitude,
                 latitude: data.location.latitude,
-            }
+            },
         }, { keepDefaultValues: true });
     }, [reset]);
 
@@ -114,40 +115,34 @@ export function Sell() {
     const onSubmit = useCallback(async (data: ProductSchemaType) => {
         const formData = new FormData();
 
-        // Append basic product data
         formData.append('title', data.title);
         formData.append('description', data.description);
         formData.append('price', String(data.price));
         formData.append('location[name]', data.location.name);
         formData.append('location[latitude]', String(data.location.latitude));
         formData.append('location[longitude]', String(data.location.longitude));
-
-        // Append all current images
         data.images.forEach((image, index) => {
-            // If it's a URL (existing image), convert it to a file object
-            if (!image.startsWith('/uploads/')) {
-
-                // If it's a local file, append as is
-                formData.append('images', {
-                    uri: image,
-                    type: 'image/jpeg',
-                    name: `image-${index}.jpg`
-                } as any);
-            }
+            formData.append('images', {
+                uri: image,
+                type: 'image/jpeg',
+                name: `image-${index}.jpg`,
+            });
         });
+    
+
+        
 
         if (isEditMode) {
-            console.log('formData', formData);
             updateProduct(formData);
         } else {
             createProduct(formData);
         }
-    }, [isEditMode, createProduct, updateProduct]);
+    }, [isEditMode, createProduct, updateProduct, productData]);
 
     if (isEditMode && isProductLoading) {
         return (
-            <View style={[styles.container, { flex: 1, justifyContent: 'center', alignItems: 'center' }]}>
-                <ActivityIndicator size="large" color={colors.primary} />
+            <View style={styles.container}>
+                <Loading />
             </View>
         );
     }
@@ -158,25 +153,7 @@ export function Sell() {
                 behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
                 style={{ flex: 1, backgroundColor: colors.background }}
             >
-                <View style={styles.header}>
-                    <View style={styles.backButton}>
-                        <BackArrow onPress={() => {
-                            if (isEditMode) {
-                                navigation.goBack();
-                            } else {
-                                navigation.dispatch(
-                                    CommonActions.navigate({
-                                        name: AppStackRoutes.BottomTabs
-                                    })
-                                );
-                            }
-                        }} />
-                    </View>
-                    <Text style={styles.title}>{isEditMode ? 'Edit Item' : 'Add Item'}</Text>
-                </View>
-
                 <ScrollView
-                    style={{ flex: 1, backgroundColor: colors.background }}
                     contentContainerStyle={{ flexGrow: 1 }}
                 >
                     <View style={styles.form}>
@@ -229,21 +206,35 @@ export function Sell() {
                             name="images"
                             render={({ field: { value, onChange } }) => (
                                 <ImagePicker
+                                    error={errors.images?.message}
                                     images={value}
                                     onImagesChange={onChange}
                                 />
                             )}
                         />
-                        <View>
+                        <View style={{gap:10}}>
                             <Controller
                                 control={control}
                                 name="location.name"
-                                render={({ field: { value } }) => (
-                                    <LocationAutocomplete
-                                        setValue={setValue}
+                                render={({ field: { value, onChange, onBlur } }) => (
+                                    <InputFieldSell
+                                        placeholder="Location Name"
+                                        label="Location Name"
+                                        error={errors.location?.name?.message}
+                                        onChangeText={onChange}
                                         value={value}
+                                        onBlur={onBlur}
                                     />
                                 )}
+                            />
+
+                            <LocationAutocomplete
+                                setValue={setValue}
+                                onLocationSelect={(selectedLocation) => {
+                                    setValue('location.name', selectedLocation.name);
+                                    setValue('location.latitude', selectedLocation.latitude);
+                                    setValue('location.longitude', selectedLocation.longitude);
+                                }}
                             />
 
                             <MapComponent
@@ -259,7 +250,7 @@ export function Sell() {
 
             <View style={styles.buttonContainer}>
                 <CustomButton
-                    title={isEditMode ? "Update Item" : "Add Item"}
+                    title={isEditMode ? 'Update Item' : 'Add Item'}
                     onPress={handleSubmit(onSubmit)}
                     style={styles.button}
                     disabled={isPending}

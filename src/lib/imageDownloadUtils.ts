@@ -19,20 +19,15 @@ export const downloadImage = async (
   options: DownloadOptions = {}
 ): Promise<void> => {
   try {
-    console.log('Starting image download process...');
-    console.log('Platform:', Platform.OS);
-    console.log('Android version:', Platform.Version);
+
 
     // Check storage permission for Android
     if (Platform.OS === 'android') {
-      console.log('Checking Android storage permission...');
       const hasPermission = await checkStoragePermission();
       
       if (!hasPermission) {
-        console.log('Permission not granted, requesting...');
         const granted = await requestStoragePermission();
         if (!granted) {
-          console.log('Permission denied by user');
           Alert.alert(
             'Permission Required',
             'Storage permission is required to download images. Please grant permission in Settings.',
@@ -43,7 +38,6 @@ export const downloadImage = async (
           throw new Error('Storage permission is required to download images');
         }
       }
-      console.log('Storage permission confirmed');
     }
 
     // Get the file extension from the URL
@@ -61,30 +55,30 @@ export const downloadImage = async (
       throw new Error('Could not determine download path');
     }
 
-    console.log('Download path:', downloadPath);
+
 
     // Download the file
-    console.log('Starting file download...');
+
     const downloadResult = await RNFS.downloadFile({
       fromUrl: imageUrl,
       toFile: downloadPath,
       background: true,
       begin: (res: DownloadBeginCallbackResult) => {
-        console.log('Download started:', res);
+
         options.onStart?.({
           bytesWritten: 0,
           contentLength: res.contentLength
         });
       },
       progress: (res: DownloadProgress) => {
-        console.log('Download progress:', res);
+
         options.onProgress?.(res);
       },
     }).promise;
 
-    console.log('Download completed with status:', downloadResult.statusCode);
+
     if (downloadResult.statusCode === 200) {
-      console.log('Download successful');
+
       options.onSuccess?.();
     } else {
       console.error('Download failed with status:', downloadResult.statusCode);

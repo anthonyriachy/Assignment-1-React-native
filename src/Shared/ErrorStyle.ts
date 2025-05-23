@@ -1,9 +1,9 @@
 import { StyleSheet } from "react-native";
 
-export const ErrorStyle = (colors:any) => StyleSheet.create({
+export const createStyles = (colors:any) => StyleSheet.create({
     errorText:{
         color:colors.error,
         fontSize:12,
-        fontWeight:'bold',
+        fontFamily:'Poppins-Regular',
     }
 })

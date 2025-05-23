@@ -1,5 +1,6 @@
 import { StyleSheet } from "react-native";
 import { ThemeColors } from "../../../constants/theme";
+import { globalStyles } from "../../../constants/globalStyles";
 
 export const createStyles = (colors: ThemeColors) => StyleSheet.create({
 	container: {
@@ -12,7 +13,7 @@ export const createStyles = (colors: ThemeColors) => StyleSheet.create({
 	title: {
 		color:colors.text,
 		fontSize: 25,
-		fontFamily:'Poppins-SemiBold'
+		fontFamily:globalStyles.semiBold
 	},
 	viewAll: {
 		fontSize: 16,

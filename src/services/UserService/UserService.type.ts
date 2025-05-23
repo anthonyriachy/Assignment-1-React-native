@@ -75,3 +75,14 @@ export type EditProfileResponse={
         message:string;
     }
 }
+
+export type ForgotPasswordResponse={
+    success:boolean;
+    data?:{
+        message:string;
+    }
+    error?: {
+        statusCode:number;
+        message:string;
+    }
+}

@@ -3,21 +3,66 @@ import { Image, View, FlatList, Dimensions, TouchableOpacity, NativeSyntheticEve
 import { createStyles } from './CarouselSection.style';
 import { useTheme } from '../../../hooks/UseTheme';
 import { CarouselDots } from '../../molecules/CarouselDots';
-import Products  from '../.././../../Products.json';
+import { useNavigation } from '@react-navigation/native';
+import { CommonActions } from '@react-navigation/native';
+import ShimmerPlaceholder from 'react-native-shimmer-placeholder';
+import LinearGradient from 'react-native-linear-gradient';
+
+import { ProductDTO } from '../../../types/productDTO';
+import { getImageUrl } from '../../../lib/imageUtils';
+import { CarouselShimmer } from './CarouselSectionLoading';
+
 const { width } = Dimensions.get('window');
 
-const carouselImages = [
-  Products.data[0].images[0].url,
-  Products.data[1].images[0].url,
-  Products.data[2].images[0].url,
-];
+interface CarouselSectionProps {
+  products: ProductDTO[];
+  isLoading: boolean;
+}
 
+const CarouselImageItem = ({ 
+  imageUrl, 
+  onPress, 
+  styles 
+}: { 
+  imageUrl: string; 
+  onPress: () => void;
+  styles: any;
+}) => {
+  const [isLoading, setIsLoading] = useState(true);
+  const { colors } = useTheme();
 
-export const CarouselSection: React.FC = () => {
+  return (
+    <TouchableOpacity 
+      style={styles.imageContainer}
+      onPress={onPress}
+      activeOpacity={0.9}
+    >
+      {isLoading && (
+        <ShimmerPlaceholder
+          style={styles.image}
+          LinearGradient={LinearGradient}
+          shimmerColors={[colors.background, colors.border, colors.background]}
+        />
+      )}
+      <Image 
+        source={{ uri: imageUrl }} 
+        style={[styles.image, isLoading && { position: 'absolute', opacity: 0 }]}
+        resizeMode="contain"
+        onLoadStart={() => setIsLoading(true)}
+        onLoadEnd={() => setIsLoading(false)}
+      />
+    </TouchableOpacity>
+  );
+};
+
+export const CarouselSection: React.FC<CarouselSectionProps> = ({ products, isLoading }) => {
   const { colors } = useTheme();
   const styles = createStyles(colors);
   const [currentIndex, setCurrentIndex] = useState(0);
   const flatListRef = useRef<FlatList>(null);
+  const navigation = useNavigation<any>();
+  
+  const carouselImages = products?.map((product: ProductDTO) => getImageUrl(product.images[0].url)) ?? [];
 
   const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
     const contentOffset = event.nativeEvent.contentOffset.x;
@@ -29,6 +74,24 @@ export const CarouselSection: React.FC = () => {
     flatListRef.current?.scrollToIndex({ index, animated: true });
   };
 
+  const handleItemPress = (index: number) => {
+    const product = products[index];
+    if (product) {
+      navigation.dispatch(
+        CommonActions.navigate({
+          name: 'Details',
+          params: { itemId: product._id },
+        })
+      );
+    }
+  };
+
+  if (isLoading) {
+    return <CarouselShimmer />;
+  }
+  if(carouselImages.length === 0){
+    return null;
+  }
   return (
     <View style={styles.container}>
       <FlatList
@@ -39,23 +102,23 @@ export const CarouselSection: React.FC = () => {
         showsHorizontalScrollIndicator={false}
         onScroll={handleScroll}
         scrollEventThrottle={16}
-        renderItem={({ item }) => (
-          <View style={styles.imageContainer}>
-            <Image 
-              source={{ uri: item }} 
-              style={styles.image}
-              resizeMode="contain"
-            />
-          </View>
+        renderItem={({ item, index }) => (
+          <CarouselImageItem 
+            imageUrl={item}
+            onPress={() => handleItemPress(index)}
+            styles={styles}
+          />
         )}
         keyExtractor={(_, index) => index.toString()}
       />
-      <TouchableOpacity
-        style={styles.paginationWrapper}
-        onPress={() => handleDotPress((currentIndex + 1) % carouselImages.length)}
-      >
-        <CarouselDots currentIndex={currentIndex} total={carouselImages.length} />
-      </TouchableOpacity>
+      {carouselImages.length > 0 && (
+        <TouchableOpacity
+          style={styles.paginationWrapper}
+          onPress={() => handleDotPress((currentIndex + 1) % carouselImages.length)}
+        >
+          <CarouselDots currentIndex={currentIndex} total={carouselImages.length} />
+        </TouchableOpacity>
+      )}
     </View>
   );
 }; 

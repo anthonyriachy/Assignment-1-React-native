@@ -11,6 +11,7 @@ import { BottomTabRoutes } from '../../constants/BottomTabRoutes';
 import { HomeStackScreen } from '../../stacks/HomeStack/HomeStack';
 import { SearchStackScreen } from '../../stacks/SearchStack';
 import { ProfileStackScreen } from '../../stacks/ProfileStack/ProfileStack.tsx';
+import { CartScreen } from '../../pages/Cart/Cart.tsx';
 const Tab = createBottomTabNavigator<BottomTabParamsList>();
 
 const getIconName = (routeName: string) => {
@@ -36,8 +37,9 @@ function MainBottomTabs() {
           tabBarLabel: ({ focused }) => (
             <Text style={{
               color: focused ? colors.primary : colors.lightText,
-              fontSize: 10,
+              fontSize: 11,
               fontWeight: focused ? '700' : '400',
+              fontFamily:'Poppins-Regular'
             }}>
               {route.name === 'ProfileStack' ? 'Profile' : route.name}
             </Text>
@@ -53,7 +55,7 @@ function MainBottomTabs() {
             backgroundColor: colors.background,
             borderTopColor: colors.background,
             height: 60,
-            paddingTop: 15,
+            
           },
           tabBarActiveTintColor: colors.primary,
           tabBarInactiveTintColor: colors.text,
@@ -93,11 +95,14 @@ function MainBottomTabs() {
       />
       <Tab.Screen 
         name={BottomTabRoutes.Cart} 
-        component={ProfileStackScreen} 
+        component={CartScreen} 
       />
       <Tab.Screen 
         name={BottomTabRoutes.ProfileStack} 
         component={ProfileStackScreen} 
+        options={{
+          headerShown: false,
+        }}
       />
     </Tab.Navigator>
   );

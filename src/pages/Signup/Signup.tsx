@@ -16,6 +16,8 @@ import { showImagePickerOptions } from '../../lib/imageUtils';
 import { UserService } from '../../services/UserService/UserService.ts';
 import { handleError } from '../../lib/handleError/handleError.ts';
 import { useMutation } from '@tanstack/react-query';
+import { ErrorText } from '../../components/atoms/ErrorText/ErrorText.tsx';
+import { CustomText } from '../../components/atoms/CustomText/CustomText.tsx';
 
 export const Signup = ({navigation}:any)=>{
   const { colors } = useTheme();
@@ -57,7 +59,7 @@ export const Signup = ({navigation}:any)=>{
       });
       formData.append('firstName', data.firstName);
       formData.append('lastName', data.lastName);
-      formData.append('email', data.email);
+      formData.append('email', data.email.toLowerCase());
       formData.append('password', data.password);
       return UserService.signup(formData);
     },
@@ -99,7 +101,7 @@ export const Signup = ({navigation}:any)=>{
                 <CameraIcon width={24} height={24} />
               </View>
             </View>
-            <Text>Upload Profile</Text>
+            <CustomText>Upload Profile</CustomText>
           </View>
           <Controller
             control={control}
@@ -120,7 +122,7 @@ export const Signup = ({navigation}:any)=>{
             control={control}
             name="email"
             render={({ field:{onChange,value,onBlur} }) => {
-              return <InputField keyboardType='email-address' placeholder="Email" error={errors.email?.message} onChangeText={onChange} value={value} onBlur={onBlur} />;
+              return <InputField keyboardType='email-address' placeholder="Email" error={errors.email?.message} onChangeText={(x)=>onChange(x.toLowerCase())} value={value} onBlur={onBlur} />;
             }}
           />
 

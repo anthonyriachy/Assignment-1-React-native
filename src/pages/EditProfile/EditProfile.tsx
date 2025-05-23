@@ -16,6 +16,7 @@ import { CustomButton } from '../../components/atoms/CustomButton';
 import SmallProfile from '../../assets/icons/SmallProfile.svg';
 import CameraIcon from '../../assets/icons/photo-camera-svgrepo-com.svg';
 import useAuthStore from '../../stores/authStore/authStore';
+import { CustomText } from '../../components/atoms/CustomText/CustomText';
 export const EditProfile = () => {
   const {user,setUser} = useAuthStore();
   const { colors } = useTheme();
@@ -75,13 +76,13 @@ export const EditProfile = () => {
   });
 
   const onSubmit = (data: EditProfileSchemaType) => {
-    console.log('profileImage',profileImage);
-    console.log('user?.profileImage?.url',user?.profileImage?.url);
+    
+    
     if(!user?.profileImage?.url?.includes(profileImage)){
-      console.log('profileImage is same');
+      
       data.profileImage = {url:profileImage};
     }
-    console.log('data',data);
+    
     mutate(data);
   };
 
@@ -103,8 +104,8 @@ export const EditProfile = () => {
                     {profileImage ? (
                       <Image
                         source={{ uri: profileImage }}
-                        style={{ width: 80, height: 80, borderRadius: 40 }}
-                        resizeMode="cover"
+                        style={{ width: "100%", height: "100%", borderRadius: 40 }}
+                        resizeMode="contain"
                       />
                     ) : (
                       <SmallProfile width={80} height={80} />
@@ -114,7 +115,7 @@ export const EditProfile = () => {
                     <CameraIcon width={24} height={24} />
                   </View>
                 </View>
-                <Text>Change Image</Text>
+                <CustomText>Change Image</CustomText>
               </View>
               <Controller
                 control={control}

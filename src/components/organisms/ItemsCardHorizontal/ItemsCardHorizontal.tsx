@@ -4,38 +4,50 @@ import { CommonActions, useNavigation } from "@react-navigation/native";
 import { createStyles } from './ItemsCardHorizontal.style';
 import { useTheme } from "../../../hooks/UseTheme";
 import ArrowRightIcon from '../../../assets/icons/RightArrow.svg';
-import EditIcon from '../../../assets/icons/edit-button-svgrepo-com (1).svg';
 import { getImageUrl } from "../../../lib/imageUtils";
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
+import ShimmerPlaceholder from 'react-native-shimmer-placeholder';
+import { ThemeColors } from "../../../constants/theme";
+import LinearGradient from "react-native-linear-gradient";
+import { CustomText } from "../../atoms/CustomText/CustomText";
 
 export function ItemsCardHorizontal({ item }: ItemsCardHorizontalProps) {
     const navigation = useNavigation<any>();
-    const { colors } = useTheme();
+    const { colors } = useTheme() as { colors: ThemeColors };
     const styles = createStyles(colors);
- 
+    const [isLoading, setIsLoading] = useState(true);
 
 	const handleClick = useCallback(() => {
-		 
-			navigation.dispatch(
-				CommonActions.navigate({
-					name: 'Details',
-					params: { itemId: item._id }
-				})
-			);
-		
+		navigation.dispatch(
+			CommonActions.navigate({
+				name: 'Details',
+				params: { itemId: item._id }
+			})
+		);
 	},[item._id,navigation]);
-
 
     return (
         <Pressable onPress={handleClick} style={styles.container}>
             <View style={styles.imageContainer}>
-                <Image source={{uri:getImageUrl(item.images[0].url)}} style={styles.image} />
+                {isLoading && (
+                    <ShimmerPlaceholder
+                        style={styles.image}
+                        LinearGradient={LinearGradient}
+                        shimmerColors={[colors.background, colors.border, colors.background]}
+                    />
+                )}
+                <Image 
+                    source={{uri: getImageUrl(item.images[0].url)}} 
+                    style={[styles.image, isLoading && { position: 'absolute', opacity: 0 }]} 
+                    onLoadStart={() => setIsLoading(true)}
+                    onLoadEnd={() => setIsLoading(false)}
+                />
             </View>
 
             <View style={styles.info}>
                 <View style={styles.infoContainer}>
-                    <Text style={styles.title}>{item.title}</Text>
-                    <Text style={styles.price}>${item.price}</Text>
+                    <CustomText style={styles.title}>{item.title}</CustomText>
+                    <CustomText style={styles.price}>${item.price}</CustomText>
                 </View>
                 <View style={styles.arrowContainer}>
                     <ArrowRightIcon width={20} height={20} />

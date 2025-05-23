@@ -1,16 +1,18 @@
 import { StyleSheet } from 'react-native';
 import {window} from '../../constants/sizes';
-import { ErrorStyle } from '../../Shared/ErrorStyle';
+import { globalStyles } from '../../constants/globalStyles';
+
 
 export const createStyles = (colors: any) => StyleSheet.create({
     container:{
         paddingHorizontal: 20,
         paddingTop: window.height * 0.1,
-        gap: 40,
+        gap: 10,
         flex:1,
         backgroundColor: colors.background,
     },
     inputContainer:{
+        marginTop: 20,
         gap: 16,
     },
     scrollView: {
@@ -20,5 +22,11 @@ export const createStyles = (colors: any) => StyleSheet.create({
     scrollViewContent: {
         flexGrow: 1,
     },
-    ...ErrorStyle(colors)
+    forgotPasswordText:{
+        color:colors.primary,
+        fontSize:12,
+        fontFamily:globalStyles.semiBold,
+        textAlign:'right',
+    }
+    
 });

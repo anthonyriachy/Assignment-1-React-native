@@ -7,7 +7,7 @@ export const createStyles = (colors: ThemeColors) => StyleSheet.create({
 		zIndex:100,
 		width: '100%',
 		height: '100%',
-		backgroundColor: 'white',
+		backgroundColor: colors.background,
 		borderBottomLeftRadius: 15,
 		borderBottomRightRadius: 15,	
 		elevation: 5,
@@ -18,6 +18,7 @@ export const createStyles = (colors: ThemeColors) => StyleSheet.create({
 		},
 		shadowOpacity: 0.25,
 		shadowRadius: 3.84,
+		
 	},
 	imageContainer: {
 		width:window.width,
@@ -29,13 +30,7 @@ export const createStyles = (colors: ThemeColors) => StyleSheet.create({
 		height: '100%',
 		resizeMode: 'contain',
 	},
-	 
-	backButton: {
-		position: 'absolute',
-		top: 15,
-		left: 15,
-		zIndex: 100,
-	},
+	
 	paginationContainer: {
 		position: 'absolute',
 		bottom: 5,

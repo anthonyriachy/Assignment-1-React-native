@@ -6,7 +6,7 @@ export const styles = StyleSheet.create({
 
 	},
 	container: {
-		width:window.width * 0.45,
+		width:window.width * 0.45+4,
 		borderRadius:15,
 		elevation:3,
 		shadowColor: '#000',

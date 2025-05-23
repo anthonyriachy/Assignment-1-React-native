@@ -5,6 +5,7 @@ import { View } from "react-native";
 import { ItemsSectionHeader } from "../../molecules/ItemsSectionHeader";
 import { ItemsCardHorizontal } from "../ItemsCardHorizontal";
 import { styles } from "./VeritcalList.style.ts";
+import { Empty } from "../../atoms/Empty/Empty.tsx";
 
 
 const NoMoreProducts = () => (
@@ -14,7 +15,7 @@ const NoMoreProducts = () => (
 );
 
 
-export const VerticalList = ({ title, onClick, data = [], onLoadMore, isLoading, hasMore }: VerticalListProps) => (
+export const VerticalList = ({ title, onClick, data = [], onLoadMore, isLoading, hasMore, isFetchingMore }: VerticalListProps) => (
 	<View style={styles.container}>
 		<ItemsSectionHeader title={title} onClick={onClick} />
 		<FlatList
@@ -28,7 +29,7 @@ export const VerticalList = ({ title, onClick, data = [], onLoadMore, isLoading,
 			onEndReached={hasMore ? onLoadMore : undefined}
 			onEndReachedThreshold={0.5}
 			ListFooterComponent={() => {
-				if (isLoading) {
+				if (isLoading || isFetchingMore) {
 					return (
 						<View style={styles.loaderContainer}>
 							<ActivityIndicator size="small" color="#0000ff" />
@@ -41,6 +42,7 @@ export const VerticalList = ({ title, onClick, data = [], onLoadMore, isLoading,
 				return null;
 			}}
 			contentContainerStyle={styles.verticalContainer}
+			ListEmptyComponent={(!isLoading && !isFetchingMore) ? <Empty value="No products found" /> : null}
 		/>
 	</View>
 );

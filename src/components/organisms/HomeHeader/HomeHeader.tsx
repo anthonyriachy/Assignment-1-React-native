@@ -5,13 +5,16 @@ import { CarouselSection } from '../CarouselSection';
 import { createStyles } from './HomeHeader.style.ts';
 import { useNavigation } from '@react-navigation/native';
 import { AppStackRoutes } from '../../../constants/AppStackRoutes';
+import { ProductDTO } from '../../../types/productDTO';
 
 interface HomeHeaderProps {
   search: string;
   setSearch: (search: string) => void;
+  products: ProductDTO[];
+  isLoading: boolean;
 }
 
-function HomeHeader({ search, setSearch }: HomeHeaderProps) {
+function HomeHeader({ search, setSearch, products, isLoading }: HomeHeaderProps) {
   const styles = createStyles();
   const navigation = useNavigation<any>();
 
@@ -30,7 +33,7 @@ function HomeHeader({ search, setSearch }: HomeHeaderProps) {
       <View style={styles.searchContainer}>
         <SearchBar search={search} setSearch={handleSearch} autoSearch={false}/>
       </View>
-      <CarouselSection/>
+      <CarouselSection products={products} isLoading={isLoading} />
     </View>
   );
 }

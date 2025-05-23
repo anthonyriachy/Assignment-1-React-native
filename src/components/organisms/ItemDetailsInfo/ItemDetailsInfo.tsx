@@ -18,6 +18,7 @@ import { AppStackRoutes } from '../../../constants/AppStackRoutes';
 import { useDeleteProduct } from '../../../hooks/queries/products/useDeleteProduct/useDeleteProduct';
 import { useSuccessAlert } from '../../../hooks/useSuccessAlert';
 import { useErrorAlert } from '../../../hooks/useErrorAlert';
+import { CustomText } from '../../atoms/CustomText/CustomText';
 
 export function ItemDetailsInfo({ item, onScroll, refreshing, onRefresh }: ItemDetailsInfoProps) {
     const { colors } = useTheme();
@@ -45,16 +46,16 @@ export function ItemDetailsInfo({ item, onScroll, refreshing, onRefresh }: ItemD
         setIsExpanded(!isExpanded);
     }
 
-    const handleEdit = useCallback(() => {
+    const handleEdit = () => {
         navigation.dispatch(
             CommonActions.navigate({
                 name: AppStackRoutes.SellModal,
                 params: { productId: item._id }
             })
         );
-    }, [item._id, navigation]);
+    };
 
-    const handleDelete = useCallback(() => {
+    const handleDelete = () => {
         Alert.alert(
             "Delete Item",
             "Are you sure you want to delete this item? This action cannot be undone.",
@@ -72,7 +73,7 @@ export function ItemDetailsInfo({ item, onScroll, refreshing, onRefresh }: ItemD
                 }
             ]
         );
-    }, [item._id, deleteProduct]);
+    };
 
     const handleContactSeller = async () => {
         try {
@@ -124,17 +125,17 @@ export function ItemDetailsInfo({ item, onScroll, refreshing, onRefresh }: ItemD
             >
                 <View style={styles.infoContainer}>
                     <View style={styles.titleContainer}>
-                        <Text style={styles.title}>{item.title}</Text>
-                        <Text style={styles.price}>${item.price}</Text>
+                        <CustomText style={styles.title}>{item.title}</CustomText>
+                        <CustomText style={styles.price}>${item.price}</CustomText>
                     </View>
                     <View style={styles.moreDetails}>
                     {item.createdAt && <View style={styles.dateContainer}>
                             <DateIcon width={20} height={20} />
-                            <Text style={styles.date} numberOfLines={1} ellipsizeMode="tail">{getRelativeTime(item.createdAt)}</Text>
+                            <CustomText style={styles.date} numberOfLines={1} ellipsizeMode="tail">{getRelativeTime(item.createdAt)}</CustomText>
                         </View>}
                         {item.location && <View style={styles.locationContainer}>
                             <LocationIcon width={20} height={20} />
-                            <Text style={styles.location} numberOfLines={1} ellipsizeMode="tail">{item.location.name}</Text>
+                            <CustomText style={styles.location} numberOfLines={1} ellipsizeMode="tail">{item.location.name}</CustomText>
                         </View>}
                     </View> 
                     <View style={styles.sellerContainer}>
@@ -143,27 +144,27 @@ export function ItemDetailsInfo({ item, onScroll, refreshing, onRefresh }: ItemD
                                 <ProfileIcon width={30} height={30} />
                             </View>
                             <View style={styles.sellerNameContainer}>
-                                 <Text style={styles.sellerName}>{item.user.email}</Text>
+                                 <CustomText style={styles.sellerName}>{item.user.email}</CustomText>
                                  <Pressable onPress={handleContactSeller} style={styles.sellerContactContainer}>
-                                    <Text style={styles.sellerContact}>Contact Seller</Text>
+                                    <CustomText style={styles.sellerContact}>Contact Seller</CustomText>
                                  </Pressable>
                             </View>
                         </View>
                             <ArrowRight width={15} height={15} />
                     </View>
                     <View style={styles.descriptionContainer}>
-                        <Text style={styles.descriptionTitle}>Description</Text>
-                        <Text 
+                        <CustomText style={styles.descriptionTitle}>Description</CustomText>
+                        <CustomText 
                             style={styles.description} 
                             numberOfLines={isExpanded ? undefined : 4}
                         >
                             {item.description}
-                        </Text>
+                        </CustomText>
                         {item.description.length > 200 && (
                             <Pressable onPress={handleShowMore} >
-                                <Text style={styles.description}>
+                                <CustomText style={styles.description}>
                                     {isExpanded ? 'Show Less' : 'Show More'}
-                                </Text>
+                                </CustomText>
                             </Pressable>
                         )}
                     </View>
@@ -173,6 +174,7 @@ export function ItemDetailsInfo({ item, onScroll, refreshing, onRefresh }: ItemD
                                 latitude={item.location?.latitude} 
                                 longitude={item.location?.longitude}
                                 setValue={() => {}}
+                                isView={true}
                             />
                     </View>
                 </View>

@@ -43,6 +43,5 @@ export const createStyles = (colors: any) => StyleSheet.create({
         backgroundColor:colors.background,
         borderWidth:1,
     },
-    
-    ...ErrorStyle(colors)
+
 });
