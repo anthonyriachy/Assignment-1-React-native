@@ -21,6 +21,9 @@ export const SignupSchema = z.object({
     .max(50, 'Password must be less than 50 characters')
     .regex(/[0-9]/, 'Password must contain at least one number'),
 
+  profileImage: z.object({
+    url: z.string().min(1, 'Profile Image is required'),
+  }),
  
 });
 

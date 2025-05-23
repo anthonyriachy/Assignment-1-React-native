@@ -1,20 +1,20 @@
 export const endpoints = {
     auth: {
-    signup: '/auth/signup',
-    login: '/auth/login',
-    verifyOTP: '/auth/verify-otp',
-    resendOTP:'/auth/resend-verification-otp',
-    refreshToken:'/auth/refresh-token',
-    getUserProfile: '/user/profile',
-    updateUser: '/user/profile',
-    forgotPassword: '/auth/forgot-password'
+    signup: '/api/auth/signup',
+    login: '/api/auth/login',
+    verifyOTP: '/api/auth/verify-otp',
+    resendOTP:'/api/auth/resend-verification-otp',
+    refreshToken:'/api/auth/refresh-token',
+    getUserProfile: '/api/user/profile',
+    updateUser: '/api/user/profile',
+    forgotPassword: '/api/auth/forgot-password'
   },
   products:{
-    createProduct:'/products',
-    getProducts:'/products',
-    searchProducts:'/products/search',
-    getProductById:'/products/:productId',
-    updateProduct: '/products/:productId',
-    deleteProduct: '/products/:productId'
+    createProduct:'/api/products',
+    getProducts:'/api/products',
+    searchProducts:'/api/products/search',
+    getProductById:'/api/products/:productId',
+    updateProduct: '/api/products/:productId',
+    deleteProduct: '/api/products/:productId'
   }
 };

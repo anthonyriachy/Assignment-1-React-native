@@ -142,7 +142,6 @@ export function Sell() {
                 });
             }
         });
-        console.log('formData',formData);
 
         if (isEditMode) {
             updateProduct(formData);

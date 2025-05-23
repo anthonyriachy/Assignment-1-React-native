@@ -18,13 +18,13 @@ const axiosInstance = axios.create({
 
 const refreshToken = async (): Promise<TokenResponse> => {
   try {
-    const refreshToken = useAuthStore.getState().refreshToken;
+    const storedRefreshToken = useAuthStore.getState().refreshToken;
     
-    if (!refreshToken) {
+    if (!storedRefreshToken) {
       throw new Error('No refresh token available');
     }
 
-    const response = await UserService.refreshToken(refreshToken);
+    const response = await UserService.refreshToken(storedRefreshToken);
     
 
     const { accessToken, refreshToken: newRefreshToken } = response.data;

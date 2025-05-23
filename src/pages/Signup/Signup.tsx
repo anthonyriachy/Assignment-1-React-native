@@ -9,7 +9,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Controller, useForm } from 'react-hook-form';
 import { SignupSchema, SignupSchemaType } from '../../schemas/Signup.schema.ts';
 import { useTheme } from '../../hooks/UseTheme';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import SmallProfile from '../../assets/icons/SmallProfile.svg';
 import CameraIcon from '../../assets/icons/photo-camera-svgrepo-com.svg';
 import { showImagePickerOptions } from '../../lib/imageUtils';
@@ -39,6 +39,7 @@ export const Signup = ({navigation}:any)=>{
     control,
     handleSubmit,
     formState: { errors },
+    setValue,
   } = useForm<SignupSchemaType>({
     resolver: zodResolver(SignupSchema),
     defaultValues: {
@@ -46,16 +47,21 @@ export const Signup = ({navigation}:any)=>{
       lastName: '',
       email: '',
       password: '',
+      profileImage: { url: '' },
     },
   });
+
+  useEffect(() => {
+    setValue('profileImage', { url: profileImage || '' });
+  }, [profileImage, setValue]);
 
   const { mutate, isPending } = useMutation({
     mutationFn: async (data: SignupSchemaType) => {
       const formData = new FormData();
       formData.append('profileImage', {
         uri: profileImage,
-        name: 'profileImage.jpg',
         type: 'image/jpeg',
+        name: 'profile.jpg',
       });
       formData.append('firstName', data.firstName);
       formData.append('lastName', data.lastName);
@@ -96,11 +102,13 @@ export const Signup = ({navigation}:any)=>{
                 ) : (
                   <SmallProfile width={80} height={80} />
                 )}
+
               </View>
               <View style={styles.profileBtn} onTouchEnd={handleImagePick}>
                 <CameraIcon width={24} height={24} />
               </View>
             </View>
+            <ErrorText error={errors.profileImage?.message} />
             <CustomText>Upload Profile</CustomText>
           </View>
           <Controller

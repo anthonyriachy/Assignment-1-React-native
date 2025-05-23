@@ -18,10 +18,10 @@ export class UserService {
     }
     static async login(user: LoginSchemaType): Promise<LoginResponse> {
         try {
-            
             const { data } = await axiosInstance.post(endpoints.auth.login, user, { isAuth: false });
             return data;
         } catch (error) {
+            console.log('error',error);
             throw new Error(handleError(error));
         }
     }
@@ -37,9 +37,7 @@ export class UserService {
 
     static async resendOTP(email: resendOTPType): Promise<SignUpResponse> {
         try {
-            console.log('email',email);
             const { data } = await axiosInstance.post(endpoints.auth.verifyOTP, email, { isAuth: false });
-            console.log('data',data);
             return data;
         } catch (error) {
             throw new Error(handleError(error));
