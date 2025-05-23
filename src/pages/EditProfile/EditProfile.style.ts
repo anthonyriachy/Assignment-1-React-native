@@ -1,7 +1,6 @@
 import { StyleSheet } from 'react-native';
 import { ThemeColors } from '../../constants/theme';
  import { window } from '../../constants/sizes';
-import { ErrorStyle } from '../../Shared/ErrorStyle';
 
 export const createStyles = (colors: ThemeColors) => StyleSheet.create({
     container:{
@@ -38,11 +37,10 @@ export const createStyles = (colors: ThemeColors) => StyleSheet.create({
         right:-10,
         padding:8,
         borderRadius:100,
-        backgroundColor:colors.background,
+        backgroundColor:colors.white,
         borderWidth:1,
     },
     buttonContainer:{
         marginTop:'auto',
     },
-    ...ErrorStyle(colors)
 }); 

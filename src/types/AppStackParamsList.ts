@@ -5,6 +5,6 @@ export type AppStackParamsList = {
     [AppStackRoutes.Details]: undefined;
     [AppStackRoutes.Products]: { title: string };
     [AppStackRoutes.Profile]: undefined;
-    [AppStackRoutes.SellModal]: undefined;
-    SellModal: undefined;
+    [AppStackRoutes.SellModal]: { productId?: string };
+    [AppStackRoutes.EditProfile]: undefined;
 };

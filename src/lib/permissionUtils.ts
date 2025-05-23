@@ -10,22 +10,18 @@ export const requestStoragePermission = async (): Promise<boolean> => {
     // as it's handled by scoped storage
     const androidVersion = parseInt(Platform.Version.toString(), 10);
     if (androidVersion >= 29) {
-      console.log('Android 10 or above detected, using scoped storage');
       return true;
     }
 
-    console.log('Checking existing storage permission...');
     // First check if we already have permission
     const hasPermission = await PermissionsAndroid.check(
       PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE
     );
 
     if (hasPermission) {
-      console.log('Storage permission already granted');
       return true;
     }
 
-    console.log('Requesting storage permission...');
     // If we don't have permission, request it
     const granted = await PermissionsAndroid.request(
       PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
@@ -38,7 +34,6 @@ export const requestStoragePermission = async (): Promise<boolean> => {
       }
     );
 
-    console.log('Permission request result:', granted);
     return granted === PermissionsAndroid.RESULTS.GRANTED;
   } catch (err) {
     console.error('Error in requestStoragePermission:', err);
@@ -55,15 +50,12 @@ export const checkStoragePermission = async (): Promise<boolean> => {
     // For Android 10 and above, we don't need to check WRITE_EXTERNAL_STORAGE
     const androidVersion = parseInt(Platform.Version.toString(), 10);
     if (androidVersion >= 29) {
-      console.log('Android 10 or above detected, using scoped storage');
       return true;
     }
 
-    console.log('Checking storage permission...');
     const result = await PermissionsAndroid.check(
       PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE
     );
-    console.log('Storage permission check result:', result);
     return result;
   } catch (err) {
     console.error('Error in checkStoragePermission:', err);

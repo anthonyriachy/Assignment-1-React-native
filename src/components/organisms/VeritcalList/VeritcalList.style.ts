@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+import { colors } from "../../../constants/colors";
 
 export const styles = StyleSheet.create({
     container: {
@@ -23,10 +24,10 @@ export const styles = StyleSheet.create({
 	},
 	noMoreProductsText: {
 		fontSize: 14,
-		color: '#666',
+		color: colors.primary,
 		fontWeight: '500',
 	},
 	itemContainer: {
-		marginBottom: 16,
+		marginBottom: 5,
 	},
 });

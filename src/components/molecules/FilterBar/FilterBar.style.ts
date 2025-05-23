@@ -1,42 +1,24 @@
 import { StyleSheet } from 'react-native';
 import { ThemeColors } from '../../../constants/theme';
+import { globalStyles } from '../../../constants/globalStyles';
  
 export const createStyles = (colors: ThemeColors) =>
     StyleSheet.create({
         container: {
             backgroundColor: colors.background,
-            borderBottomWidth: 1,
-            borderBottomColor: colors.border,
         },
         header: {
             flexDirection: 'row',
             justifyContent: 'space-between',
             alignItems: 'center',
-            padding: 15,
         },
         headerText: {
             fontSize: 16,
-            fontFamily: 'Poppins-Medium',
+            fontFamily: globalStyles.medium,
             color: colors.text,
         },
-        toggleButton: {
-            padding: 8,
-            borderRadius: 20,
-            backgroundColor: colors.card,
-        },
-        toggleIcon: {
-            transform: [{ rotate: '0deg' }],
-        },
-        toggleIconExpanded: {
-            transform: [{ rotate: '180deg' }],
-        },
-        contentContainer: {
-            overflow: 'hidden',
-            width: '100%',
-        },
         sortContainer: {
-            padding: 15,
-            paddingTop: 0,
+    
             gap: 15,
             width: '100%',
         },
@@ -45,7 +27,7 @@ export const createStyles = (colors: ThemeColors) =>
         },
         label: {
             fontSize: 14,
-            fontFamily: 'Poppins-Medium',
+            fontFamily: globalStyles.medium,
             color: colors.text,
             marginBottom: 8,
         },
@@ -68,7 +50,7 @@ export const createStyles = (colors: ThemeColors) =>
         },
         sortButtonText: {
             fontSize: 12,
-            fontFamily: 'Poppins-Regular',
+            fontFamily: globalStyles.regular,
             color: colors.text,
         },
         activeSortButtonText: {
@@ -84,7 +66,7 @@ export const createStyles = (colors: ThemeColors) =>
         },
         priceInputLabel: {
             fontSize: 12,
-            fontFamily: 'Poppins-Regular',
+            fontFamily: globalStyles.regular,
             color: colors.lightText,
         },
         priceInput: {
@@ -93,14 +75,14 @@ export const createStyles = (colors: ThemeColors) =>
             borderRadius: 8,
             paddingHorizontal: 12,
             fontSize: 14,
-            fontFamily: 'Poppins-Regular',
+            fontFamily: globalStyles.regular,
             color: colors.text,
             borderWidth: 1,
             borderColor: colors.border,
         },
         priceInputSeparator: {
             fontSize: 16,
-            fontFamily: 'Poppins-Medium',
+            fontFamily: globalStyles.medium,
             color: colors.text,
             marginTop: 20,
         },
@@ -110,7 +92,7 @@ export const createStyles = (colors: ThemeColors) =>
             borderRadius: 8,
             paddingHorizontal: 12,
             fontSize: 14,
-            fontFamily: 'Poppins-Regular',
+            fontFamily: globalStyles.regular,
             color: colors.text,
             borderWidth: 1,
             borderColor: colors.border,
@@ -128,7 +110,7 @@ export const createStyles = (colors: ThemeColors) =>
         clearButtonText: {
             marginLeft: 4,
             fontSize: 12,
-            fontFamily: 'Poppins-Medium',
+            fontFamily: globalStyles.medium,
             color: colors.primary,
         },
         filterContainer:{

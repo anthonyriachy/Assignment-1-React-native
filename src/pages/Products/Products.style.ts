@@ -11,7 +11,7 @@ export const createStyles = (colors: ThemeColors) => StyleSheet.create({
     backButton: {
       position: 'absolute',
       left: 15,
-      top: 0,
+      top: -10,
       zIndex: 100, 
     },
     header: {
@@ -19,7 +19,6 @@ export const createStyles = (colors: ThemeColors) => StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         paddingHorizontal: 15,
-        paddingVertical: 10,
         fontFamily: "Poppins-Bold",
 
     },
@@ -43,6 +42,7 @@ export const createStyles = (colors: ThemeColors) => StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         paddingHorizontal:15,
+        width:'100%',
         justifyContent:'space-between',
     },
 
@@ -96,4 +96,48 @@ export const createStyles = (colors: ThemeColors) => StyleSheet.create({
         paddingVertical: 20,
         alignItems: 'center',
     },
+    filterButton: {
+        position: 'absolute',
+        right: 15,
+        zIndex: 1,
+    },
+    modalOverlay: {
+        flex: 1,
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    },
+    filterPanel: {
+        paddingTop: 40,
+        position: 'absolute',
+        right: 0,
+        top: 0,
+        bottom: 0,
+        width: '80%',
+        backgroundColor: colors.background,
+        borderTopLeftRadius: 20,
+        borderBottomLeftRadius: 20,
+        padding: 15,
+        shadowColor: '#000',
+        shadowOffset: {
+            width: -2,
+            height: 0,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
+    },
+    filterHeader: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginBottom: 20,
+        paddingBottom: 15,
+        borderBottomWidth: 1,
+        borderBottomColor: colors.border,
+    },
+    filterTitle: {
+        fontSize: 20,
+        fontFamily: 'Poppins-Bold',
+        color: colors.text,
+    },
+    
 });

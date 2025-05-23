@@ -25,4 +25,11 @@ export const createStyles = (colors: ThemeColors) =>
       flex: 1,
       backgroundColor: colors.primary,
     },
+     
+	backButton: {
+		position: 'absolute',
+		top: 15,
+		left: 15,
+		zIndex: 200,
+	},
   });

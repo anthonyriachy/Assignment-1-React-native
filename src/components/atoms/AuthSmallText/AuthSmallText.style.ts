@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { globalStyles } from '../../../constants/globalStyles';
 
 export const createStyles = (colors: any) => StyleSheet.create({
     container:{
@@ -6,12 +7,12 @@ export const createStyles = (colors: any) => StyleSheet.create({
         gap:4,
     },
     text:{
-        fontSize: 16,
+        fontSize: 14,
         color: colors.text,
     },
     linkText:{
-        fontSize: 16,
-        fontWeight: 'bold',
+        fontSize: 14,
+        fontFamily: globalStyles.semiBold,
         color: colors.primary,
     },
 });

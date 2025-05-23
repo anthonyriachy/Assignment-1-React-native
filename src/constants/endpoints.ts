@@ -6,7 +6,8 @@ export const endpoints = {
     resendOTP:'/auth/resend-verification-otp',
     refreshToken:'/auth/refresh-token',
     getUserProfile: '/user/profile',
-    updateUser: '/user/profile'
+    updateUser: '/user/profile',
+    forgotPassword: '/auth/forgot-password'
   },
   products:{
     createProduct:'/products',

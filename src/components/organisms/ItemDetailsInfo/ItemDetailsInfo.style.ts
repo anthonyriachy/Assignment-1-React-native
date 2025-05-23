@@ -1,6 +1,7 @@
 import { StyleSheet } from "react-native";
 import { window } from "../../../constants/sizes";
 import { ThemeColors } from "../../../constants/theme";
+import { globalStyles } from "../../../constants/globalStyles";
 export const createStyles = (colors: ThemeColors) => StyleSheet.create({
 	container: {
 		flex: 1,
@@ -25,23 +26,23 @@ export const createStyles = (colors: ThemeColors) => StyleSheet.create({
     },
     title:{
         fontSize:24,
-        fontFamily:'Poppins-SemiBold',
+        fontFamily:globalStyles.semiBold,
         color:colors.text,
     },
     price:{
         fontSize:20,
-        fontFamily:'Poppins-Bold',
+        fontFamily:globalStyles.bold,
         color:colors.primary,
     },
     descriptionTitle:{
         fontSize:18,
-        fontFamily:'Poppins-SemiBold',
+        fontFamily:globalStyles.semiBold,
         marginBottom:5,
         color:colors.text,
     },
     description:{
         fontSize:16,
-        fontFamily:'Poppins-Regular',
+        fontFamily:globalStyles.regular,
         color:colors.text,
     },
     buttonContainer:{
@@ -80,7 +81,7 @@ export const createStyles = (colors: ThemeColors) => StyleSheet.create({
 
     sellerName:{
         fontSize:16,
-        fontFamily:'Poppins-SemiBold',
+        fontFamily:globalStyles.semiBold,
         color:colors.text,
     },
     descriptionContainer:{
@@ -111,12 +112,12 @@ export const createStyles = (colors: ThemeColors) => StyleSheet.create({
     },
     date:{
         fontSize:12,
-        fontFamily:'Poppins-Regular',
+        fontFamily:globalStyles.regular,
         color:colors.text,
     },
     location:{
         fontSize:12,
-        fontFamily:'Poppins-Regular',
+        fontFamily:globalStyles.regular,
         color:colors.text,
     },
     mapContainer:{
@@ -134,7 +135,7 @@ export const createStyles = (colors: ThemeColors) => StyleSheet.create({
     },
     sellerContact:{
         fontSize:11,
-        fontFamily:'Poppins-SemiBold',
+        fontFamily:globalStyles.semiBold,
         color:'white',
     },
 });

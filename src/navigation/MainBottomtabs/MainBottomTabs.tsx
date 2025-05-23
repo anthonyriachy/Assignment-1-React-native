@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 /* eslint-disable react/no-unstable-nested-components */
 import { BottomTabNavigationProp, createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { BottomTabIcons } from '../../components/atoms/BottomTabIcons/BottomTabIcons';
@@ -11,6 +12,7 @@ import { BottomTabRoutes } from '../../constants/BottomTabRoutes';
 import { HomeStackScreen } from '../../stacks/HomeStack/HomeStack';
 import { SearchStackScreen } from '../../stacks/SearchStack';
 import { ProfileStackScreen } from '../../stacks/ProfileStack/ProfileStack.tsx';
+import { CartScreen } from '../../pages/Cart/Cart.tsx';
 const Tab = createBottomTabNavigator<BottomTabParamsList>();
 
 const getIconName = (routeName: string) => {
@@ -36,13 +38,14 @@ function MainBottomTabs() {
           tabBarLabel: ({ focused }) => (
             <Text style={{
               color: focused ? colors.primary : colors.lightText,
-              fontSize: 10,
+              fontSize: 11,
               fontWeight: focused ? '700' : '400',
+              fontFamily:'Poppins-Regular',
             }}>
               {route.name === 'ProfileStack' ? 'Profile' : route.name}
             </Text>
           ),
-          
+
           tabBarIcon: ({ focused }) => (
             <BottomTabIcons name={getIconName(route.name)} selected={focused} />
           ),
@@ -53,7 +56,7 @@ function MainBottomTabs() {
             backgroundColor: colors.background,
             borderTopColor: colors.background,
             height: 60,
-            paddingTop: 15,
+
           },
           tabBarActiveTintColor: colors.primary,
           tabBarInactiveTintColor: colors.text,
@@ -83,21 +86,24 @@ function MainBottomTabs() {
         options={{
           tabBarIcon: ({ focused }) => (
             <TouchableOpacity style={{ marginTop: -40 }} onPress={() => navigation.navigate(BottomTabRoutes.SellModal)}>
-              <BottomTabIcons 
-                name={getIconName('Sell')} 
+              <BottomTabIcons
+                name={getIconName('Sell')}
                 selected={focused}
               />
             </TouchableOpacity>
           ),
         }}
       />
-      <Tab.Screen 
-        name={BottomTabRoutes.Cart} 
-        component={ProfileStackScreen} 
+      <Tab.Screen
+        name={BottomTabRoutes.Cart}
+        component={CartScreen}
       />
-      <Tab.Screen 
-        name={BottomTabRoutes.ProfileStack} 
-        component={ProfileStackScreen} 
+      <Tab.Screen
+        name={BottomTabRoutes.ProfileStack}
+        component={ProfileStackScreen}
+        options={{
+          headerShown: false,
+        }}
       />
     </Tab.Navigator>
   );

@@ -1,22 +1,23 @@
 import { StyleSheet } from "react-native";
 import { ThemeColors } from "../../../constants/theme";
+import { globalStyles } from "../../../constants/globalStyles";
 
 export const createStyles = (colors:ThemeColors)=>StyleSheet.create({       
         label:{
             color:colors.text,
             fontSize:12,
-            fontFamily:'Poppins-SemiBold',
+            fontFamily:globalStyles.semiBold,
         },
         errorText: {
             color: colors.error,
             fontSize: 12,
             marginTop: 4,
-            fontFamily: 'Poppins-Regular',
+            fontFamily: globalStyles.regular,
         },
         helperText: {
             fontSize: 12,
             marginTop: 4,
-            fontFamily: 'Poppins-Regular',
+            fontFamily: globalStyles.regular,
         },
         scrollView: {
             flexDirection: 'row',
@@ -56,6 +57,7 @@ export const createStyles = (colors:ThemeColors)=>StyleSheet.create({
             justifyContent: 'center',
             alignItems: 'center',
             marginRight:10,
+            backgroundColor:colors.white,
         },
         removeButton: {
             position: 'absolute',

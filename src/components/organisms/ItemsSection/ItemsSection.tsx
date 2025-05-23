@@ -1,15 +1,14 @@
-
 import { ItemsSectionProps } from './ItemsSection.type';
 import { VerticalList } from '../VeritcalList';
 import { HorizontalList } from '../HorizontalList';
 
 
 
-export function ItemsSection({title, horizontal = false, onClick, data, onLoadMore, isLoading, hasMore}: ItemsSectionProps) {
+export function ItemsSection({title, horizontal = false, onClick, data, onLoadMore, isLoading, hasMore, isFetchingMore}: ItemsSectionProps) {
 
 
 	if (horizontal) {
-		return <HorizontalList title={title} onClick={onClick} data={data} />;
+		return <HorizontalList title={title} onClick={onClick} data={data} isLoading={isLoading} />;
 	}
 
 
@@ -20,6 +19,7 @@ export function ItemsSection({title, horizontal = false, onClick, data, onLoadMo
 		onLoadMore={onLoadMore}
 		isLoading={isLoading}
 		hasMore={hasMore}
+		isFetchingMore={isFetchingMore}
 	/>;
 }
 

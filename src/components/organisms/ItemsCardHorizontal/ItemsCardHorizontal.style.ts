@@ -1,13 +1,17 @@
 
 import { StyleSheet } from "react-native";
 import { ThemeColors } from "../../../constants/theme";
+import { window } from "../../../constants/sizes";
+import { globalStyles } from "../../../constants/globalStyles";
+
 export const createStyles = (colors: ThemeColors) => StyleSheet.create({
     container: {
 		height:120,
-        width:"100%",
+        width:window.width - 32,
+        marginHorizontal:'auto',
         flexDirection:'row',
         alignItems:'center',
-        justifyContent:'space-between',
+        justifyContent:'center',
         borderRadius:15,
         borderWidth:1,
         borderColor:colors.border,
@@ -17,6 +21,7 @@ export const createStyles = (colors: ThemeColors) => StyleSheet.create({
         shadowOffset: { width: 0, height: 1 },
         shadowOpacity: 0.25,
         shadowRadius: 2,   
+        marginBottom:10,
         
 	},
     imageContainer: {
@@ -48,12 +53,12 @@ export const createStyles = (colors: ThemeColors) => StyleSheet.create({
     },
     title: {
         fontSize:16,
-        fontFamily:'Poppins-SemiBold',
+        fontFamily:globalStyles.semiBold,
         color:colors.text,
     },
     price: {
         fontSize:16,
-        fontFamily:'Poppins-Bold',
+        fontFamily:globalStyles.bold,
         color:colors.primary,
     },
     info: {

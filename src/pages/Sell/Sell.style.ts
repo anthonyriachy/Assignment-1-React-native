@@ -6,6 +6,7 @@ export const createStyles = (colors: any) => StyleSheet.create({
         flex: 1,
         backgroundColor: colors.background,
         paddingHorizontal:15,
+        paddingTop:20,
      },
     backButton: {
 		zIndex: 100,

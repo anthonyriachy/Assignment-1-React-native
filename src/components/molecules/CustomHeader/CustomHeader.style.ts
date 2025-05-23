@@ -1,5 +1,6 @@
 import { StyleSheet } from "react-native";
 import { ThemeColors } from "../../../constants/theme";
+import { globalStyles } from "../../../constants/globalStyles";
 
 export const createStyles = (colors: ThemeColors) => StyleSheet.create({
     container: {
@@ -28,8 +29,14 @@ export const createStyles = (colors: ThemeColors) => StyleSheet.create({
       alignItems: 'center',
     },
     name:{
-      fontWeight: 'bold',
+      fontFamily:globalStyles.semiBold,
       fontSize: 18,
       color: colors.text,
     }, 
+    profileImage:{
+      width: "100%",
+      height: "100%",
+      borderRadius: 100,
+      objectFit: 'contain',
+    }
 }); 

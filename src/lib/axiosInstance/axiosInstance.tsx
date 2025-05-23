@@ -19,12 +19,13 @@ const axiosInstance = axios.create({
 const refreshToken = async (): Promise<TokenResponse> => {
   try {
     const refreshToken = useAuthStore.getState().refreshToken;
-    // console.log('Refreshing token',refreshToken);
+    
     if (!refreshToken) {
       throw new Error('No refresh token available');
     }
 
     const response = await UserService.refreshToken(refreshToken);
+    
 
     const { accessToken, refreshToken: newRefreshToken } = response.data;
     useAuthStore.getState().setTokens(accessToken, newRefreshToken);
@@ -71,13 +72,13 @@ axiosInstance.interceptors.response.use(
       originalRequest._retry = true;
 
       try {
-        // console.log('Refreshing token');
+        
         const { accessToken } = await refreshToken();
-        // console.log('Token refreshed',accessToken);
+        
         if (originalRequest.headers) {
           originalRequest.headers.Authorization = `Bearer ${accessToken}`;
         }
-        // console.log('token refreshed');
+        
         return axiosInstance(originalRequest);
       } catch (refreshError) {
         useAuthStore.getState().clearTokens();

@@ -1,5 +1,5 @@
-import React from 'react';
-import { View, KeyboardAvoidingView, ScrollView, Platform, Alert, SafeAreaView } from 'react-native';
+import React, { useState } from 'react';
+import { View, KeyboardAvoidingView, ScrollView, Platform, Alert, SafeAreaView, Pressable } from 'react-native';
 import { AuthHeaderText } from '../../components/atoms/AuthHeaderText';
 import { InputField } from '../../components/atoms/InputField';
 import { createStyles } from './Login.style';
@@ -16,27 +16,25 @@ import { UserService } from '../../services/UserService/UserService';
 import useAuthStore from '../../stores/authStore/authStore';
 import { useMutation } from '@tanstack/react-query';
 import { handleError } from '../../lib/handleError';
+import { CustomText } from '../../components/atoms/CustomText/CustomText';
 
 function Login({ navigation }: any) {
   const { colors } = useTheme();
   const { setTokens, setUser } = useAuthStore();
   const styles = createStyles(colors);
-  
   const {mutate, isPending} = useMutation({
     mutationFn: async (data: LoginSchemaType) => {
       const loginResponse = await UserService.login(data);
       if (loginResponse.success) {
         setTokens(loginResponse.data.accessToken, loginResponse.data.refreshToken);
-        // Then fetch user profile
+        // Fetch user after login
         const userResponse = await UserService.getUserProfile();
+        if (userResponse.success && userResponse.data?.user) {
+          setUser(userResponse.data.user);
+        }
         return { loginResponse, userResponse };
       }
-      return { loginResponse, userResponse: null };
-    },
-    onSuccess: (data) => {
-      if (data.loginResponse.success && data.userResponse?.success && data.userResponse.data?.user) {
-        setUser(data.userResponse.data.user);
-      }
+      return { loginResponse };
     },
     onError: (error) => {
       Alert.alert('Error', handleError(error), [{ text: 'OK' }]);
@@ -47,6 +45,7 @@ function Login({ navigation }: any) {
     control,
     handleSubmit,
     formState: { errors },
+    getValues,
   } = useForm<LoginSchemaType>({
     resolver: zodResolver(LoginSchema),
     defaultValues: {
@@ -54,6 +53,8 @@ function Login({ navigation }: any) {
       password: '',
     },
   });
+
+  const [isForgotPasswordLoading, setIsForgotPasswordLoading] = useState(false);
 
   const onSubmit = async (data: LoginSchemaType) => {
     try {
@@ -64,6 +65,24 @@ function Login({ navigation }: any) {
     } catch (error) {
       Alert.alert('Error', handleError(error), [{ text: 'OK' }]);
     } 
+  };
+
+  const handleForgotPassword = async() => {
+    if(!getValues('email')){
+      Alert.alert('Error', 'Please enter your email', [{ text: 'OK' }]);
+      return;
+    }
+    try {
+      setIsForgotPasswordLoading(true);
+      const response = await UserService.forgotPassword(getValues('email'));
+      if(response.success){
+        Alert.alert('Success', 'Password reset instructions have been sent to your email');
+      }
+    } catch (error) {
+      Alert.alert('Error', handleError(error), [{ text: 'OK' }]);
+    } finally {
+      setIsForgotPasswordLoading(false);
+    }
   };
 
   return (
@@ -84,7 +103,7 @@ function Login({ navigation }: any) {
                 control={control}
                 name="email"
                 render={({ field:{onChange,value,onBlur} }) => {
-                  return <InputField placeholder="Email" error={errors.email?.message} onChangeText={onChange} value={value} onBlur={onBlur} />;
+                  return <InputField keyboardType='email-address' placeholder="Email" error={errors.email?.message} onChangeText={onChange} value={value} onBlur={onBlur} />;
                 }}
               />
               <Controller
@@ -94,13 +113,23 @@ function Login({ navigation }: any) {
                   return <InputField password={true} placeholder="Password" error={errors.password?.message} onChangeText={onChange} value={value} onBlur={onBlur} />;
                 }}
               />
-            </View>
             <CustomButton 
               title="Login" 
               loading={isPending}
               onPress={handleSubmit(onSubmit)} 
               disabled={isPending}
             />
+            </View>
+            <View>
+            <Pressable 
+              onPress={handleForgotPassword}
+              disabled={isPending || isForgotPasswordLoading}
+            >
+              <CustomText style={[
+                styles.forgotPasswordText,
+                (isPending || isForgotPasswordLoading) && { opacity: 0.5 }
+              ]}>Forgot Password?</CustomText>
+            </Pressable> 
             <AuthSmallText
               text="Don't have an account?"
               linkText="Sign up"
@@ -108,6 +137,7 @@ function Login({ navigation }: any) {
                 navigation.replace(AuthStackRoutes.Signup);
               }}
             />
+            </View>
           </View>
         </ScrollView>
       </KeyboardAvoidingView>

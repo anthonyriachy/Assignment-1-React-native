@@ -36,7 +36,9 @@ export const SearchBar = ({search, setSearch, autoSearch=true}: SearchBarProps) 
     }
 
     return <View style={styles.container}>
-        <SearchIcon />
+        <Pressable onPress={handleSearch}>
+            <SearchIcon />
+        </Pressable>
         <TextInput
             placeholder="Search here"
             placeholderTextColor={colors.inputText}

@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native';
 import { colors } from '../../../constants/colors';
+import { globalStyles } from '../../../constants/globalStyles';
 
 export const styles = StyleSheet.create({
     button:{
@@ -11,7 +12,7 @@ export const styles = StyleSheet.create({
     },
     text: {
         color: 'white',
-        fontSize: 16,
-        fontFamily:'Poppins-SemiBold',
+        fontSize: 15,
+        fontFamily:globalStyles.semiBold,
     },
 });

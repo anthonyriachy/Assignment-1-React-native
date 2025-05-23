@@ -38,6 +38,7 @@ import { GetByIdResponse, GetProductsResponse, CreateProductResponse } from './P
     static async getProductById(productId:string):Promise<GetByIdResponse> {
         try {
             const response = await axiosInstance.get(endpoints.products.getProductById.replace(':productId',productId));
+            console.log('response',response.data);
             return response.data;
         } catch (error) {
             throw new Error(handleError(error));
@@ -45,7 +46,7 @@ import { GetByIdResponse, GetProductsResponse, CreateProductResponse } from './P
     }
     static async searchProducts(searchQuery:string) {
         try {
-            console.log(searchQuery);
+            
             const response = await axiosInstance.get(endpoints.products.searchProducts,{
                 params:{
 
@@ -60,6 +61,8 @@ import { GetByIdResponse, GetProductsResponse, CreateProductResponse } from './P
 
     static async updateProduct(productId: string, product: FormData): Promise<CreateProductResponse> {
         try {
+
+            
             const response = await axiosInstance.put(
                 endpoints.products.updateProduct.replace(':productId', productId),
                 product,
@@ -69,8 +72,10 @@ import { GetByIdResponse, GetProductsResponse, CreateProductResponse } from './P
                     },
                 }
             );
+            // 
             return response.data;
         } catch (error) {
+            // 
             throw new Error(handleError(error));
         }
     }
@@ -79,7 +84,7 @@ import { GetByIdResponse, GetProductsResponse, CreateProductResponse } from './P
             const response = await axiosInstance.delete(
                 endpoints.products.deleteProduct.replace(':productId', productId),
             );
-            console.log(response);
+            
             return response.data;
         } catch (error) {
             throw new Error(handleError(error));

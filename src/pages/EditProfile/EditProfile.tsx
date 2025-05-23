@@ -1,7 +1,8 @@
-import { Alert, Image, KeyboardAvoidingView, Platform, ScrollView, Text, View } from 'react-native';
+/* eslint-disable react-native/no-inline-styles */
+import { Alert, Image, KeyboardAvoidingView, Platform, ScrollView, View } from 'react-native';
 import { useTheme } from '../../hooks/UseTheme';
 import { createStyles } from './EditProfile.style';
-import { Controller } from "react-hook-form";
+import { Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
 import { getImageUrl, showImagePickerOptions } from '../../lib/imageUtils';
@@ -16,12 +17,13 @@ import { CustomButton } from '../../components/atoms/CustomButton';
 import SmallProfile from '../../assets/icons/SmallProfile.svg';
 import CameraIcon from '../../assets/icons/photo-camera-svgrepo-com.svg';
 import useAuthStore from '../../stores/authStore/authStore';
+import { CustomText } from '../../components/atoms/CustomText/CustomText';
 export const EditProfile = () => {
   const {user,setUser} = useAuthStore();
   const { colors } = useTheme();
   const styles = createStyles(colors);
   const profileImageUrl = user?.profileImage?.url ? getImageUrl(user.profileImage.url) : null;
-  const [profileImage, setProfileImage] = useState<string>(profileImageUrl||'');
+  const [profileImage, setProfileImage] = useState<string>(profileImageUrl || '');
 
   const handleImagePick = async () => {
     const result = await showImagePickerOptions();
@@ -61,7 +63,7 @@ export const EditProfile = () => {
       formData.append('lastName', data.lastName);
       return UserService.updateUser(formData);
     },
-    onSuccess: (response, variables) => {
+    onSuccess: (response) => {
       if (response.success) {
         Alert.alert(response.data?.message || 'Signup successful');
         if (response.data?.user) {
@@ -75,23 +77,23 @@ export const EditProfile = () => {
   });
 
   const onSubmit = (data: EditProfileSchemaType) => {
-    console.log('profileImage',profileImage);
-    console.log('user?.profileImage?.url',user?.profileImage?.url);
+
+
     if(!user?.profileImage?.url?.includes(profileImage)){
-      console.log('profileImage is same');
+
       data.profileImage = {url:profileImage};
     }
-    console.log('data',data);
+
     mutate(data);
   };
 
 
   return (
-    <KeyboardAvoidingView 
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'} 
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       style={{flex: 1, backgroundColor: colors.background}}
     >
-        <ScrollView 
+        <ScrollView
           contentContainerStyle={{flexGrow: 1}}
           style={{flex: 1}}
         >
@@ -103,8 +105,8 @@ export const EditProfile = () => {
                     {profileImage ? (
                       <Image
                         source={{ uri: profileImage }}
-                        style={{ width: 80, height: 80, borderRadius: 40 }}
-                        resizeMode="cover"
+                        style={{ width: '100%', height: '100%', borderRadius: 40 }}
+                        resizeMode="contain"
                       />
                     ) : (
                       <SmallProfile width={80} height={80} />
@@ -114,7 +116,7 @@ export const EditProfile = () => {
                     <CameraIcon width={24} height={24} />
                   </View>
                 </View>
-                <Text>Change Image</Text>
+                <CustomText>Change Image</CustomText>
               </View>
               <Controller
                 control={control}

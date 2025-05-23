@@ -3,7 +3,7 @@ import { ThemeColors } from '../../../constants/theme';
 
 const { width } = Dimensions.get('window');
 
-export const createStyles = (_colors: ThemeColors) =>
+export const createStyles = (colors: ThemeColors) =>
   StyleSheet.create({
     container: {
       height: 200,
@@ -17,8 +17,8 @@ export const createStyles = (_colors: ThemeColors) =>
     imageContainer: {
       width: width - 32,
       height: 200,
-      borderRadius: 10,
-      overflow: 'hidden',
+      borderRadius: 10,      
+      backgroundColor:colors.secondary
     },
     image: {
       width: '100%',

@@ -6,4 +6,5 @@ export type MapComponentProps = {
     latitude?: number;
     longitude?: number;
     locationName?: string;
+    isView?: boolean;
 }

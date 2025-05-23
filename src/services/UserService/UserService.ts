@@ -1,7 +1,7 @@
 import { endpoints } from '../../constants/endpoints';
 import axiosInstance from '../../lib/axiosInstance/axiosInstance';
 import { LoginSchemaType } from '../../schemas/Login.schema';
-import { LoginResponse, resendOTPType, SignUpResponse, VerifyOTPType, VerifyOTPResponse, RefreshTokenResponse, UserResponse, EditProfileResponse } from './UserService.type';
+import { LoginResponse, resendOTPType, SignUpResponse, VerifyOTPType, VerifyOTPResponse, RefreshTokenResponse, UserResponse, EditProfileResponse, ForgotPasswordResponse } from './UserService.type';
 import { handleError } from '../../lib/handleError';
 
 export class UserService {
@@ -37,7 +37,9 @@ export class UserService {
 
     static async resendOTP(email: resendOTPType): Promise<SignUpResponse> {
         try {
+            console.log('email',email);
             const { data } = await axiosInstance.post(endpoints.auth.verifyOTP, email, { isAuth: false });
+            console.log('data',data);
             return data;
         } catch (error) {
             throw new Error(handleError(error));
@@ -67,7 +69,17 @@ export class UserService {
             const res = await axiosInstance.put(endpoints.auth.updateUser, user, {
                 headers: { 'Content-Type': 'multipart/form-data' },
             });
-            console.log('res',res);
+            
+            return res.data;
+        } catch (error) {
+            throw new Error(handleError(error));
+        }
+    }
+
+    static async forgotPassword(email: string): Promise<ForgotPasswordResponse> {
+        try {
+            const res = await axiosInstance.post(endpoints.auth.forgotPassword, { email }, { isAuth: false });
+            
             return res.data;
         } catch (error) {
             throw new Error(handleError(error));

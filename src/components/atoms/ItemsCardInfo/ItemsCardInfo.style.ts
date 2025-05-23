@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native';
 import { ThemeColors, ThemeType } from '../../../constants/theme';
+import { globalStyles } from '../../../constants/globalStyles';
 
 export const createStyles = (colors: ThemeColors, theme: ThemeType) => StyleSheet.create({
     container:{
@@ -15,8 +16,8 @@ export const createStyles = (colors: ThemeColors, theme: ThemeType) => StyleShee
         }),
     },
     title:{
-        fontSize:17,
-        fontFamily:'Poppins-normal',
+        fontSize:16,
+        fontFamily:globalStyles.semiBold,
         color:colors.text,
         lineHeight:40,
         flexShrink: 1,
@@ -41,12 +42,12 @@ export const createStyles = (colors: ThemeColors, theme: ThemeType) => StyleShee
     },
     date:{
         fontSize:12,
-        fontFamily:'Poppins-Regular',
+        fontFamily:globalStyles.regular,
         color:colors.text,
     },
     location:{
         fontSize:12,
-        fontFamily:'Poppins-Regular',
+        fontFamily:globalStyles.regular,
         color:colors.text,
         flexShrink: 1,
     },

@@ -17,20 +17,20 @@ export const getRelativeTime = (isoDate: string): string => {
 
   // Check if the date is from today
   if (diffInDays <=0) {
-    return 'today';
+    return 'Today';
   }
 
   if (diffInDays < 30) {
-    return `${diffInDays} ${diffInDays === 1 ? 'day' : 'days'} ago`;
+    return `${diffInDays} ${diffInDays === 1 ? 'Day' : 'Days'} ago`;
   }
 
   const diffInMonths = Math.floor(diffInDays / 30);
   if (diffInMonths < 12) {
-    return `${diffInMonths} ${diffInMonths === 1 ? 'month' : 'months'} ago`;
+    return `${diffInMonths} ${diffInMonths === 1 ? 'Month' : 'Months'} ago`;
   }
 
   const diffInYears = Math.floor(diffInMonths / 12);
-  return `${diffInYears} ${diffInYears === 1 ? 'year' : 'years'} ago`;
+  return `${diffInYears} ${diffInYears === 1 ? 'Year' : 'Years'} ago`;
 };
 
 /**
@@ -62,7 +62,7 @@ export const getRelativeTimeStringWithMinUnit = (
 
   // If the difference is less than the minimum unit, return the minimum unit
   if (diffInSeconds < minSeconds) {
-    return `less than 1 ${minUnit} ago`;
+    return `Less than 1 ${minUnit} ago`;
   }
 
   // Find the appropriate interval

@@ -3,36 +3,35 @@ import { StyleSheet } from 'react-native';
 export const createStyles = (colors: any) => StyleSheet.create({
   
     input: {
-        height: 48,
-        backgroundColor: colors.inputBackground,
-        color: colors.text,
-        borderRadius: 8,
-        paddingHorizontal: 16,
-        fontSize: 16,
-        borderWidth: 1,
-        borderColor: colors.border,
+        borderWidth:1,
+        borderColor:colors.border,
+        borderRadius:8,
+        paddingVertical:10,
+        paddingHorizontal:15,
+        textAlignVertical:'top',
+        color:colors.text,
     },
     row: {
-        backgroundColor: colors.inputBackground,
+        backgroundColor: 'white',
         padding: 13,
         height: 44,
         flexDirection: 'row',
     },
     listView: {
-        backgroundColor: colors.inputBackground,
+        backgroundColor: 'white',
         borderWidth: 1,
         borderColor: colors.border,
         borderRadius: 8,
         marginTop: 4,
     },
     description: {
-        color: colors.text,
+        color: 'black',
     },
     emptyContainer: {
         padding: 16,
         alignItems: 'center',
     },
     emptyText: {
-        color: colors.text,
+        color: 'black',
     },
 }); 

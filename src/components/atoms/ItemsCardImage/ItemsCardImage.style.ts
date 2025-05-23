@@ -1,10 +1,13 @@
 import { StyleSheet } from "react-native";
+import { ThemeColors } from "../../../constants/theme";
 
-export const styles = StyleSheet.create({
+export const createStyles = (colors: ThemeColors) => StyleSheet.create({
 	container: {
 		flex: 1,
-        backgroundColor:'white',
-        padding:15,
+        backgroundColor:colors.background,
+        borderWidth:1,
+        borderBottomWidth:0,
+        borderColor:colors.border,
         borderTopLeftRadius:15,
         borderTopRightRadius:15,
         height:140,
@@ -19,10 +22,14 @@ export const styles = StyleSheet.create({
         resizeMode:'contain',
         width:'100%',
         height:'100%',
+        backgroundColor:colors.background,
     },
     heartIconContainer: {
         position:'absolute',
         top:10,
         right:10,
+        backgroundColor:colors.secondary,
+        padding:8,
+        borderRadius:100,
     },
 });

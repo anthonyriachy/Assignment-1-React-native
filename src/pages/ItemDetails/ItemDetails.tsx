@@ -1,20 +1,24 @@
-import { View, Dimensions, RefreshControl } from 'react-native';
+/* eslint-disable react-native/no-inline-styles */
+import { View, Dimensions } from 'react-native';
 import { ItemDetailsImage } from '../../components/molecules/ItemDetailsImage';
 import { NotFound } from '../NotFound';
 import { createStyles } from './ItemDetails.style';
 import { useTheme } from '../../hooks/UseTheme';
 import { useErrorAlert } from '../../hooks/useErrorAlert';
-import { Loading } from '../../components/atoms/Loading';
 import { useGetProductById } from '../../hooks/queries/products/useGetProductById';
-import Animated, { 
-	useAnimatedScrollHandler, 
-	useAnimatedStyle, 
-	useSharedValue, 
+
+
+import Animated, {
+	useAnimatedScrollHandler,
+	useAnimatedStyle,
+	useSharedValue,
 	interpolate,
-	withSpring
+	withSpring,
 } from 'react-native-reanimated';
-import { useMemo, useCallback, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { ItemDetailsInfo } from '../../components/organisms/ItemDetailsInfo';
+import { BackArrow } from '../../components/atoms/BackArrow';
+import { ItemDetailsLoading } from './ItemDetailsLoading';
 
 const SPRING_CONFIG = {
 	damping: 15,
@@ -27,25 +31,25 @@ const SPRING_CONFIG = {
 
 export function ItemDetails({route}:any) {
 	const {itemId} = route.params;
-	const {data:item,isLoading,error,refetch} = useGetProductById(itemId);
 	const scrollY = useSharedValue(0);
 	const windowHeight = useSharedValue(Dimensions.get('window').height);
 	const isScrolling = useSharedValue(false);
 	const [refreshing, setRefreshing] = useState(false);
-
 	const { colors } = useTheme();
 	const styles = useMemo(() => createStyles(colors), [colors]);
-	
+
+	const {data:item,isLoading,error,refetch} = useGetProductById(itemId);
+
 	useErrorAlert({
 		error: error || null,
-		onRetry: refetch
+		onRetry: refetch,
 	});
 
-	const onRefresh = useCallback(async () => {
+	const onRefresh = async () => {
 		setRefreshing(true);
 		await refetch();
 		setRefreshing(false);
-	}, [refetch]);
+	};
 
 	const scrollHandler = useAnimatedScrollHandler({
 		onScroll: (event) => {
@@ -64,9 +68,9 @@ export function ItemDetails({route}:any) {
 			scrollY.value,
 			[0, 150],
 			[windowHeight.value * 0.45, windowHeight.value * 0.25],
-			{ 
-				extrapolateLeft: 'clamp', 
-				extrapolateRight: 'clamp' 
+			{
+				extrapolateLeft: 'clamp',
+				extrapolateRight: 'clamp',
 			}
 		);
 
@@ -74,9 +78,9 @@ export function ItemDetails({route}:any) {
 			scrollY.value,
 			[0, 150],
 			[0, -30],
-			{ 
-				extrapolateLeft: 'clamp', 
-				extrapolateRight: 'clamp' 
+			{
+				extrapolateLeft: 'clamp',
+				extrapolateRight: 'clamp',
 			}
 		);
 
@@ -84,27 +88,37 @@ export function ItemDetails({route}:any) {
 			height: withSpring(height, SPRING_CONFIG),
 			transform: [
 				{
-					translateY: withSpring(translateY, SPRING_CONFIG)
-				}
-			]
+					translateY: withSpring(translateY, SPRING_CONFIG),
+				},
+			],
 		};
 	}, []);
 
 	if(isLoading){
-		return <Loading/>
+		return <ItemDetailsLoading/>;
 	}
 
-	if(!item){
-		return <NotFound/>;
+if(!item){
+		return <View style={styles.container}>
+			<View style={styles.backButton}>
+				<BackArrow />
+			</View>
+			<View style={{alignItems:'center',justifyContent:'center',flex:1}}>
+			<NotFound/>
+			</View>
+        </View>;
 	}
-	
+
 	return (
 		<View style={styles.container}>
+			<View style={styles.backButton}>
+				<BackArrow />
+			</View>
 			<Animated.View style={[styles.imageContainer, imageAnimatedStyle]}>
 				<ItemDetailsImage images={item.images}/>
 			</Animated.View>
-			<ItemDetailsInfo 
-				item={item} 
+			<ItemDetailsInfo
+				item={item}
 				onScroll={scrollHandler}
 				refreshing={refreshing}
 				onRefresh={onRefresh}
