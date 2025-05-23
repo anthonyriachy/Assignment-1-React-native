@@ -1,5 +1,7 @@
+/* eslint-disable @typescript-eslint/no-shadow */
+/* eslint-disable no-catch-shadow */
 import React, { useState, useMemo } from 'react';
-import { View, Image, TouchableOpacity, ScrollView, Text, Alert, ActivityIndicator } from 'react-native';
+import { View, Image, TouchableOpacity, ScrollView, Alert, ActivityIndicator } from 'react-native';
 import { getImageUrl, showImagePickerOptions } from '../../../lib/imageUtils';
 import CameraIcon from '../../../assets/icons/photo-camera-svgrepo-com.svg';
 import { useTheme } from '../../../hooks/UseTheme';
@@ -9,7 +11,7 @@ import { ErrorText } from '../../atoms/ErrorText/ErrorText.tsx';
 import { CustomText } from '../../atoms/CustomText/CustomText.tsx';
 
 const MAX_IMAGES = 5;
-const IMAGE_LOADING_TIMEOUT = 10000; 
+const IMAGE_LOADING_TIMEOUT = 10000;
 
 export const ImagePicker = ({ images, onImagesChange, error }: ImagePickerProps) => {
     const { colors } = useTheme();
@@ -18,7 +20,7 @@ export const ImagePicker = ({ images, onImagesChange, error }: ImagePickerProps)
     const [loadingImages, setLoadingImages] = useState<Set<number>>(new Set());
 
     const validateImageUri = (uri: string): boolean => {
-        if (!uri) return false;
+        if (!uri) {return false;}
         try {
             new URL(uri);
             return true;
@@ -31,7 +33,7 @@ export const ImagePicker = ({ images, onImagesChange, error }: ImagePickerProps)
         try {
             setIsLoading(true);
             const result = await showImagePickerOptions();
-            
+
             if (result.error) {
                 Alert.alert('Error', result.error);
                 return;
@@ -77,21 +79,20 @@ export const ImagePicker = ({ images, onImagesChange, error }: ImagePickerProps)
 
     const handleImageLoadStart = (index: number) => {
         setLoadingImages(prev => new Set(prev).add(index));
-        // Set timeout to handle loading failures
-        setTimeout(() => {
-            setLoadingImages(prev => {
-                if (prev.has(index)) {
-                    const newSet = new Set(prev);
-                    newSet.delete(index);
-                    return newSet;
-                }
-                return prev;
-            });
-        }, IMAGE_LOADING_TIMEOUT);
+
+        setLoadingImages(prev => {
+            if (prev.has(index)) {
+                const newSet = new Set(prev);
+                newSet.delete(index);
+                return newSet;
+            }
+            return prev;
+        });
+
     };
 
     const handleImageError = (index: number, uri: string) => {
-        console.error('Error loading image:', uri);
+        console.log('Error loading image:', uri);
         handleRemoveImage(index);
     };
 
@@ -102,15 +103,15 @@ export const ImagePicker = ({ images, onImagesChange, error }: ImagePickerProps)
         <View>
             <CustomText style={[styles.label, { color: colors.text }]}>Images</CustomText>
             {error && <ErrorText error={error} />}
-            <ScrollView 
-                horizontal 
-                showsHorizontalScrollIndicator={false} 
+            <ScrollView
+                horizontal
+                showsHorizontalScrollIndicator={false}
                 style={styles.scrollView}
                 contentContainerStyle={styles.scrollViewContent}
             >
                 {validImages.length < MAX_IMAGES && (
-                    <TouchableOpacity 
-                        style={[styles.addButton, isLoading && styles.disabledButton]} 
+                    <TouchableOpacity
+                        style={[styles.addButton, isLoading && styles.disabledButton]}
                         onPress={handleAddImage}
                         disabled={isLoading}
                     >
@@ -128,8 +129,12 @@ export const ImagePicker = ({ images, onImagesChange, error }: ImagePickerProps)
                                 <ActivityIndicator color={colors.primary} />
                             </View>
                         )}
-                        <Image 
-                            source={{ uri: uri.startsWith('/uploads/') ? getImageUrl(uri) : uri }} 
+                        <Image
+                            source={{
+                                uri: uri.startsWith('/uploads')
+                                    ? getImageUrl(uri)
+                                    : uri,
+                            }}
                             style={styles.image}
                             onLoadStart={() => handleImageLoadStart(index)}
                             onLoad={() => handleImageLoad(index)}
@@ -155,4 +160,4 @@ export const ImagePicker = ({ images, onImagesChange, error }: ImagePickerProps)
     );
 };
 
- 
+

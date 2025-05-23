@@ -1,4 +1,4 @@
-import { Image, ScrollView, Text, TouchableOpacity, View, ActivityIndicator } from 'react-native';
+import { Image, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { createStyles } from './Profile.style';
 import { useTheme } from '../../hooks/UseTheme';
 import { ProfileButton } from '../../components/atoms/Profilebutton';
@@ -9,8 +9,7 @@ import useAuthStore from '../../stores/authStore/authStore';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { ProfileStackParamList } from '../../types/ProfileStackParamList';
 import { getImageUrl } from '../../lib/imageUtils';
-import { useState, useEffect } from 'react';
-import { AppStackRoutes } from '../../constants/AppStackRoutes';
+import { ProfileStackRoutes } from '../../constants/ProfileStackRoutes';
 
 export const Profile = () => {
     const { colors } = useTheme();
@@ -20,28 +19,28 @@ export const Profile = () => {
 
     const profileImage = user?.profileImage?.url ? getImageUrl(user.profileImage.url) : require('../../assets/images/Profile.png');
     const fullname = user?.firstName + ' ' + user?.lastName;
-    
-    
+
+
 
 
 
     const handleLogout = () => {
         logout();
     };
- 
+
     return (
         <View style={styles.container}>
             <ScrollView>
             <View>
                 <View style={styles.profileContainer}>
-                    <Image 
+                    <Image
                         source={typeof profileImage === 'string' ? { uri: profileImage } : profileImage}
                         style={styles.profileImage}
                     />
                 </View>
                 <Text style={styles.email}>{fullname}</Text>
                 <View style={styles.buttonContainer}>
-                    <ProfileButton title="Edit Profile" icon={SmallProfile} onPress={() => navigation.navigate(AppStackRoutes.EditProfile)} />
+                    <ProfileButton title="Edit Profile" icon={SmallProfile} onPress={() => navigation.navigate(ProfileStackRoutes.EditProfile)} />
                     <ProfileButton title="Settings" icon={Settings} />
                     <ProfileButton title="Help" icon={Help} />
                 </View>

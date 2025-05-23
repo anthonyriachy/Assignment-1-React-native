@@ -1,24 +1,24 @@
-import { View, FlatList, Dimensions, TouchableOpacity, Alert, Image } from "react-native";
-import { ItemDetailsImageProps } from "./ItemDetailsImage.type.ts";
-import { useState, useCallback } from "react";
-import { getImageUrl } from "../../../lib/imageUtils.ts";
-import { useTheme } from "../../../hooks/UseTheme/UseTheme.tsx";
-import { createStyles } from "./ItemDetailsImage.style.ts";
-import { FullScreenImageViewer } from "../FullScreenImageViewer/FullScreenImageViewer";
-import { downloadImage } from "../../../lib/imageDownloadUtils";
+import { View, FlatList, Dimensions, TouchableOpacity, Alert, Image } from 'react-native';
+import { ItemDetailsImageProps } from './ItemDetailsImage.type.ts';
+import { useState, useCallback, useEffect } from 'react';
+import { getImageUrl } from '../../../lib/imageUtils.ts';
+import { useTheme } from '../../../hooks/UseTheme/UseTheme.tsx';
+import { createStyles } from './ItemDetailsImage.style.ts';
+import { FullScreenImageViewer } from '../FullScreenImageViewer/FullScreenImageViewer';
+import { downloadImage } from '../../../lib/imageDownloadUtils';
 import ShimmerPlaceholder from 'react-native-shimmer-placeholder';
 import LinearGradient from 'react-native-linear-gradient';
 
 const { width } = Dimensions.get('window');
 
-const ImageItem = ({ 
-	imageUrl, 
-	onPress, 
+const ImageItem = ({
+	imageUrl,
+	onPress,
 	onLongPress,
-	styles
-}: { 
-	imageUrl: string; 
-	onPress: () => void; 
+	styles,
+}: {
+	imageUrl: string;
+	onPress: () => void;
 	onLongPress: () => void;
 	styles: any;
 }) => {
@@ -26,7 +26,7 @@ const ImageItem = ({
 	const { colors } = useTheme();
 
 	return (
-		<TouchableOpacity 
+		<TouchableOpacity
 			style={styles.imageContainer}
 			onPress={onPress}
 			onLongPress={onLongPress}
@@ -58,9 +58,20 @@ export const ItemDetailsImage = ({ images }: ItemDetailsImageProps) => {
 	const { colors } = useTheme();
 	const styles = createStyles(colors);
 
+	// Reset currentIndex if images array changes
+	useEffect(() => {
+		if (images.length === 0) {
+			setCurrentIndex(0);
+		} else if (currentIndex >= images.length) {
+			setCurrentIndex(images.length - 1);
+		}
+	}, [images, currentIndex]);
+
 	const handleImagePress = useCallback(() => {
-		setIsFullScreenVisible(true);
-	}, []);
+		if (images.length > 0) {
+			setIsFullScreenVisible(true);
+		}
+	}, [images]);
 
 	const handleLongPress = useCallback(async (imageUrl: string) => {
 		try {
@@ -70,17 +81,18 @@ export const ItemDetailsImage = ({ images }: ItemDetailsImageProps) => {
 				},
 				onError: (error) => {
 					Alert.alert('Error', error.message || 'Failed to download image. Please try again.');
-				}
+				},
 			});
 		} catch (error) {
-			// Error is already handled in the options
 		}
 	}, []);
 
 	const handleMomentumScrollEnd = useCallback((event: any) => {
 		const newIndex = Math.round(event.nativeEvent.contentOffset.x / width);
-		setCurrentIndex(newIndex);
-	}, []);
+		if (newIndex >= 0 && newIndex < images.length) {
+			setCurrentIndex(newIndex);
+		}
+	}, [images.length]);
 
 	const renderItem = useCallback(({ item }: { item: { url: string } }) => (
 		<ImageItem
@@ -93,6 +105,10 @@ export const ItemDetailsImage = ({ images }: ItemDetailsImageProps) => {
 
 	const keyExtractor = useCallback((_: any, index: number) => index.toString(), []);
 
+	if (!images || images.length === 0) {
+		return null;
+	}
+
 	return (
 		<View style={styles.container}>
 			<FlatList
@@ -104,11 +120,13 @@ export const ItemDetailsImage = ({ images }: ItemDetailsImageProps) => {
 				renderItem={renderItem}
 				keyExtractor={keyExtractor}
 			/>
-			<FullScreenImageViewer
-				visible={isFullScreenVisible}
-				imageUrl={getImageUrl(images[currentIndex].url)}
-				onClose={() => setIsFullScreenVisible(false)}
-			/>
+			{images[currentIndex] && (
+				<FullScreenImageViewer
+					visible={isFullScreenVisible}
+					imageUrl={getImageUrl(images[currentIndex].url)}
+					onClose={() => setIsFullScreenVisible(false)}
+				/>
+			)}
 		</View>
 	);
-};   
+};

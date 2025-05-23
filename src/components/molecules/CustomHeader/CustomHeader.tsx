@@ -1,5 +1,6 @@
+/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import { View, Text, Image, Pressable } from 'react-native';
+import { View, Image, Pressable } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { createStyles } from './CustomHeader.style';
 import { ThemeToggleButton } from '../../atoms/ThemeToggleButton/ThemeToggleButton';

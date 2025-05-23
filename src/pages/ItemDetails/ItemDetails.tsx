@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import { View, Dimensions } from 'react-native';
 import { ItemDetailsImage } from '../../components/molecules/ItemDetailsImage';
 import { NotFound } from '../NotFound';
@@ -14,7 +15,7 @@ import Animated, {
 	interpolate,
 	withSpring,
 } from 'react-native-reanimated';
-import { useMemo, useCallback, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { ItemDetailsInfo } from '../../components/organisms/ItemDetailsInfo';
 import { BackArrow } from '../../components/atoms/BackArrow';
 import { ItemDetailsLoading } from './ItemDetailsLoading';
@@ -44,11 +45,11 @@ export function ItemDetails({route}:any) {
 		onRetry: refetch,
 	});
 
-	const onRefresh = useCallback(async () => {
+	const onRefresh = async () => {
 		setRefreshing(true);
 		await refetch();
 		setRefreshing(false);
-	}, [refetch]);
+	};
 
 	const scrollHandler = useAnimatedScrollHandler({
 		onScroll: (event) => {

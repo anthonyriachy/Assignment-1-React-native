@@ -91,7 +91,7 @@ export const Signup = ({navigation}:any)=>{
                   <Image 
                     source={{ uri: profileImage }} 
                     style={{ width: 80, height: 80, borderRadius: 40 }}
-                    resizeMode="cover"
+                    resizeMode="contain"
                   />
                 ) : (
                   <SmallProfile width={80} height={80} />

@@ -1,6 +1,5 @@
 import { StyleSheet } from 'react-native';
 import { window } from '../../constants/sizes';
-import { ErrorStyle } from '../../Shared/ErrorStyle';
 
 export const createStyles = (colors: any) => StyleSheet.create({
     container:{
@@ -25,6 +24,7 @@ export const createStyles = (colors: any) => StyleSheet.create({
         width:80,
         height:80,
         borderRadius:100,
+        
     },
     profile:{
         borderRadius:100,
@@ -32,6 +32,9 @@ export const createStyles = (colors: any) => StyleSheet.create({
         width:80,
         height:80,
         marginBottom:'auto',
+        borderColor:'black',
+        backgroundColor:colors.white,
+        
     },
 
     profileBtn:{
@@ -40,7 +43,7 @@ export const createStyles = (colors: any) => StyleSheet.create({
         right:-10,
         padding:8,
         borderRadius:100,
-        backgroundColor:colors.background,
+        backgroundColor:colors.white,
         borderWidth:1,
     },
 

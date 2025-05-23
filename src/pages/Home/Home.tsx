@@ -75,7 +75,7 @@ function Home() {
         showsVerticalScrollIndicator={false}
         refreshControl={
           <RefreshControl
-            refreshing={isFetching}
+            refreshing={isFetching && !isLoading && !isFetchingNextPage}
             onRefresh={onRefresh}
             colors={[colors.primary]}
           />

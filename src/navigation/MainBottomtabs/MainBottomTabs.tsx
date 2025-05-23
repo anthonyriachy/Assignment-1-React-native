@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 /* eslint-disable react/no-unstable-nested-components */
 import { BottomTabNavigationProp, createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { BottomTabIcons } from '../../components/atoms/BottomTabIcons/BottomTabIcons';
@@ -39,12 +40,12 @@ function MainBottomTabs() {
               color: focused ? colors.primary : colors.lightText,
               fontSize: 11,
               fontWeight: focused ? '700' : '400',
-              fontFamily:'Poppins-Regular'
+              fontFamily:'Poppins-Regular',
             }}>
               {route.name === 'ProfileStack' ? 'Profile' : route.name}
             </Text>
           ),
-          
+
           tabBarIcon: ({ focused }) => (
             <BottomTabIcons name={getIconName(route.name)} selected={focused} />
           ),
@@ -55,7 +56,7 @@ function MainBottomTabs() {
             backgroundColor: colors.background,
             borderTopColor: colors.background,
             height: 60,
-            
+
           },
           tabBarActiveTintColor: colors.primary,
           tabBarInactiveTintColor: colors.text,
@@ -85,21 +86,21 @@ function MainBottomTabs() {
         options={{
           tabBarIcon: ({ focused }) => (
             <TouchableOpacity style={{ marginTop: -40 }} onPress={() => navigation.navigate(BottomTabRoutes.SellModal)}>
-              <BottomTabIcons 
-                name={getIconName('Sell')} 
+              <BottomTabIcons
+                name={getIconName('Sell')}
                 selected={focused}
               />
             </TouchableOpacity>
           ),
         }}
       />
-      <Tab.Screen 
-        name={BottomTabRoutes.Cart} 
-        component={CartScreen} 
+      <Tab.Screen
+        name={BottomTabRoutes.Cart}
+        component={CartScreen}
       />
-      <Tab.Screen 
-        name={BottomTabRoutes.ProfileStack} 
-        component={ProfileStackScreen} 
+      <Tab.Screen
+        name={BottomTabRoutes.ProfileStack}
+        component={ProfileStackScreen}
         options={{
           headerShown: false,
         }}

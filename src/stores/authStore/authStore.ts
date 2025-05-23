@@ -1,21 +1,9 @@
 import RNSecureStorage, { ACCESSIBLE } from 'rn-secure-storage';
 import { create } from 'zustand';
 import { persist, createJSONStorage, StateStorage } from 'zustand/middleware';
-import { UserDTO } from '../../types/UserDTO';
+import { AuthState } from './authStore.type';
+ 
 
-type AuthState={
-    accessToken:string|null,
-    refreshToken:string|null,
-    setTokens:(accessToken:string,refreshToken:string)=>void
-    clearTokens:()=>void,
-    hasStoreLoaded:boolean,
-    setHasStoreLoaded:(hasStoreLoaded:boolean)=>void
-    user:UserDTO|null,
-    setUser:(user:UserDTO)=>void,
-    clearUser:()=>void,
-    logout:()=>void,
-    getUserId:()=>string|null,
-}
 
 const SecureStorage:StateStorage = {
     getItem:async(name)=>{

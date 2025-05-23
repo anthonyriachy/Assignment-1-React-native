@@ -1,7 +1,6 @@
 import { StyleSheet } from 'react-native';
 import { ThemeColors } from '../../constants/theme';
  import { window } from '../../constants/sizes';
-import { ErrorStyle } from '../../Shared/ErrorStyle';
 
 export const createStyles = (colors: ThemeColors) => StyleSheet.create({
     container:{

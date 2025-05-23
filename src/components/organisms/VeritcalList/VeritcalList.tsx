@@ -1,11 +1,12 @@
-import { VerticalListProps } from "../ItemsSection/ItemsSection.type";
-import { ActivityIndicator, Text } from "react-native";
-import { FlatList } from "react-native";
-import { View } from "react-native";
-import { ItemsSectionHeader } from "../../molecules/ItemsSectionHeader";
-import { ItemsCardHorizontal } from "../ItemsCardHorizontal";
-import { styles } from "./VeritcalList.style.ts";
-import { Empty } from "../../atoms/Empty/Empty.tsx";
+/* eslint-disable react/no-unstable-nested-components */
+import { VerticalListProps } from '../ItemsSection/ItemsSection.type';
+import { ActivityIndicator, Text } from 'react-native';
+import { FlatList } from 'react-native';
+import { View } from 'react-native';
+import { ItemsSectionHeader } from '../../molecules/ItemsSectionHeader';
+import { ItemsCardHorizontal } from '../ItemsCardHorizontal';
+import { styles } from './VeritcalList.style.ts';
+import { Empty } from '../../atoms/Empty/Empty.tsx';
 
 
 const NoMoreProducts = () => (
@@ -37,7 +38,7 @@ export const VerticalList = ({ title, onClick, data = [], onLoadMore, isLoading,
 					);
 				}
 				if (!hasMore && data.length > 0) {
-					return <NoMoreProducts />;
+					return <Empty value="No more products" />;
 				}
 				return null;
 			}}

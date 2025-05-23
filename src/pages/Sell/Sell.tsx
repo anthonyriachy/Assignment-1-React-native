@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import { Platform, KeyboardAvoidingView, ScrollView, View } from 'react-native';
 import { createStyles } from './Sell.style';
 import { Controller, useForm } from 'react-hook-form';
@@ -22,6 +23,7 @@ import { AppStackRoutes } from '../../constants/AppStackRoutes';
 import { CommonActions } from '@react-navigation/native';
 import { AppStackParamsList } from '../../types/AppStackParamsList';
 import { Loading } from '../../components/atoms/Loading';
+import { getImageUrl } from '../../lib/imageUtils';
 
 type SellScreenRouteProp = RouteProp<AppStackParamsList, AppStackRoutes.SellModal>;
 
@@ -121,23 +123,33 @@ export function Sell() {
         formData.append('location[name]', data.location.name);
         formData.append('location[latitude]', String(data.location.latitude));
         formData.append('location[longitude]', String(data.location.longitude));
-        data.images.forEach((image, index) => {
-            formData.append('images', {
-                uri: image,
-                type: 'image/jpeg',
-                name: `image-${index}.jpg`,
-            });
-        });
-    
 
-        
+        // Handle images differently for create and update
+        data.images.forEach((image, index) => {
+            // If it's an existing image (starts with /uploads), use getImageUrl
+            if (image.startsWith('/uploads')) {
+                formData.append('images', {
+                    uri: getImageUrl(image),
+                    type: 'image/jpeg',
+                    name: `image-${index}.jpg`,
+                });
+            } else {
+                // For new images, use the direct URI
+                formData.append('images', {
+                    uri: image,
+                    type: 'image/jpeg',
+                    name: `image-${index}.jpg`,
+                });
+            }
+        });
+        console.log('formData',formData);
 
         if (isEditMode) {
             updateProduct(formData);
         } else {
             createProduct(formData);
         }
-    }, [isEditMode, createProduct, updateProduct, productData]);
+    }, [isEditMode, createProduct, updateProduct]);
 
     if (isEditMode && isProductLoading) {
         return (

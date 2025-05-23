@@ -1,12 +1,13 @@
-import { Pressable, Text, View, Linking, Alert, RefreshControl } from 'react-native';
+/* eslint-disable react-native/no-inline-styles */
+import { Pressable, View, Linking, Alert, RefreshControl } from 'react-native';
 import { ItemDetailsInfoProps } from './ItemDetailsInfo.type';
 import { createStyles } from './ItemDetailsInfo.style';
 import { CustomButton } from '../../atoms/CustomButton';
 import Share from '../../../assets/icons/share.svg';
 import { useTheme } from '../../../hooks/UseTheme';
-import { useCallback, useMemo, useState } from 'react';
-import ArrowRight from '../../../assets/icons/right-arrow-svgrepo-com.svg'
-import ProfileIcon from '../../../assets/icons/SmallProfile.svg'
+import { useMemo, useState } from 'react';
+import ArrowRight from '../../../assets/icons/right-arrow-svgrepo-com.svg';
+import ProfileIcon from '../../../assets/icons/SmallProfile.svg';
 import DateIcon from '../../../assets/icons/DateIcon.svg';
 import LocationIcon from '../../../assets/icons/LocationIcon.svg';
 import { getRelativeTime } from '../../../lib/dateUtils';
@@ -36,41 +37,41 @@ export function ItemDetailsInfo({ item, onScroll, refreshing, onRefresh }: ItemD
 
     useSuccessAlert({
         success: isDeleteSuccess,
-        message: "Product deleted successfully!",
+        message: 'Product deleted successfully!',
         onDismiss: () => {
             navigation.goBack();
-        }
+        },
     });
 
     const handleShowMore = () => {
         setIsExpanded(!isExpanded);
-    }
+    };
 
     const handleEdit = () => {
         navigation.dispatch(
             CommonActions.navigate({
                 name: AppStackRoutes.SellModal,
-                params: { productId: item._id }
+                params: { productId: item._id },
             })
         );
     };
 
     const handleDelete = () => {
         Alert.alert(
-            "Delete Item",
-            "Are you sure you want to delete this item? This action cannot be undone.",
+            'Delete Item',
+            'Are you sure you want to delete this item? This action cannot be undone.',
             [
                 {
-                    text: "Cancel",
-                    style: "cancel"
+                    text: 'Cancel',
+                    style: 'cancel',
                 },
                 {
-                    text: "Delete",
-                    style: "destructive",
+                    text: 'Delete',
+                    style: 'destructive',
                     onPress: () => {
                         deleteProduct(item._id);
-                    }
-                }
+                    },
+                },
             ]
         );
     };
@@ -78,40 +79,40 @@ export function ItemDetailsInfo({ item, onScroll, refreshing, onRefresh }: ItemD
     const handleContactSeller = async () => {
         try {
             const emailUrl = `mailto:${item.user.email}?subject=Inquiry about ${item.title}`;
-            
+
             const canOpen = await Linking.canOpenURL(emailUrl);
-            
+
             if (canOpen) {
                 const opened = await Linking.openURL(emailUrl);
-                
+
                 if (!opened) {
                     throw new Error('Failed to open email client');
                 }
             } else {
                 Alert.alert(
-                    "Email Client Not Available",
+                    'Email Client Not Available',
                     `Please contact the seller at: ${item.user.email}`,
                     [
                         {
-                            text: "OK",
-                            style: "cancel"
-                        }
+                            text: 'OK',
+                            style: 'cancel',
+                        },
                     ]
                 );
             }
         } catch (error) {
             console.error('Error opening email client:', error);
             Alert.alert(
-                "Error",
-                "Unable to open email client. Please try again later."
+                'Error',
+                'Unable to open email client. Please try again later.'
             );
         }
     };
 
     return (
         <View style={styles.container}>
-            <Animated.ScrollView 
-                onScroll={onScroll} 
+            <Animated.ScrollView
+                onScroll={onScroll}
                 scrollEventThrottle={16}
                 showsVerticalScrollIndicator={false}
                 refreshControl={
@@ -137,7 +138,7 @@ export function ItemDetailsInfo({ item, onScroll, refreshing, onRefresh }: ItemD
                             <LocationIcon width={20} height={20} />
                             <CustomText style={styles.location} numberOfLines={1} ellipsizeMode="tail">{item.location.name}</CustomText>
                         </View>}
-                    </View> 
+                    </View>
                     <View style={styles.sellerContainer}>
                         <View style={styles.sellerInfoContainer}>
                             <View style={styles.sellerImage}>
@@ -154,8 +155,8 @@ export function ItemDetailsInfo({ item, onScroll, refreshing, onRefresh }: ItemD
                     </View>
                     <View style={styles.descriptionContainer}>
                         <CustomText style={styles.descriptionTitle}>Description</CustomText>
-                        <CustomText 
-                            style={styles.description} 
+                        <CustomText
+                            style={styles.description}
                             numberOfLines={isExpanded ? undefined : 4}
                         >
                             {item.description}
@@ -169,9 +170,9 @@ export function ItemDetailsInfo({ item, onScroll, refreshing, onRefresh }: ItemD
                         )}
                     </View>
                     <View style={styles.mapContainer}>
-                            <MapComponent 
-                                locationName={item.location?.name} 
-                                latitude={item.location?.latitude} 
+                            <MapComponent
+                                locationName={item.location?.name}
+                                latitude={item.location?.latitude}
                                 longitude={item.location?.longitude}
                                 setValue={() => {}}
                                 isView={true}
@@ -187,17 +188,17 @@ export function ItemDetailsInfo({ item, onScroll, refreshing, onRefresh }: ItemD
             </View>}
 
             {isOwner && <View style={styles.buttonContainer}>
-                <CustomButton 
-                    style={{ flex: 1, backgroundColor: colors.error }} 
-                    title="Delete" 
-                    loading={isDeletePending} 
+                <CustomButton
+                    style={{ flex: 1, backgroundColor: colors.error }}
+                    title="Delete"
+                    loading={isDeletePending}
                     onPress={handleDelete}
                     disabled={isDeletePending}
                 />
-                <CustomButton 
-                    style={{ flex: 1 }} 
-                    title="Edit" 
-                    loading={false}  
+                <CustomButton
+                    style={{ flex: 1 }}
+                    title="Edit"
+                    loading={false}
                     onPress={handleEdit}
                 />
             </View>}

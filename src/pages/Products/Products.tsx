@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import { FlatList, Text, View, ActivityIndicator, RefreshControl, TouchableOpacity, Modal } from 'react-native';
 import { createStyles } from './Products.style';
@@ -66,15 +67,15 @@ export const Products = ({route}: {route: any}) => {
         }, []) ?? []
     , [initalData?.pages]);
 
-    const handleLoadMore = useCallback(() => {
+    const handleLoadMore = () => {
         if (hasNextPage && !isFetchingNextPage && !searchInput) {
             fetchNextPage();
         }
-    }, [hasNextPage, isFetchingNextPage, fetchNextPage, searchInput]);
+    };
 
-    const handleRefresh = useCallback(() => {
+    const handleRefresh = () => {
         refetch();
-    }, [refetch]);
+    };
 
 
 
@@ -98,9 +99,6 @@ export const Products = ({route}: {route: any}) => {
                 break;
             case 'oldest':
                 sortedData.sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
-                break;
-            case 'score':
-                sortedData.sort((a, b) => b.score - a.score);
                 break;
         }
 
@@ -127,14 +125,23 @@ export const Products = ({route}: {route: any}) => {
         index,
     }), []);
 
-    const renderFooter = useCallback(() => {
-        if (!isFetchingNextPage && !isSearching) {return null;}
-        return (
-            <View style={styles.footerLoader}>
-                <ActivityIndicator size="small" color={colors.primary} />
-            </View>
-        );
-    }, [isFetchingNextPage, isSearching, styles.footerLoader, colors.primary]);
+    const renderFooter = () => {
+        if (isFetchingNextPage || isSearching) {
+            return (
+                <View style={styles.footerLoader}>
+                    <ActivityIndicator size="small" color={colors.primary} />
+                </View>
+            );
+        }
+
+        if (!hasNextPage && !searchInput && sortedAndFilteredData.length > 0) {
+            return (
+                <Empty value="No more products" />
+            );
+        }
+
+        return null;
+    };
 
     const renderItem = useCallback(({item}: {item: ProductDTO}) => (
         <MemoizedItemsCard item={item} smaller={true} />
@@ -202,7 +209,7 @@ export const Products = ({route}: {route: any}) => {
                     ListEmptyComponent={!isLoading ? <Empty value="No products found" /> : null}
                     refreshControl={
                         <RefreshControl
-                            refreshing={isFetching && !isFetchingNextPage}
+                            refreshing={isFetching && !isPending && !isFetchingNextPage}
                             onRefresh={handleRefresh}
                             colors={[colors.primary]}
                         />
