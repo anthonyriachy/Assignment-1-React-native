@@ -2,7 +2,6 @@ import { AxiosError } from 'axios';
 import { ErrorCodes } from '../../constants/ErrorCodes';
 
 export const handleError = (error: unknown): string => {
-    console.log('error',error);
     if (error instanceof AxiosError) {
 
         if (error.response?.data?.error?.message) {

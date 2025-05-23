@@ -92,7 +92,6 @@ export const ImagePicker = ({ images, onImagesChange, error }: ImagePickerProps)
     };
 
     const handleImageError = (index: number, uri: string) => {
-        console.log('Error loading image:', uri);
         handleRemoveImage(index);
     };
 

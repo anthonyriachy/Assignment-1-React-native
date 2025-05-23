@@ -181,7 +181,7 @@ export const handleCameraLaunch = async (): Promise<ImagePickerResult> => {
 
 export const getImageUrl = (image: string) => {
   if (!image) return '';
-  const baseUrl = config.BASE_URL?.replace('/api', '') || '';
+  const baseUrl = config.BASE_URL|| '';
   // Remove leading slash from image path if baseUrl ends with slash
   const imagePath = baseUrl.endsWith('/') ? image.replace(/^\//, '') : image;
   return `${baseUrl}${imagePath}`;

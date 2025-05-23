@@ -38,7 +38,6 @@ import { GetByIdResponse, GetProductsResponse, CreateProductResponse } from './P
     static async getProductById(productId:string):Promise<GetByIdResponse> {
         try {
             const response = await axiosInstance.get(endpoints.products.getProductById.replace(':productId',productId));
-            console.log('response',response.data);
             return response.data;
         } catch (error) {
             throw new Error(handleError(error));

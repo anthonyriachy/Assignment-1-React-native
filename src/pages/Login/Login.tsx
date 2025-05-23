@@ -26,6 +26,7 @@ function Login({ navigation }: any) {
     mutationFn: async (data: LoginSchemaType) => {
       const loginResponse = await UserService.login(data);
       if (loginResponse.success) {
+        console.log('loginResponse!!!!!!!!!!!!!!!!!!!!!!!!!!',loginResponse);
         setTokens(loginResponse.data.accessToken, loginResponse.data.refreshToken);
         // Fetch user after login
         const userResponse = await UserService.getUserProfile();
