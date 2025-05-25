@@ -20,6 +20,8 @@ import { useDeleteProduct } from '../../../hooks/queries/products/useDeleteProdu
 import { useSuccessAlert } from '../../../hooks/useSuccessAlert';
 import { useErrorAlert } from '../../../hooks/useErrorAlert';
 import { CustomText } from '../../atoms/CustomText/CustomText';
+import useCartStore from '../../../stores/CartStore/CartStore';
+import { CartItemDTO } from '../../../types/CartItemDTO';
 
 export function ItemDetailsInfo({ item, onScroll, refreshing, onRefresh }: ItemDetailsInfoProps) {
     const { colors } = useTheme();
@@ -28,9 +30,9 @@ export function ItemDetailsInfo({ item, onScroll, refreshing, onRefresh }: ItemD
     const [isExpanded, setIsExpanded] = useState(false);
     const { mutate: deleteProduct, error: deleteError, isPending: isDeletePending, isSuccess: isDeleteSuccess } = useDeleteProduct();
     const navigation = useNavigation<any>();
-
+    const { addItem } = useCartStore();
     const isOwner = user?.id === item.user._id;
-
+    const [isAddedToCart, setIsAddedToCart] = useState(false);
     useErrorAlert({
         error: deleteError || null,
     });
@@ -109,6 +111,24 @@ export function ItemDetailsInfo({ item, onScroll, refreshing, onRefresh }: ItemD
         }
     };
 
+
+    const handleAddToCart = () => {
+        const itemToAdd:CartItemDTO = {
+            id: item._id,
+            title: item.title,
+            price: item.price,
+            image: item.images[0].url,
+            quantity: 1,
+        };
+        addItem(itemToAdd);
+        setIsAddedToCart(true);
+    };
+
+    useSuccessAlert({
+        success:isAddedToCart,
+        message: 'Item added to cart successfully!',
+    });
+
     return (
         <View style={styles.container}>
             <Animated.ScrollView
@@ -181,7 +201,7 @@ export function ItemDetailsInfo({ item, onScroll, refreshing, onRefresh }: ItemD
                 </View>
             </Animated.ScrollView>
             {!isOwner && <View style={styles.buttonContainer}>
-                <CustomButton style={{ flex: 1,height:'100%' }} title="Add to Cart" loading={false}  />
+                <CustomButton style={{ flex: 1,height:'100%' }} title="Add to Cart" loading={false}  onPress={handleAddToCart}/>
                 <Pressable style={styles.cardBtn}>
                     <Share width={30} height={30} />
                 </Pressable>
