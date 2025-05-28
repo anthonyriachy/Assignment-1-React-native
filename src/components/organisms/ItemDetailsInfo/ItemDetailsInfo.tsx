@@ -1,11 +1,11 @@
 /* eslint-disable react-native/no-inline-styles */
-import { Pressable, View, Linking, Alert, RefreshControl } from 'react-native';
+import { Pressable, View, Linking, Alert, RefreshControl, Share } from 'react-native';
 import { ItemDetailsInfoProps } from './ItemDetailsInfo.type';
 import { createStyles } from './ItemDetailsInfo.style';
 import { CustomButton } from '../../atoms/CustomButton';
-import Share from '../../../assets/icons/share.svg';
+import ShareIcon from '../../../assets/icons/share.svg';
 import { useTheme } from '../../../hooks/UseTheme';
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import ArrowRight from '../../../assets/icons/right-arrow-svgrepo-com.svg';
 import ProfileIcon from '../../../assets/icons/SmallProfile.svg';
 import DateIcon from '../../../assets/icons/DateIcon.svg';
@@ -14,7 +14,7 @@ import { getRelativeTime } from '../../../lib/dateUtils';
 import Animated from 'react-native-reanimated';
 import { MapComponent } from '../../molecules/MapsComponent';
 import useAuthStore from '../../../stores/authStore/authStore';
-import { CommonActions, useNavigation } from '@react-navigation/native';
+import { CommonActions, useNavigation, EventArg } from '@react-navigation/native';
 import { AppStackRoutes } from '../../../constants/AppStackRoutes';
 import { useDeleteProduct } from '../../../hooks/queries/products/useDeleteProduct/useDeleteProduct';
 import { useSuccessAlert } from '../../../hooks/useSuccessAlert';
@@ -33,6 +33,16 @@ export function ItemDetailsInfo({ item, onScroll, refreshing, onRefresh }: ItemD
     const { addItem } = useCartStore();
     const isOwner = user?.id === item.user._id;
     const [isAddedToCart, setIsAddedToCart] = useState(false);
+
+    // Add navigation listener
+    useEffect(() => {
+        const unsubscribe = navigation.addListener('state', (e: EventArg<'state', true>) => {
+            console.log('[Deep Linking] Navigation state changed:', e.data);
+        });
+
+        return unsubscribe;
+    }, [navigation]);
+
     useErrorAlert({
         error: deleteError || null,
     });
@@ -129,6 +139,60 @@ export function ItemDetailsInfo({ item, onScroll, refreshing, onRefresh }: ItemD
         message: 'Item added to cart successfully!',
     });
 
+    const testDeepLink = async () => {
+        try {
+            const url = `e-commerce://product/${item._id}`;
+            console.log('[Deep Linking] Testing deep link with URL:', url);
+            
+            const canOpen = await Linking.canOpenURL(url);
+            console.log('[Deep Linking] Can open URL:', canOpen);
+            
+            if (canOpen) {
+                console.log('[Deep Linking] Attempting to open URL...');
+                const opened = await Linking.openURL(url);
+                console.log('[Deep Linking] Deep link opened successfully:', opened);
+                
+                // Add a small delay to check if the navigation occurred
+                setTimeout(() => {
+                    console.log('[Deep Linking] Checking if navigation occurred...');
+                    // Log the current navigation state
+                    console.log('[Deep Linking] Current navigation state:', navigation.getState());
+                }, 1000);
+            } else {
+                console.log('[Deep Linking] Cannot open URL - URL scheme not supported');
+                Alert.alert(
+                    'Deep Link Error',
+                    'Cannot open deep link. Please make sure the app is installed and properly configured.\n\nURL: ' + url,
+                    [{ text: 'OK' }]
+                );
+            }
+        } catch (error: any) {
+            console.error('[Deep Linking] Error testing deep link:', error);
+            Alert.alert(
+                'Deep Link Error',
+                'Failed to test deep link. Please try again later.\n\nError: ' + (error?.message || 'Unknown error'),
+                [{ text: 'OK' }]
+            );
+        }
+    };
+
+    const handleShare = async () => {
+        try {
+            const shareUrl = `e-commerce://product/${item._id}`;
+            await Share.share({
+                message: `Check out this ${item.title} on our app!\n\n${item.description}\n\nPrice: $${item.price}\n\n${shareUrl}`,
+                url: shareUrl, // iOS
+                title: item.title, // Android
+            });
+        } catch (error) {
+            console.error('Error sharing:', error);
+            Alert.alert(
+                'Error',
+                'Unable to share the product. Please try again later.'
+            );
+        }
+    };
+
     return (
         <View style={styles.container}>
             <Animated.ScrollView
@@ -202,8 +266,11 @@ export function ItemDetailsInfo({ item, onScroll, refreshing, onRefresh }: ItemD
             </Animated.ScrollView>
             {!isOwner && <View style={styles.buttonContainer}>
                 <CustomButton style={{ flex: 1,height:'100%' }} title="Add to Cart" loading={false}  onPress={handleAddToCart}/>
-                <Pressable style={styles.cardBtn}>
-                    <Share width={30} height={30} />
+                <Pressable style={styles.cardBtn} onPress={handleShare}>
+                    <ShareIcon width={30} height={30} />
+                </Pressable>
+                <Pressable style={[styles.cardBtn, { backgroundColor: colors.primary }]} onPress={testDeepLink}>
+                    <CustomText style={{ color: 'white' }}>Test Link</CustomText>
                 </Pressable>
             </View>}
 

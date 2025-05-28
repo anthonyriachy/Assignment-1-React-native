@@ -1,19 +1,18 @@
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable react/no-unstable-nested-components */
 import { BottomTabNavigationProp, createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { BottomTabIcons } from '../../components/atoms/BottomTabIcons/BottomTabIcons';
-import { CustomHeader } from '../../components/molecules/CustomHeader';
-import { useTheme } from '../../hooks/UseTheme';
+import { BottomTabIcons } from '../../components/atoms/BottomTabIcons/BottomTabIcons.tsx';
+import { CustomHeader } from '../../components/molecules/CustomHeader/index.ts';
+import { useTheme } from '../../hooks/UseTheme/index.ts';
 import { Text, TouchableOpacity, View } from 'react-native';
 import { getFocusedRouteNameFromRoute, useNavigation } from '@react-navigation/native';
 
-import { BottomTabParamsList } from '../../types/BottomTabParamsList';
-import { BottomTabRoutes } from '../../constants/BottomTabRoutes';
-import { HomeStackScreen } from '../../stacks/HomeStack/HomeStack';
-import { SearchStackScreen } from '../../stacks/SearchStack';
+import { BottomTabParamsList } from '../../types/BottomTabParamsList.ts';
+import { BottomTabRoutes } from '../../constants/BottomTabRoutes.ts';
+import { HomeStackScreen } from '../../stacks/HomeStack/HomeStack.tsx';
+import { SearchStackScreen } from '../../stacks/SearchStack/index.ts';
 import { ProfileStackScreen } from '../../stacks/ProfileStack/ProfileStack.tsx';
-import { CartScreen } from '../../pages/Cart/Cart.tsx';
-const Tab = createBottomTabNavigator<BottomTabParamsList>();
+ const Tab = createBottomTabNavigator<BottomTabParamsList>();
 
 const getIconName = (routeName: string) => {
   if (routeName === 'Home') {return 'Home';}
@@ -96,7 +95,13 @@ function MainBottomTabs() {
       />
       <Tab.Screen
         name={BottomTabRoutes.Cart}
-        component={CartScreen}
+        component={View}
+        listeners={{
+          tabPress: (e) => {
+            e.preventDefault();
+            navigation.navigate(BottomTabRoutes.Cart);
+          },
+        }}
       />
       <Tab.Screen
         name={BottomTabRoutes.ProfileStack}

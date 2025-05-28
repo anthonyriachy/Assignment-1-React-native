@@ -14,9 +14,11 @@ import useAuthStore from '../stores/authStore/authStore.ts';
 import { UserService } from '../services/UserService/UserService';
 import { Alert } from 'react-native';
 import { handleError } from '../lib/handleError';
-
+import { linking } from './linking.ts';
+ 
 const Stack = createStackNavigator<MainStackParamsList>();
 
+ 
 export default function MainNavigator() {
     const { colors } = useTheme();
     const { hasStoreLoaded, accessToken, user, setUser } = useAuthStore();
@@ -49,8 +51,8 @@ export default function MainNavigator() {
     }
 
     return (
-        <NavigationContainer>
-            <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <NavigationContainer linking={linking}>
+             <Stack.Navigator screenOptions={{ headerShown: false }}>
                 {accessToken && user ? (
                     <Stack.Screen
                         name={MainNavigatorRoutes.AppStack}

@@ -11,10 +11,13 @@ import { MainBottomTabs } from '../../navigation/MainBottomtabs';
 import { Sell } from '../../pages/Sell';
 import { EditProfile } from '../../pages/EditProfile';
 import { StackHeader } from '../../components/molecules/StackHeader';
+import { CartScreen } from '../../pages/Cart/Cart';
+import { Checkout } from '../../pages/Checkout';
+import { OrderComplete } from '../../pages/OrderComplete';
 
 const Stack = createStackNavigator<AppStackParamsList>();
 
-const SellHeader = React.memo(({ route }: { route: RouteProp<any> }) => (
+const SellHeader = React.memo(({ route }: { route: RouteProp<AppStackParamsList, AppStackRoutes.SellModal> }) => (
     <StackHeader title={route.params?.productId ? 'Edit Item' : 'Sell Item'} />
 ));
 
@@ -45,6 +48,34 @@ export const AppStack = () => {
                     presentation: 'modal',
                     headerShown: true,
                     header: () => <SellHeader route={route} />,
+                })}
+            />
+
+            <Stack.Screen
+                name={AppStackRoutes.Cart}
+                component={CartScreen}
+                options={() => ({
+                    presentation: 'modal',
+                    headerShown: true,
+                    header: () => <StackHeader title="Cart" />,
+                })}
+            />
+
+            <Stack.Screen
+                name={AppStackRoutes.Checkout}
+                component={Checkout}
+                options={() => ({
+                    presentation: 'modal',
+                    headerShown: true,
+                    header: () => <StackHeader title="Checkout" />,
+                })}
+            />
+            <Stack.Screen
+                name={AppStackRoutes.OrderComplete}
+                component={OrderComplete}
+                options={() => ({
+                    presentation: 'modal',
+                    headerShown: false,
                 })}
             />
             <Stack.Screen

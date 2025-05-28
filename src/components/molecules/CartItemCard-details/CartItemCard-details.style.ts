@@ -5,10 +5,12 @@ import { globalStyles } from "../../../constants/globalStyles";
 export const createStyles = (colors:ThemeColors) => StyleSheet.create({
     container:{
         flex:1,
-        backgroundColor:colors.secondary,
+        backgroundColor:colors.card,
         paddingVertical:10,
         paddingRight:10,
         justifyContent:'space-between',
+        borderEndEndRadius:10,
+        borderEndStartRadius:10,
     },
     title:{
         fontSize:16,

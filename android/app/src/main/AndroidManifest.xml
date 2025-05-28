@@ -37,6 +37,24 @@
             <category android:name="android.intent.category.BROWSABLE" />
             <data android:scheme="mailto" />
         </intent-filter>
+        <intent-filter android:autoVerify="true">
+            <action android:name="android.intent.action.VIEW" />
+            <category android:name="android.intent.category.DEFAULT" />
+            <category android:name="android.intent.category.BROWSABLE" />
+            <data 
+                android:scheme="e-commerce"
+                android:host="*" />
+            <data android:pathPattern="/product/.*" />
+            <data android:pathPattern="/home" />
+            <data android:pathPattern="/search" />
+            <data android:pathPattern="/profile" />
+            <data android:pathPattern="/products" />
+            <data android:pathPattern="/sell" />
+            <data android:pathPattern="/cart" />
+            <data android:pathPattern="/checkout" />
+            <data android:pathPattern="/order-complete" />
+            <data android:pathPattern="/edit-profile" />
+        </intent-filter>
       </activity>
     </application>
 </manifest>

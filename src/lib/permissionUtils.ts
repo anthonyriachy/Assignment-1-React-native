@@ -61,4 +61,36 @@ export const checkStoragePermission = async (): Promise<boolean> => {
     console.error('Error in checkStoragePermission:', err);
     return false;
   }
+};
+
+export const requestLocationPermission = async (): Promise<boolean> => {
+  if (Platform.OS !== 'android') {
+    return true; // iOS handles permissions differently
+  }
+
+  try {
+    const hasPermission = await PermissionsAndroid.check(
+      PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
+    );
+
+    if (hasPermission) {
+      return true;
+    }
+
+    const granted = await PermissionsAndroid.request(
+      PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+      {
+        title: "Location Permission",
+        message: "App needs access to your location to provide location-based services.",
+        buttonNeutral: "Ask Me Later",
+        buttonNegative: "Cancel",
+        buttonPositive: "OK"
+      }
+    );
+
+    return granted === PermissionsAndroid.RESULTS.GRANTED;
+  } catch (err) {
+    console.error('Error in requestLocationPermission:', err);
+    return false;
+  }
 }; 
