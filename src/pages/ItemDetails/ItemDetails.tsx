@@ -37,7 +37,8 @@ export function ItemDetails({route}:any) {
 	const [refreshing, setRefreshing] = useState(false);
 	const { colors } = useTheme();
 	const styles = useMemo(() => createStyles(colors), [colors]);
-
+	
+	
 	const {data:item,isLoading,error,refetch} = useGetProductById(itemId);
 
 	useErrorAlert({
@@ -98,7 +99,7 @@ export function ItemDetails({route}:any) {
 		return <ItemDetailsLoading/>;
 	}
 
-if(!item){
+	if(!item){
 		return <View style={styles.container}>
 			<View style={styles.backButton}>
 				<BackArrow />

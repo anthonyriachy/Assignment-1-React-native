@@ -3,9 +3,8 @@ import { ErrorCodes } from '../../constants/ErrorCodes';
 
 export const handleError = (error: unknown): string => {
     if (error instanceof AxiosError) {
-
+        console.log('error', error);
         if (error.response?.data?.error?.message) {
-
             return error.response.data.error.message;
         }
 

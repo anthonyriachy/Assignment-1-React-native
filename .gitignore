@@ -2,7 +2,12 @@
 #
 .DS_Store
 android/local.properties
+
+# Environment files
 .env
+.env.*
+!.env.example
+
 # Xcode
 #
 build/

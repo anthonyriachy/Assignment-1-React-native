@@ -8,3 +8,6 @@
 #   http://developer.android.com/guide/developing/tools/proguard.html
 
 # Add any project specific keep options here:
+# Keep the react-native-config classes
+-keep class com.facebook.react.modules.** { *; }
+-keep class com.lugg.ReactNativeConfig.** { *; }

@@ -36,7 +36,6 @@ export const Products = ({route}: {route: any}) => {
     const [isFilterVisible, setIsFilterVisible] = useState(false);
     const flatListRef = useRef<FlatList>(null);
 
-    // Products query with pagination
     const {
         data: initalData,
         fetchNextPage,
@@ -46,9 +45,8 @@ export const Products = ({route}: {route: any}) => {
         isFetching,
         error,
         refetch,
-    } = useGetProducts({ limit: 10 });
+    } = useGetProducts();
 
-    // Search query
     const {
         data: searchResults,
         isLoading: isSearching,
@@ -57,7 +55,6 @@ export const Products = ({route}: {route: any}) => {
 
     useErrorAlert({error: error || searchError, onRetry: refetch, onDismiss: () => {}});
 
-    // Memoize combined data
     const combinedInitialData = useMemo(() =>
         initalData?.pages.reduce<ProductDTO[]>((acc, page) => {
             if (page.data) {
@@ -76,8 +73,6 @@ export const Products = ({route}: {route: any}) => {
     const handleRefresh = () => {
         refetch();
     };
-
-
 
     const toggleFilter = () => {
         setIsFilterVisible(!isFilterVisible);
@@ -151,12 +146,12 @@ export const Products = ({route}: {route: any}) => {
         <ProductsLoading key={`shimmer-${Math.random()}`} />
     );
 
-    const keyExtractor = (item: any, index: number) =>
-        item?._id || `shimmer-${index}`;
+    const keyExtractor = (item: any, index: number) => item?._id || `shimmer-${index}`;
 
     return (
         <View style={styles.container}>
             <View style={styles.header}>
+                
                 {params && <View style={styles.backButton}>
                     <BackArrow />
                 </View>}

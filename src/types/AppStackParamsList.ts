@@ -2,9 +2,12 @@ import { AppStackRoutes } from '../constants/AppStackRoutes';
 
 export type AppStackParamsList = {
     [AppStackRoutes.BottomTabs]: undefined;
-    [AppStackRoutes.Details]: undefined;
-    [AppStackRoutes.Products]: { title: string };
+    [AppStackRoutes.Details]: { itemId: string };
+    [AppStackRoutes.Products]: { title: string; search?: string };
     [AppStackRoutes.Profile]: undefined;
     [AppStackRoutes.SellModal]: { productId?: string };
     [AppStackRoutes.EditProfile]: undefined;
+    [AppStackRoutes.Cart]: undefined;
+    [AppStackRoutes.Checkout]: undefined;
+    [AppStackRoutes.OrderComplete]: undefined;
 };

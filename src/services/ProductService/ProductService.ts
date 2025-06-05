@@ -6,6 +6,7 @@ import { GetByIdResponse, GetProductsResponse, CreateProductResponse } from './P
  export class ProductService {
     static async getProducts(page:number = 1,limit:number = 10):Promise<GetProductsResponse> {
         try {
+            console.log('getProducts');
             const params = new URLSearchParams();
             params.append('page',page.toString());
             params.append('limit',limit.toString());
@@ -15,6 +16,7 @@ import { GetByIdResponse, GetProductsResponse, CreateProductResponse } from './P
                     limit: limit
                 }
             });
+            console.log('response', response.data);
             return response.data;
         } catch (error) {
             throw new Error(handleError(error));

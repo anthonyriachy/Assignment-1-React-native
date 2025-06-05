@@ -6,5 +6,8 @@ export enum AppStackRoutes{
     Details='Details',
     Products='Products',
     SellModal='SellModal',
+    Cart='Cart',
+    Checkout='Checkout',
+    OrderComplete='OrderComplete',
     EditProfile='EditProfile'
 }

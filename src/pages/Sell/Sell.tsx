@@ -126,7 +126,6 @@ export function Sell() {
 
         // Handle images differently for create and update
         data.images.forEach((image, index) => {
-            // If it's an existing image (starts with /uploads), use getImageUrl
             if (image.startsWith('/uploads')) {
                 formData.append('images', {
                     uri: getImageUrl(image),
@@ -134,7 +133,6 @@ export function Sell() {
                     name: `image-${index}.jpg`,
                 });
             } else {
-                // For new images, use the direct URI
                 formData.append('images', {
                     uri: image,
                     type: 'image/jpeg',

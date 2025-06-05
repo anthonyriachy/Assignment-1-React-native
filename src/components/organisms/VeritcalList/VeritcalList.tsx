@@ -8,13 +8,7 @@ import { ItemsCardHorizontal } from '../ItemsCardHorizontal';
 import { styles } from './VeritcalList.style.ts';
 import { Empty } from '../../atoms/Empty/Empty.tsx';
 
-
-const NoMoreProducts = () => (
-	<View style={styles.noMoreProductsContainer}>
-		<Text style={styles.noMoreProductsText}>No More Products</Text>
-	</View>
-);
-
+ 
 
 export const VerticalList = ({ title, onClick, data = [], onLoadMore, isLoading, hasMore, isFetchingMore }: VerticalListProps) => (
 	<View style={styles.container}>

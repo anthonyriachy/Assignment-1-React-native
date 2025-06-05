@@ -1,0 +1,30 @@
+{
+    "project_info": {
+      "project_number": "559337831786",
+      "project_id": "eurisko-app",
+      "storage_bucket": "eurisko-app.firebasestorage.app"
+    },
+    "client": [
+      {
+        "client_info": {
+          "mobilesdk_app_id": "1:559337831786:android:947a363aee97b56ea13913",
+          "android_client_info": {
+            "package_name": "com.awesomeproject"
+          }
+        },
+        "oauth_client": [],
+        "api_key": [
+          {
+            "current_key": "AIzaSyClRsEx7ibGC3HKzuVglGnY8gs_uw4sNPQ"
+          }
+        ],
+        "services": {
+          "appinvite_service": {
+            "other_platform_oauth_client": []
+          }
+        }
+      }
+    ],
+    "configuration_version": "1"
+  }
+  

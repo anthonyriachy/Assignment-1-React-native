@@ -1,3 +1,4 @@
+import React from 'react';
 import { ItemsSectionProps } from './ItemsSection.type';
 import { VerticalList } from '../VeritcalList';
 import { HorizontalList } from '../HorizontalList';

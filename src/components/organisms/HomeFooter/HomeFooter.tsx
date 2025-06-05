@@ -26,6 +26,9 @@ function HomeFooter({
 }: HomeFooterProps) {
   const styles = createStyles();
 
+  const handlePopularProductsClick = () => onNavigateToProducts('Most Popular');
+  const handleNewArrivalsClick = () => onNavigateToProducts('New Arrivals');
+
   if(isLoading) {
     return <HomeFooterLoading onNavigateToProducts={onNavigateToProducts} />;
   }
@@ -35,14 +38,14 @@ function HomeFooter({
       <ItemsSection 
         title="Most Popular" 
         horizontal={true} 
-        onClick={() => onNavigateToProducts('Most Popular')} 
+        onClick={handlePopularProductsClick} 
         data={popularProducts}
         isLoading={isLoading}
       />
       <ItemsSection 
         title="New Arrivals" 
         horizontal={false} 
-        onClick={() => onNavigateToProducts('New Arrivals')}
+        onClick={handleNewArrivalsClick}
         data={newArrivals}
         onLoadMore={onLoadMore}
         isLoading={isLoading}

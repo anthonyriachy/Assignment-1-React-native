@@ -16,11 +16,11 @@ export const VerificationCodeInput = ({ code, setCode }: VerificationCodeInputPr
 
     const handleCodeChange = (text: string, index: number) => {
         if(isNaN(Number(text))) return;
+        
         const newCode = [...code];
         newCode[index] = text;
         setCode(newCode);
 
-        
         if (text && index < 5) {
             inputRefs.current[index + 1]?.focus();
         }
@@ -31,6 +31,7 @@ export const VerificationCodeInput = ({ code, setCode }: VerificationCodeInputPr
             {[0, 1, 2, 3,4,5].map((index) => (
                 <TextInput
                     key={index}
+                    testID={`verification-input-${index}`}
                     ref={(ref) => {
                         inputRefs.current[index] = ref;
                     }}

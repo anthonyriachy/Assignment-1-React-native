@@ -1,3 +1,4 @@
+import React from "react"
 import { FlatList, View } from "react-native"
 import { ItemsCardShimmer } from "../../components/molecules/ItemsCard/ItemCardLoading"
 

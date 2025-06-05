@@ -2,14 +2,13 @@ import { Marker, Region } from "react-native-maps";
 import MapView from "react-native-maps";
 import { useTheme } from "../../../hooks/UseTheme";
 import { createStyles } from "./MapsComponent.style";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback, memo } from "react";
 import { Modal, TouchableOpacity, View } from "react-native";
-import Geolocation from "@react-native-community/geolocation";
 import { MapComponentProps } from "./MapsComponent.type";
 import { BackArrow } from "../../atoms/BackArrow";
 import FullScreenIcon from "../../../assets/icons/fullscreen-svgrepo-com.svg";
 
-export const MapComponent = ({setValue, latitude, longitude, locationName,isView}: MapComponentProps) => {
+export const MapComponent = memo(({setValue, latitude, longitude, locationName, isView}: MapComponentProps) => {
     const { colors } = useTheme();
     const styles = createStyles(colors);
     const [isMapModalVisible, setIsMapModalVisible] = useState(false);
@@ -32,7 +31,7 @@ export const MapComponent = ({setValue, latitude, longitude, locationName,isView
         }
     }, [latitude, longitude]);
 
-    const onMapPress = (e: any) => {
+    const onMapPress = useCallback((e: any) => {
         if(isView) return;
         const { latitude, longitude } = e.nativeEvent.coordinate;
         const newRegion = {
@@ -45,16 +44,18 @@ export const MapComponent = ({setValue, latitude, longitude, locationName,isView
             setValue('location.latitude', latitude);
             setValue('location.longitude', longitude);
         }
-    };
+    }, [isView, selectedLocation, setValue]);
 
-  
+    const toggleMapModal = useCallback(() => {
+        setIsMapModalVisible(prev => !prev);
+    }, []);
 
     return (
         <View>
             <View style={styles.mapContainer}>
                 <TouchableOpacity
                     style={styles.fullScreenButton}
-                    onPress={() => setIsMapModalVisible(true)}
+                    onPress={toggleMapModal}
                 >
                     <FullScreenIcon width={14} height={14}/>
                 </TouchableOpacity>
@@ -73,17 +74,15 @@ export const MapComponent = ({setValue, latitude, longitude, locationName,isView
                 </MapView>
             </View>
 
-
-{/* full screen map */}
             <Modal
                 animationType="slide"
                 transparent={false}
                 visible={isMapModalVisible}
-                onRequestClose={() => setIsMapModalVisible(false)}
+                onRequestClose={toggleMapModal}
             >
                 <View style={styles.modalContainer}>
                     <View style={styles.closeButton}>
-                        <BackArrow onPress={() => setIsMapModalVisible(false)}/>
+                        <BackArrow onPress={toggleMapModal}/>
                     </View>
                     <MapView
                         style={styles.map}
@@ -104,4 +103,6 @@ export const MapComponent = ({setValue, latitude, longitude, locationName,isView
             </Modal>
         </View>
     );
-};
+});
+
+MapComponent.displayName = 'MapComponent';

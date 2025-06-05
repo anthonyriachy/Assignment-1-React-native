@@ -31,5 +31,10 @@ export const createStyles = (colors: ThemeColors) => StyleSheet.create({
         backgroundColor:colors.secondary,
         padding:8,
         borderRadius:100,
+        paddingLeft:10,
+        width:35,
+        height:35,
+        justifyContent:'center',
+        alignItems:'center',
     },
 });

@@ -1,3 +1,4 @@
+import React from 'react';
 import { StyleSheet, View } from "react-native";
 import { CustomText } from "../CustomText/CustomText";
 import { colors } from "../../../constants/colors";

@@ -28,13 +28,24 @@ export const createStyles = (colors: ThemeColors) => StyleSheet.create({
         objectFit: 'contain',
 
     },
-    email: {
-        fontSize: 18,
+    nameContainer: {
+        alignItems: 'center',
+        marginVertical: 20,
+    },
+    name: { 
+        fontSize: 24,
         fontFamily: 'Poppins-Bold',
         color: colors.text,
         textAlign: 'center',
-        marginVertical: 20,
+        
         width: '100%',
+    },
+    email: {
+        fontSize: 16,
+        fontFamily: 'Poppins-Regular',
+        color: colors.text,
+        textAlign: 'center',
+         width: '100%',
         
     },
     logoutButton: {

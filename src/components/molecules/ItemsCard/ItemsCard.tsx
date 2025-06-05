@@ -1,3 +1,4 @@
+import React from 'react';
 import { ItemsCardImage } from '../../atoms/ItemsCardImage';
 import { Pressable, View } from 'react-native';
 import { styles } from './ItemsCard.style.ts';
@@ -21,9 +22,9 @@ export function ItemsCard({item, smaller}: ItemsCardProps) {
 	}, [item._id, navigation]);
 
 	return (
-		<Pressable onPress={handleClick} style={styles.parentContainer}>
-			<View style={!smaller ? styles.container : styles.smallerContainer}>
-				<ItemsCardImage image={getImageUrl(item.images[0].url)} />
+		<Pressable onPress={handleClick} style={styles.parentContainer} testID="items-card-pressable">
+			<View style={!smaller ? styles.container : styles.smallerContainer} testID="items-card-container">
+				<ItemsCardImage image={getImageUrl(item.images[0].url)} testID="items-card-image" item={item} />
 				<ItemsCardInfo 
 					title={item.title} 
 					price={item.price} 

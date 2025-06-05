@@ -1,3 +1,4 @@
+import React from 'react';
 import { TouchableOpacity } from "react-native";
 import Arrow from "../../../assets/icons/BackArrow.svg"
 import { styles } from "./BackArrow.style";

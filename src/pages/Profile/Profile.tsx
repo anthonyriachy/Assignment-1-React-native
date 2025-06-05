@@ -38,7 +38,10 @@ export const Profile = () => {
                         style={styles.profileImage}
                     />
                 </View>
-                <Text style={styles.email}>{fullname}</Text>
+                <View style={styles.nameContainer}>
+                    <Text style={styles.name}>{fullname}</Text>
+                    <Text style={styles.email}>{user?.email}</Text>
+                </View>
                 <View style={styles.buttonContainer}>
                     <ProfileButton title="Edit Profile" icon={SmallProfile} onPress={() => navigation.navigate(ProfileStackRoutes.EditProfile)} />
                     <ProfileButton title="Settings" icon={Settings} />

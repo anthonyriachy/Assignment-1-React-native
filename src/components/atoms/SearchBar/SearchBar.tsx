@@ -1,3 +1,4 @@
+import React from 'react';
 import { View, Pressable } from 'react-native';
 import  SearchIcon from '../../../assets/icons/BottomTabSearch.svg';
 import { TextInput } from 'react-native-gesture-handler';

@@ -11,24 +11,27 @@ import { LoginSchemaType } from '../../schemas/Login.schema';
 import { LoginSchema } from '../../schemas/Login.schema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTheme } from '../../hooks/UseTheme';
-
 import { UserService } from '../../services/UserService/UserService';
 import useAuthStore from '../../stores/authStore/authStore';
+import useDeepLinkStore from '../../stores/deepLinkStore/deepLinkStore';
 import { useMutation } from '@tanstack/react-query';
 import { handleError } from '../../lib/handleError';
 import { CustomText } from '../../components/atoms/CustomText/CustomText';
+import { CommonActions } from '@react-navigation/native';
+import { AppStackRoutes } from '../../constants/AppStackRoutes';
 
 function Login({ navigation }: any) {
   const { colors } = useTheme();
   const { setTokens, setUser } = useAuthStore();
+  const { pendingDeepLink, clearPendingDeepLink } = useDeepLinkStore();
   const styles = createStyles(colors);
+
   const {mutate, isPending} = useMutation({
     mutationFn: async (data: LoginSchemaType) => {
       const loginResponse = await UserService.login(data);
       if (loginResponse.success) {
-        console.log('loginResponse!!!!!!!!!!!!!!!!!!!!!!!!!!',loginResponse);
         setTokens(loginResponse.data.accessToken, loginResponse.data.refreshToken);
-        // Fetch user after login
+        // fetch user after login
         const userResponse = await UserService.getUserProfile();
         if (userResponse.success && userResponse.data?.user) {
           setUser(userResponse.data.user);
@@ -36,6 +39,42 @@ function Login({ navigation }: any) {
         return { loginResponse, userResponse };
       }
       return { loginResponse };
+    },
+    onSuccess: async () => {
+      // console.log('Processing pending deep link after login:', pendingDeepLink);
+      if (pendingDeepLink) {
+        try { 
+          const productId = pendingDeepLink.split('/').pop();
+          console.log('pendingDeepLink', pendingDeepLink);
+          console.log('Extracted product ID:', productId);
+
+          if (productId) {
+            // navigate to details 
+            navigation.dispatch(
+              CommonActions.reset({
+                index: 0,
+                routes: [
+                  {
+                    name: 'AppStack',
+                    state: {
+                      routes: [
+                        {
+                          name: AppStackRoutes.Details,
+                          params: { itemId: productId }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              })
+            );
+          }
+        } catch (error) {
+          console.error('Error processing deep link:', error);
+        } finally {
+          clearPendingDeepLink();
+        }
+      }
     },
     onError: (error) => {
       Alert.alert('Error', handleError(error), [{ text: 'OK' }]);

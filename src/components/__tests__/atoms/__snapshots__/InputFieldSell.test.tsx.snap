@@ -1,0 +1,106 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`InputFieldSell renders correctly in description mode 1`] = `
+<View>
+  <Text
+    style={
+      {
+        "color": "#000",
+        "fontFamily": "Poppins-SemiBold",
+        "fontSize": 12,
+      }
+    }
+  >
+    Test Label
+  </Text>
+  <TextInput
+    multiline={true}
+    numberOfLines={5}
+    onChangeText={[MockFunction]}
+    placeholder="Enter description"
+    style={
+      {
+        "borderColor": "#ccc",
+        "borderRadius": 8,
+        "borderWidth": 1,
+        "color": "#000",
+        "height": 120,
+        "paddingHorizontal": 15,
+        "paddingVertical": 10,
+        "textAlignVertical": "top",
+      }
+    }
+  />
+</View>
+`;
+
+exports[`InputFieldSell renders correctly with default props 1`] = `
+<View>
+  <Text
+    style={
+      {
+        "color": "#000",
+        "fontFamily": "Poppins-SemiBold",
+        "fontSize": 12,
+      }
+    }
+  >
+    Test Label
+  </Text>
+  <TextInput
+    multiline={false}
+    numberOfLines={1}
+    onChangeText={[MockFunction]}
+    placeholder="Enter text"
+    style={
+      {
+        "borderColor": "#ccc",
+        "borderRadius": 8,
+        "borderWidth": 1,
+        "color": "#000",
+        "paddingHorizontal": 15,
+        "paddingVertical": 10,
+        "textAlignVertical": "top",
+      }
+    }
+  />
+</View>
+`;
+
+exports[`InputFieldSell renders correctly with error 1`] = `
+<View>
+  <Text
+    style={
+      {
+        "color": "#000",
+        "fontFamily": "Poppins-SemiBold",
+        "fontSize": 12,
+      }
+    }
+  >
+    Test Label
+  </Text>
+  <Text
+    testID="error-text"
+  >
+    Error message
+  </Text>
+  <TextInput
+    multiline={false}
+    numberOfLines={1}
+    onChangeText={[MockFunction]}
+    placeholder="Enter text"
+    style={
+      {
+        "borderColor": "#ccc",
+        "borderRadius": 8,
+        "borderWidth": 1,
+        "color": "#000",
+        "paddingHorizontal": 15,
+        "paddingVertical": 10,
+        "textAlignVertical": "top",
+      }
+    }
+  />
+</View>
+`;

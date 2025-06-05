@@ -119,6 +119,7 @@ export const createStyles = (colors: ThemeColors) => StyleSheet.create({
         fontSize:12,
         fontFamily:globalStyles.regular,
         color:colors.text,
+        maxWidth:window.width*0.4,
     },
     mapContainer:{
         marginHorizontal:15,
