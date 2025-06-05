@@ -7,21 +7,25 @@ import { createStyles } from "./Cart.style";
 import { CartInfo } from "../../components/organisms/CartInfo";
 import { CustomButton } from "../../components/atoms/CustomButton/CustomButton";
 import { BottomSheetModal, BottomSheetModalProvider } from '@gorhom/bottom-sheet';
-import { useCallback, useMemo, useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { useNavigation } from "@react-navigation/native";
 import { AppStackRoutes } from "../../constants/AppStackRoutes";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { AppStackParamsList } from "../../types/AppStackParamsList";
+import { CartItemDTO } from "../../types/CartItemDTO";
+import { ViewCartDetailsButton } from "../../components/atoms/ViewCartDetailsButton";
 
 type CartScreenNavigationProp = StackNavigationProp<AppStackParamsList>;
+
 
 export const CartScreen = () => {
     const {colors} = useTheme();
     const styles = createStyles(colors);
-    const { items } = useCartStore();
-    const {getTotal, getItemCount} = useCartStore();
-    const total = getTotal();
-    const itemCount = getItemCount();
+
+    const items = useCartStore(state => state.items);
+    const total = useCartStore(state => state.getTotal());
+    const itemCount = useCartStore(state => state.getItemCount());
+    
     const deliveryCharges = 10;
     const navigation = useNavigation<CartScreenNavigationProp>();
     const [isModalVisible, setIsModalVisible] = useState(false);
@@ -29,13 +33,13 @@ export const CartScreen = () => {
     const bottomSheetModalRef = useRef<BottomSheetModal>(null);
     const buttonOpacity = useRef(new Animated.Value(1)).current;
 
-    const snapPoints = useMemo(() => ['50%'], []);
+    const snapPoints = ['70%'];
 
     const animateButton = useCallback((visible: boolean) => {
         Animated.timing(buttonOpacity, {
             toValue: visible ? 0 : 1,
             duration: 150,
-            useNativeDriver: true,
+            useNativeDriver: false,
         }).start();
     }, [buttonOpacity]);
 
@@ -61,78 +65,59 @@ export const CartScreen = () => {
         }
     }, [navigation]);
 
-    const cartInfoProps = useMemo(() => ({
-        numberOfItems: itemCount,
-        subTotal: total,
-        deliveryCharges: deliveryCharges,
-        total: total + deliveryCharges
-    }), [itemCount, total, deliveryCharges]);
+    const renderItem = useCallback(({item}: {item: CartItemDTO}) => {
+        return <CartItemCard item={item} />;
+    }, []);
 
-    const bottomSheetContent = useMemo(() => (
-        <View style={styles.bottomSheetContent}>
-            <CartInfo {...cartInfoProps} />
-            <CustomButton 
-                title="Proceed to Checkout" 
-                onPress={handleCheckout} 
-                style={styles.checkoutButton}
-            />
-        </View>
-    ), [styles.bottomSheetContent, cartInfoProps, handleCheckout, styles.checkoutButton]);
-
-    const memoizedBottomSheet = useMemo(() => (
-        <BottomSheetModal
-            ref={bottomSheetModalRef}
-            index={0}
-            snapPoints={snapPoints}
-            onChange={handleSheetChanges}
-            backgroundStyle={styles.bottomSheetBackground}
-            enablePanDownToClose={true}
-            enableDismissOnClose={true}
-            enableDynamicSizing={false}
-            enableOverDrag={true}
-            enableHandlePanningGesture={true}
-            animationConfigs={{
-                duration: 200,
-            }}
-        >
-            {bottomSheetContent}
-        </BottomSheetModal>
-    ), [
-        bottomSheetModalRef,
-        snapPoints,
-        handleSheetChanges,
-        styles.bottomSheetBackground,
-        bottomSheetContent
-    ]);
+    const keyExtractor = useCallback((item: CartItemDTO) => item._id, []);
 
     return (
         <BottomSheetModalProvider>
             <View style={styles.container}>
                 <FlatList
                     data={items}
-                    renderItem={({item})=>{
-                        return <CartItemCard item={item} />
-                    }}
+                    renderItem={renderItem}
+                    keyExtractor={keyExtractor}
                     contentContainerStyle={{ gap: 15, paddingBottom: 100 }}
                     showsVerticalScrollIndicator={false}
                 />
                 
-                <Animated.View 
-                    style={[
-                        styles.bottomContainer,
-                        { opacity: buttonOpacity }
-                    ]}
-                    pointerEvents={isModalVisible ? 'none' : 'auto'}
-                >
-                    <TouchableOpacity 
-                        style={styles.expandButton} 
-                        onPress={handlePresentModalPress}
-                    >
-                        <Text style={styles.expandButtonText}>View Cart Details</Text>
-                    </TouchableOpacity>
-                </Animated.View>
+                <ViewCartDetailsButton 
+                    onPress={handlePresentModalPress}
+                    opacity={buttonOpacity} 
+                    isModalVisible={isModalVisible}
+                    styles={styles}
+                />
 
-                {memoizedBottomSheet}
+                <BottomSheetModal
+                    ref={bottomSheetModalRef}
+                    index={0}
+                    snapPoints={snapPoints}
+                    onChange={handleSheetChanges}
+                    backgroundStyle={styles.bottomSheetBackground}
+                    enablePanDownToClose={true}
+                    enableDismissOnClose={true}
+                    enableDynamicSizing={false}
+                    enableOverDrag={true}
+                    enableHandlePanningGesture={true}
+                    animationConfigs={{
+                        duration: 200,
+                    }}
+                >
+                    <View style={styles.bottomSheetContent}>
+                        <CartInfo 
+                            numberOfItems={itemCount}
+                            subTotal={total}
+                            deliveryCharges={deliveryCharges}
+                            total={total + deliveryCharges}
+                        />
+                        <CustomButton 
+                            title="Proceed to Checkout" 
+                            onPress={handleCheckout} 
+                            style={styles.checkoutButton}
+                        />
+                    </View>
+                </BottomSheetModal>
             </View>
         </BottomSheetModalProvider>
     );

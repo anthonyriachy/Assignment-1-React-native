@@ -10,13 +10,13 @@ const useCartStore = create<CartState>()(
       
       addItem: (item) => {
         const currentItems = get().items;
-        const existingItem = currentItems.find((i) => i.id === item.id);
+        const existingItem = currentItems.find((i) => i._id === item._id);
         
         if (existingItem) {
-          console.log("existingItem",existingItem);
+          // console.log("existingItem",existingItem);
           set({
             items: currentItems.map((i) =>
-              i.id === item.id ? { ...i, quantity: i.quantity + 1 } : i
+              i._id === item._id ? { ...i, quantity: i.quantity + 1 } : i
             ),
           });
         } else {
@@ -24,19 +24,19 @@ const useCartStore = create<CartState>()(
         }
       },
 
-      removeItem: (id) => {
-        set({ items: get().items.filter((item) => item.id !== id) });
+      removeItem: (_id) => {
+        set({ items: get().items.filter((item) => item._id !== _id) });
       },
 
-      updateQuantity: (id, quantity) => {
+      updateQuantity: (_id, quantity) => {
         if (quantity <= 0) {
-          get().removeItem(id);
+          get().removeItem(_id);
           return;
         }
         
         set({
           items: get().items.map((item) =>
-            item.id === id ? { ...item, quantity } : item
+            item._id === _id ? { ...item, quantity } : item
           ),
         });
       },

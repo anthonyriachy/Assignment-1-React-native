@@ -2,10 +2,8 @@
 import React, { useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { AppStack } from '../stacks/AppStack/AppStack';
-import { ActivityIndicator } from 'react-native';
-import { useTheme } from '../hooks/UseTheme';
-import { View } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
+import SplashScreen from 'react-native-splash-screen';
 
 import { AuthStack } from '../stacks/AuthStack';
 import { MainStackParamsList } from '../types/MainStackParamsList.ts';
@@ -18,42 +16,45 @@ import { linking } from './linking.ts';
  
 const Stack = createStackNavigator<MainStackParamsList>();
 
- 
 export default function MainNavigator() {
-    const { colors } = useTheme();
     const { hasStoreLoaded, accessToken, user, setUser } = useAuthStore();
 
     useEffect(() => {
-        const fetchUserIfNeeded = async () => {
-            if (accessToken && !user) {
-                try {
+        const initializeAuth = async () => {
+            if (!hasStoreLoaded) return;
+
+            try {
+                if (accessToken && !user) {
                     const userResponse = await UserService.getUserProfile();
                     if (userResponse.success && userResponse.data?.user) {
                         setUser(userResponse.data.user);
+                    } else {
+                        useAuthStore.getState().clearTokens();
                     }
-                } catch (error) {
-                    Alert.alert('Error', handleError(error), [{ text: 'OK' }]);
                 }
+            } catch (error) {
+                Alert.alert('Error', handleError(error), [{ text: 'OK' }]);
+                useAuthStore.getState().clearTokens();
+            } finally {
+                SplashScreen.hide();
             }
         };
 
-        if (hasStoreLoaded) {
-            fetchUserIfNeeded();
-        }
+        initializeAuth();
     }, [accessToken, user, hasStoreLoaded, setUser]);
 
+    // keep splash screen
     if (!hasStoreLoaded) {
-        return (
-            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: colors.background }}>
-                <ActivityIndicator size="large" color={colors.primary} />
-            </View>
-        );
+        return null;
     }
+
+   
+    const isAuthenticated = Boolean(accessToken);
 
     return (
         <NavigationContainer linking={linking}>
              <Stack.Navigator screenOptions={{ headerShown: false }}>
-                {accessToken && user ? (
+                {isAuthenticated ? (
                     <Stack.Screen
                         name={MainNavigatorRoutes.AppStack}
                         component={AppStack}

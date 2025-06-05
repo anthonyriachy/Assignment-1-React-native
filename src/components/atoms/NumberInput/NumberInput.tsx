@@ -1,3 +1,4 @@
+import React from 'react';
 import { Text, TextInput, View } from "react-native";
 import { createStyles } from "./NumberInput.style";
 import { NumberInputProps } from "./NumberInput.type";

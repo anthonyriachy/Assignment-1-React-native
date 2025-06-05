@@ -1,3 +1,4 @@
+import React from 'react';
 import { FlatList, View } from "react-native";
 import { ItemsSectionHeader } from "../../molecules/ItemsSectionHeader";
 import { ItemsCard } from "../../molecules/ItemsCard";

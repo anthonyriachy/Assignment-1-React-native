@@ -1,0 +1,367 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`VerificationCodeInput renders correctly with complete code 1`] = `
+<View
+  style={
+    {
+      "flexDirection": "row",
+      "gap": 10,
+      "justifyContent": "space-between",
+      "width": "100%",
+    }
+  }
+>
+  <TextInput
+    keyboardType="number-pad"
+    maxLength={1}
+    onChangeText={[Function]}
+    style={
+      {
+        "backgroundColor": undefined,
+        "borderRadius": 8,
+        "color": "#000",
+        "fontSize": 24,
+        "height": 50,
+        "textAlign": "center",
+        "width": 50,
+      }
+    }
+    testID="verification-input-0"
+    value="1"
+  />
+  <TextInput
+    keyboardType="number-pad"
+    maxLength={1}
+    onChangeText={[Function]}
+    style={
+      {
+        "backgroundColor": undefined,
+        "borderRadius": 8,
+        "color": "#000",
+        "fontSize": 24,
+        "height": 50,
+        "textAlign": "center",
+        "width": 50,
+      }
+    }
+    testID="verification-input-1"
+    value="2"
+  />
+  <TextInput
+    keyboardType="number-pad"
+    maxLength={1}
+    onChangeText={[Function]}
+    style={
+      {
+        "backgroundColor": undefined,
+        "borderRadius": 8,
+        "color": "#000",
+        "fontSize": 24,
+        "height": 50,
+        "textAlign": "center",
+        "width": 50,
+      }
+    }
+    testID="verification-input-2"
+    value="3"
+  />
+  <TextInput
+    keyboardType="number-pad"
+    maxLength={1}
+    onChangeText={[Function]}
+    style={
+      {
+        "backgroundColor": undefined,
+        "borderRadius": 8,
+        "color": "#000",
+        "fontSize": 24,
+        "height": 50,
+        "textAlign": "center",
+        "width": 50,
+      }
+    }
+    testID="verification-input-3"
+    value="4"
+  />
+  <TextInput
+    keyboardType="number-pad"
+    maxLength={1}
+    onChangeText={[Function]}
+    style={
+      {
+        "backgroundColor": undefined,
+        "borderRadius": 8,
+        "color": "#000",
+        "fontSize": 24,
+        "height": 50,
+        "textAlign": "center",
+        "width": 50,
+      }
+    }
+    testID="verification-input-4"
+    value="5"
+  />
+  <TextInput
+    keyboardType="number-pad"
+    maxLength={1}
+    onChangeText={[Function]}
+    style={
+      {
+        "backgroundColor": undefined,
+        "borderRadius": 8,
+        "color": "#000",
+        "fontSize": 24,
+        "height": 50,
+        "textAlign": "center",
+        "width": 50,
+      }
+    }
+    testID="verification-input-5"
+    value="6"
+  />
+</View>
+`;
+
+exports[`VerificationCodeInput renders correctly with empty code 1`] = `
+<View
+  style={
+    {
+      "flexDirection": "row",
+      "gap": 10,
+      "justifyContent": "space-between",
+      "width": "100%",
+    }
+  }
+>
+  <TextInput
+    keyboardType="number-pad"
+    maxLength={1}
+    onChangeText={[Function]}
+    style={
+      {
+        "backgroundColor": undefined,
+        "borderRadius": 8,
+        "color": "#000",
+        "fontSize": 24,
+        "height": 50,
+        "textAlign": "center",
+        "width": 50,
+      }
+    }
+    testID="verification-input-0"
+    value=""
+  />
+  <TextInput
+    keyboardType="number-pad"
+    maxLength={1}
+    onChangeText={[Function]}
+    style={
+      {
+        "backgroundColor": undefined,
+        "borderRadius": 8,
+        "color": "#000",
+        "fontSize": 24,
+        "height": 50,
+        "textAlign": "center",
+        "width": 50,
+      }
+    }
+    testID="verification-input-1"
+    value=""
+  />
+  <TextInput
+    keyboardType="number-pad"
+    maxLength={1}
+    onChangeText={[Function]}
+    style={
+      {
+        "backgroundColor": undefined,
+        "borderRadius": 8,
+        "color": "#000",
+        "fontSize": 24,
+        "height": 50,
+        "textAlign": "center",
+        "width": 50,
+      }
+    }
+    testID="verification-input-2"
+    value=""
+  />
+  <TextInput
+    keyboardType="number-pad"
+    maxLength={1}
+    onChangeText={[Function]}
+    style={
+      {
+        "backgroundColor": undefined,
+        "borderRadius": 8,
+        "color": "#000",
+        "fontSize": 24,
+        "height": 50,
+        "textAlign": "center",
+        "width": 50,
+      }
+    }
+    testID="verification-input-3"
+    value=""
+  />
+  <TextInput
+    keyboardType="number-pad"
+    maxLength={1}
+    onChangeText={[Function]}
+    style={
+      {
+        "backgroundColor": undefined,
+        "borderRadius": 8,
+        "color": "#000",
+        "fontSize": 24,
+        "height": 50,
+        "textAlign": "center",
+        "width": 50,
+      }
+    }
+    testID="verification-input-4"
+    value=""
+  />
+  <TextInput
+    keyboardType="number-pad"
+    maxLength={1}
+    onChangeText={[Function]}
+    style={
+      {
+        "backgroundColor": undefined,
+        "borderRadius": 8,
+        "color": "#000",
+        "fontSize": 24,
+        "height": 50,
+        "textAlign": "center",
+        "width": 50,
+      }
+    }
+    testID="verification-input-5"
+    value=""
+  />
+</View>
+`;
+
+exports[`VerificationCodeInput renders correctly with partial code 1`] = `
+<View
+  style={
+    {
+      "flexDirection": "row",
+      "gap": 10,
+      "justifyContent": "space-between",
+      "width": "100%",
+    }
+  }
+>
+  <TextInput
+    keyboardType="number-pad"
+    maxLength={1}
+    onChangeText={[Function]}
+    style={
+      {
+        "backgroundColor": undefined,
+        "borderRadius": 8,
+        "color": "#000",
+        "fontSize": 24,
+        "height": 50,
+        "textAlign": "center",
+        "width": 50,
+      }
+    }
+    testID="verification-input-0"
+    value="1"
+  />
+  <TextInput
+    keyboardType="number-pad"
+    maxLength={1}
+    onChangeText={[Function]}
+    style={
+      {
+        "backgroundColor": undefined,
+        "borderRadius": 8,
+        "color": "#000",
+        "fontSize": 24,
+        "height": 50,
+        "textAlign": "center",
+        "width": 50,
+      }
+    }
+    testID="verification-input-1"
+    value="2"
+  />
+  <TextInput
+    keyboardType="number-pad"
+    maxLength={1}
+    onChangeText={[Function]}
+    style={
+      {
+        "backgroundColor": undefined,
+        "borderRadius": 8,
+        "color": "#000",
+        "fontSize": 24,
+        "height": 50,
+        "textAlign": "center",
+        "width": 50,
+      }
+    }
+    testID="verification-input-2"
+    value="3"
+  />
+  <TextInput
+    keyboardType="number-pad"
+    maxLength={1}
+    onChangeText={[Function]}
+    style={
+      {
+        "backgroundColor": undefined,
+        "borderRadius": 8,
+        "color": "#000",
+        "fontSize": 24,
+        "height": 50,
+        "textAlign": "center",
+        "width": 50,
+      }
+    }
+    testID="verification-input-3"
+    value=""
+  />
+  <TextInput
+    keyboardType="number-pad"
+    maxLength={1}
+    onChangeText={[Function]}
+    style={
+      {
+        "backgroundColor": undefined,
+        "borderRadius": 8,
+        "color": "#000",
+        "fontSize": 24,
+        "height": 50,
+        "textAlign": "center",
+        "width": 50,
+      }
+    }
+    testID="verification-input-4"
+    value=""
+  />
+  <TextInput
+    keyboardType="number-pad"
+    maxLength={1}
+    onChangeText={[Function]}
+    style={
+      {
+        "backgroundColor": undefined,
+        "borderRadius": 8,
+        "color": "#000",
+        "fontSize": 24,
+        "height": 50,
+        "textAlign": "center",
+        "width": 50,
+      }
+    }
+    testID="verification-input-5"
+    value=""
+  />
+</View>
+`;

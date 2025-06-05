@@ -1,3 +1,4 @@
+import React from 'react';
 import { useTheme } from '../../../hooks/UseTheme';
 import { Text } from 'react-native';
 import { createStyles } from './ErrorText.style.ts';

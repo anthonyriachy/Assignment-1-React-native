@@ -2,7 +2,8 @@ import UIKit
 import React
 import React_RCTAppDelegate
 import ReactAppDependencyProvider
-
+import GoogleMaps
+import FirebaseCore
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
   var window: UIWindow?
@@ -20,7 +21,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     reactNativeDelegate = delegate
     reactNativeFactory = factory
-
+    GMSServices.provideAPIKey("AIzaSyCGHZoOUGcYNYirj29LCoURXD6zoA46HIs")
+    FirebaseApp.configure()
     window = UIWindow(frame: UIScreen.main.bounds)
 
     factory.startReactNative(

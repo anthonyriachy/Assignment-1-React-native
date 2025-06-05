@@ -23,7 +23,7 @@ function Home() {
     hasNextPage,
     isFetchingNextPage,
     isLoading
-  } = useGetProducts({ limit: 10 });
+  } = useGetProducts();
 
   // Extract data for different sections
   const popularProducts = productsData?.pages[0]?.data ?? [];
@@ -52,7 +52,7 @@ function Home() {
     <View style={styles.container}>
       <FlatList
         data={[]}
-        renderItem={() => null}
+        renderItem={null}
         ListHeaderComponent={
           <HomeHeader 
             search={search} 

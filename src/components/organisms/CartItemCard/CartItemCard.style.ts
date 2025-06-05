@@ -18,5 +18,23 @@ export const createStyles = (colors:ThemeColors) => StyleSheet.create({
         resizeMode:'cover',
         width:'100%',
         height:'100%',
+    },
+    deleteBackground: {
+        backgroundColor: '#FF3B30',
+        width: 100,
+        height: '100%',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    deleteTextContainer: {
+        width: '100%',
+        height: '100%',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    deleteText: {
+        color: 'white',
+        fontSize: 16,
+        fontWeight: '600',
     }
-})
+});

@@ -38,14 +38,8 @@ export function ItemDetails({route}:any) {
 	const { colors } = useTheme();
 	const styles = useMemo(() => createStyles(colors), [colors]);
 	
-	// Add detailed logging
-	console.log('ItemDetails - Route Params:', route.params);
-	console.log('ItemDetails - Extracted itemId:', itemId);
 	
 	const {data:item,isLoading,error,refetch} = useGetProductById(itemId);
-	
-	// Add logging for the API call
-	console.log('ItemDetails - API Response:', { data: item, isLoading, error });
 
 	useErrorAlert({
 		error: error || null,
@@ -105,7 +99,7 @@ export function ItemDetails({route}:any) {
 		return <ItemDetailsLoading/>;
 	}
 
-if(!item){
+	if(!item){
 		return <View style={styles.container}>
 			<View style={styles.backButton}>
 				<BackArrow />

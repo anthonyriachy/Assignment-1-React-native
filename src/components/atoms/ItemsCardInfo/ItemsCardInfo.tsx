@@ -1,3 +1,4 @@
+import React from 'react';
 import { Text, View } from "react-native";
 import { ItemsCardInfoProps } from "./ItemsCardInfo.type";
 import { createStyles } from "./ItemsCardInfo.style";
@@ -12,7 +13,7 @@ export function ItemsCardInfo({title,price,date,location}:ItemsCardInfoProps) {
 return <View style={styles.container}>
 		<View>
 			<CustomText style={styles.price}>${price}</CustomText>
-			<CustomText style={styles.title} numberOfLines={1} ellipsizeMode="tail">{title}</CustomText>
+			<CustomText style={styles.title} numberOfLines={1} ellipsizeMode="tail" testID="items-card-title">{title}</CustomText>
 		</View>
 		<View style={styles.bottomContainer}>
 			{date && <View style={styles.dateContainer}>
@@ -21,7 +22,7 @@ return <View style={styles.container}>
 			</View>}
 			{location && <View style={styles.locationContainer}>
 				<LocationIcon width={20} height={20} />
-				<CustomText style={styles.location} numberOfLines={1} ellipsizeMode="tail">{location.name}</CustomText>
+				<CustomText style={styles.location} numberOfLines={1} ellipsizeMode="tail" testID="items-card-location">{location.name}</CustomText>
 			</View>}
 		</View>
 	</View>;

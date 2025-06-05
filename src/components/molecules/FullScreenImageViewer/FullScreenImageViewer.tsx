@@ -24,7 +24,8 @@ export function FullScreenImageViewer({ visible, onClose, imageUrl }: FullScreen
         }
       });
     } catch (error) {
-      // Error is already handled in the options
+      console.error('Error downloading image:', error);
+      throw error;
     } finally {
       setIsLoading(false);
     }

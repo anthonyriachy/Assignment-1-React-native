@@ -1,3 +1,4 @@
+import React from 'react';
 import { View, TextInput } from "react-native";
 import { inputFieldSellProps } from "./InputFieldSell.type";
 import { useTheme } from "../../../hooks/UseTheme";

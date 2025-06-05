@@ -7,18 +7,33 @@ import { queryClient } from './src/lib/queryClient';
 import MainNavigator from './src/navigation/MainNavigator';
 import { requestStoragePermission, requestLocationPermission } from './src/lib/permissionUtils';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { StyleSheet } from 'react-native';
-import SplashScreen from 'react-native-splash-screen';
+import { Alert, StyleSheet } from 'react-native';
+import OneSignalService from './src/services/OneSignalService';
+import { config } from './src/constants/Config';
 
 function App(): React.JSX.Element {
   useEffect(() => {
+     
+    // Alert.alert(
+    //   'Environment Config',
+    //   `BASE_URL: ${config.BASE_URL || 'not set'}\nENVIRONMENT: ${config.ENVIRONMENT || 'not set'}\nHas BASE_URL: ${Boolean(config.BASE_URL)}`
+    // );
+
     const initializeApp = async () => {
-      await requestStoragePermission();
-      await requestLocationPermission();
+      try {
+        await requestStoragePermission();
+        await requestLocationPermission();
+        if (!config.ONESIGNAL_APP_ID) {
+          console.warn('OneSignal App ID is not configured in environment variables');
+          return;
+        }
+        OneSignalService.getInstance().initialize(config.ONESIGNAL_APP_ID);
+      } catch (error) {
+        console.warn('Error during app initialization:', error);
+      }
     };
 
     initializeApp();
-    SplashScreen.hide();
   }, []);
 
   return (

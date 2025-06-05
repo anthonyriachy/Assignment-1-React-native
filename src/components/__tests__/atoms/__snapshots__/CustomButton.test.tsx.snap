@@ -1,0 +1,166 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CustomButton renders correctly when disabled 1`] = `
+<View
+  accessibilityState={
+    {
+      "busy": undefined,
+      "checked": undefined,
+      "disabled": true,
+      "expanded": undefined,
+      "selected": undefined,
+    }
+  }
+  accessibilityValue={
+    {
+      "max": undefined,
+      "min": undefined,
+      "now": undefined,
+      "text": undefined,
+    }
+  }
+  accessible={true}
+  collapsable={false}
+  focusable={false}
+  onClick={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    {
+      "alignItems": "center",
+      "backgroundColor": "#6055D8",
+      "borderRadius": 10,
+      "justifyContent": "center",
+      "opacity": 1,
+      "padding": 10,
+    }
+  }
+  testID="custom-button"
+>
+  <Text
+    style={
+      {
+        "color": "white",
+        "fontFamily": "Poppins-SemiBold",
+        "fontSize": 15,
+      }
+    }
+  >
+    Disabled Button
+  </Text>
+</View>
+`;
+
+exports[`CustomButton renders correctly when loading 1`] = `
+<View
+  accessibilityState={
+    {
+      "busy": undefined,
+      "checked": undefined,
+      "disabled": true,
+      "expanded": undefined,
+      "selected": undefined,
+    }
+  }
+  accessibilityValue={
+    {
+      "max": undefined,
+      "min": undefined,
+      "now": undefined,
+      "text": undefined,
+    }
+  }
+  accessible={true}
+  collapsable={false}
+  focusable={false}
+  onClick={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    {
+      "alignItems": "center",
+      "backgroundColor": "#6055D8",
+      "borderRadius": 10,
+      "justifyContent": "center",
+      "opacity": 1,
+      "padding": 10,
+    }
+  }
+  testID="custom-button"
+>
+  <Text
+    style={
+      {
+        "color": "white",
+        "fontFamily": "Poppins-SemiBold",
+        "fontSize": 15,
+      }
+    }
+  >
+    Loading Button...
+  </Text>
+</View>
+`;
+
+exports[`CustomButton renders correctly with default props 1`] = `
+<View
+  accessibilityState={
+    {
+      "busy": undefined,
+      "checked": undefined,
+      "disabled": undefined,
+      "expanded": undefined,
+      "selected": undefined,
+    }
+  }
+  accessibilityValue={
+    {
+      "max": undefined,
+      "min": undefined,
+      "now": undefined,
+      "text": undefined,
+    }
+  }
+  accessible={true}
+  collapsable={false}
+  focusable={true}
+  onClick={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    {
+      "alignItems": "center",
+      "backgroundColor": "#6055D8",
+      "borderRadius": 10,
+      "justifyContent": "center",
+      "opacity": 1,
+      "padding": 10,
+    }
+  }
+  testID="custom-button"
+>
+  <Text
+    style={
+      {
+        "color": "white",
+        "fontFamily": "Poppins-SemiBold",
+        "fontSize": 15,
+      }
+    }
+  >
+    Test Button
+  </Text>
+</View>
+`;

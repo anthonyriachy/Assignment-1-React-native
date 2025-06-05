@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import { Alert, Image, KeyboardAvoidingView, Platform, ScrollView, View } from 'react-native';
+import { Alert, KeyboardAvoidingView, Platform, ScrollView, View } from 'react-native';
 import { useTheme } from '../../hooks/UseTheme';
 import { createStyles } from './EditProfile.style';
 import { Controller } from 'react-hook-form';
@@ -11,20 +11,17 @@ import { useForm } from 'react-hook-form';
 import { UserService } from '../../services/UserService';
 import { useMutation } from '@tanstack/react-query';
 import { handleError } from '../../lib/handleError';
-
 import { InputField } from '../../components/atoms/InputField';
 import { CustomButton } from '../../components/atoms/CustomButton';
-import SmallProfile from '../../assets/icons/SmallProfile.svg';
-import CameraIcon from '../../assets/icons/photo-camera-svgrepo-com.svg';
 import useAuthStore from '../../stores/authStore/authStore';
-import { CustomText } from '../../components/atoms/CustomText/CustomText';
+import { ChangeProfile } from '../../components/atoms/ChangeProfile/ChangeProfile';
+
 export const EditProfile = () => {
   const {user,setUser} = useAuthStore();
   const { colors } = useTheme();
   const styles = createStyles(colors);
   const profileImageUrl = user?.profileImage?.url ? getImageUrl(user.profileImage.url) : null;
   const [profileImage, setProfileImage] = useState<string>(profileImageUrl || '');
-
   const handleImagePick = async () => {
     const result = await showImagePickerOptions();
     if (result.error) {
@@ -99,25 +96,8 @@ export const EditProfile = () => {
         >
           <View style={styles.container}>
             <View style={styles.inputContainer}>
-              <View style={styles.profileContainer}>
-                <View style={styles.profile}>
-                  <View style={styles.profileInnerContainer}>
-                    {profileImage ? (
-                      <Image
-                        source={{ uri: profileImage }}
-                        style={{ width: '100%', height: '100%', borderRadius: 40 }}
-                        resizeMode="contain"
-                      />
-                    ) : (
-                      <SmallProfile width={80} height={80} />
-                    )}
-                  </View>
-                  <View style={styles.profileBtn} onTouchEnd={handleImagePick}>
-                    <CameraIcon width={24} height={24} />
-                  </View>
-                </View>
-                <CustomText>Change Image</CustomText>
-              </View>
+
+              <ChangeProfile styles={styles} profileImage={profileImage} handleImagePick={handleImagePick} />
               <Controller
                 control={control}
                 name="firstName"

@@ -5,12 +5,12 @@ import { useTheme } from '../../../hooks/UseTheme';
 import { CarouselDots } from '../../molecules/CarouselDots';
 import { useNavigation } from '@react-navigation/native';
 import { CommonActions } from '@react-navigation/native';
-import ShimmerPlaceholder from 'react-native-shimmer-placeholder';
-import LinearGradient from 'react-native-linear-gradient';
+
 
 import { ProductDTO } from '../../../types/productDTO';
 import { getImageUrl } from '../../../lib/imageUtils';
 import { CarouselShimmer } from './CarouselSectionLoading';
+import { CarouselImageItem } from '../../atoms/CarouselImageItem';
 
 const { width } = Dimensions.get('window');
 
@@ -19,41 +19,6 @@ interface CarouselSectionProps {
   isLoading: boolean;
 }
 
-const CarouselImageItem = ({ 
-  imageUrl, 
-  onPress, 
-  styles 
-}: { 
-  imageUrl: string; 
-  onPress: () => void;
-  styles: any;
-}) => {
-  const [isLoading, setIsLoading] = useState(true);
-  const { colors } = useTheme();
-
-  return (
-    <TouchableOpacity 
-      style={styles.imageContainer}
-      onPress={onPress}
-      activeOpacity={0.9}
-    >
-      {isLoading && (
-        <ShimmerPlaceholder
-          style={styles.image}
-          LinearGradient={LinearGradient}
-          shimmerColors={[colors.background, colors.border, colors.background]}
-        />
-      )}
-      <Image 
-        source={{ uri: imageUrl }} 
-        style={[styles.image, isLoading && { position: 'absolute', opacity: 0 }]}
-        resizeMode="contain"
-        onLoadStart={() => setIsLoading(true)}
-        onLoadEnd={() => setIsLoading(false)}
-      />
-    </TouchableOpacity>
-  );
-};
 
 export const CarouselSection: React.FC<CarouselSectionProps> = ({ products, isLoading }) => {
   const { colors } = useTheme();

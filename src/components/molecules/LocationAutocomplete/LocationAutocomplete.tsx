@@ -5,7 +5,7 @@ import { createStyles } from './LocationAutocomplete.style.ts';
 import { UseFormSetValue } from 'react-hook-form';
 import { ProductSchemaType } from '../../../schemas/Product.schema';
 import { config } from '../../../constants/Config.ts';
-import { useRef, useCallback, useEffect, useMemo, useState } from 'react';
+import { useRef, useCallback, useEffect, useMemo, useState, memo } from 'react';
 import { Text, View, TextInputProps } from 'react-native';
 import { InputFieldSell } from '../../atoms/InputFieldSell/InputFieldSell.tsx';
 import { CustomText } from '../../atoms/CustomText/CustomText.tsx';
@@ -16,7 +16,7 @@ type LocationAutocompleteProps = {
     onLocationSelect?: (location: { name: string; latitude: number; longitude: number }) => void;
 };
 
-export const LocationAutocomplete = ({ setValue, value, onLocationSelect }: LocationAutocompleteProps) => {
+export const LocationAutocomplete = memo(({ setValue, value, onLocationSelect }: LocationAutocompleteProps) => {
     const { colors } = useTheme();
     const styles = useMemo(() => createStyles(colors), [colors]);
     const ref = useRef<any>(null);
@@ -59,15 +59,15 @@ export const LocationAutocomplete = ({ setValue, value, onLocationSelect }: Loca
         }
     }, [setValue, onLocationSelect]);
 
-    const handleFail = (error: any) => {
+    const handleFail = useCallback((error: any) => {
         console.error('Google Places API Error:', error);
-    }
+    }, []);
 
-    const renderEmptyComponent = () => (
+    const renderEmptyComponent = useCallback(() => (
         <View style={styles.emptyContainer}>
             <CustomText style={styles.emptyText}>No locations found</CustomText>
         </View>
-    );
+    ), [styles.emptyContainer, styles.emptyText]);
 
     if (!config.googlePlacesApiKey) {
         console.warn('Google Places API key is not configured');
@@ -128,5 +128,7 @@ export const LocationAutocomplete = ({ setValue, value, onLocationSelect }: Loca
             suppressDefaultStyles={true}
         />
     );
-};
+});
+
+LocationAutocomplete.displayName = 'LocationAutocomplete';
   
