@@ -13,7 +13,6 @@ const useCartStore = create<CartState>()(
         const existingItem = currentItems.find((i) => i._id === item._id);
         
         if (existingItem) {
-          // console.log("existingItem",existingItem);
           set({
             items: currentItems.map((i) =>
               i._id === item._id ? { ...i, quantity: i.quantity + 1 } : i

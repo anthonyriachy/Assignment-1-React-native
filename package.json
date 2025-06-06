@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "start": "react-native start",
+
     "start:dev": "ENVFILE=.env.development react-native start",
     "start:staging": "ENVFILE=.env.staging     react-native start",
     "start:prod": "ENVFILE=.env.production  react-native start",
@@ -15,25 +16,21 @@
     "android:staging:rel": "ENVFILE=.env.staging     react-native run-android --mode stagingRelease",
     "android:prod": "ENVFILE=.env.production  react-native run-android --mode productionRelease",
 
- 
-    "build:apk:dev":     "npm run clean:android && cd android && ENVFILE=../.env.development ./gradlew assembleDevelopmentRelease && cd ..",
+    "build:apk:dev": "npm run clean:android && cd android && ENVFILE=../.env.development ./gradlew assembleDevelopmentRelease && cd ..",
     "build:apk:staging": "npm run clean:android && cd android && ENVFILE=../.env.staging     ./gradlew assembleStagingRelease     && cd ..",
-    "build:apk:prod":    "npm run clean:android && cd android && ENVFILE=../.env.production  ./gradlew assembleProductionRelease && cd ..",
-    
-    "build:bundle:dev":     "npm run clean:android && cd android && ENVFILE=../.env.development ./gradlew bundleDevelopmentRelease && cd ..",
+    "build:apk:prod": "npm run clean:android && cd android && ENVFILE=../.env.production  ./gradlew assembleProductionRelease && cd ..",
+
+    "build:bundle:dev": "npm run clean:android && cd android && ENVFILE=../.env.development ./gradlew bundleDevelopmentRelease && cd ..",
     "build:bundle:staging": "npm run clean:android && cd android && ENVFILE=../.env.staging     ./gradlew bundleStagingRelease     && cd ..",
-    "build:bundle:prod":    "npm run clean:android && cd android && ENVFILE=../.env.production  ./gradlew bundleProductionRelease && cd ..",
+    "build:bundle:prod": "npm run clean:android && cd android && ENVFILE=../.env.production  ./gradlew bundleProductionRelease && cd ..",
 
-
-    "ios:dev":     "ENVFILE=.env.development react-native run-ios",
+    "ios:dev": "ENVFILE=.env.development react-native run-ios",
     "ios:staging": "ENVFILE=.env.staging     react-native run-ios",
-    "ios:prod":    "ENVFILE=.env.production  react-native run-ios",
-
-    "lint":             "eslint .",
-    "test":             "jest"
+    "ios:prod": "ENVFILE=.env.production  react-native run-ios",
+    
+    "lint": "eslint .",
+    "test": "jest"
   },
-
-
   "dependencies": {
     "@gorhom/bottom-sheet": "^5.1.4",
     "@hookform/resolvers": "^5.0.1",
@@ -48,6 +45,7 @@
     "@shopify/flash-list": "^1.8.0",
     "@tanstack/react-query": "^5.76.1",
     "axios": "^1.9.0",
+    "lottie-react-native": "^7.2.2",
     "react": "19.0.0",
     "react-hook-form": "^7.56.2",
     "react-native": "0.79.1",
@@ -87,8 +85,9 @@
     "@react-native/metro-config": "0.79.1",
     "@react-native/typescript-config": "0.79.1",
     "@testing-library/react-native": "^13.2.0",
+    "@types/axios": "^0.9.36",
     "@types/jest": "^29.5.13",
-    "@types/react": "^19.0.0",
+    "@types/react": "^19.1.6",
     "@types/react-native-vector-icons": "^6.4.18",
     "@types/react-test-renderer": "^19.0.0",
     "babel-jest": "^30.0.0-beta.3",

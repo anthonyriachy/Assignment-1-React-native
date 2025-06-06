@@ -44,7 +44,7 @@ export const AppStack = () => {
             <Stack.Screen
                 name={AppStackRoutes.SellModal}
                 component={Sell}
-                options={({ route }) => ({
+                options={({ route }: { route: RouteProp<AppStackParamsList, AppStackRoutes.SellModal> }) => ({
                     presentation: 'modal',
                     headerShown: true,
                     header: () => <SellHeader route={route} />,

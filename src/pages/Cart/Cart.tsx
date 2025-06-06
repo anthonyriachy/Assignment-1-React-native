@@ -35,41 +35,41 @@ export const CartScreen = () => {
 
     const snapPoints = ['70%'];
 
-    const animateButton = useCallback((visible: boolean) => {
+    const animateButton =(visible: boolean) => {
         Animated.timing(buttonOpacity, {
             toValue: visible ? 0 : 1,
             duration: 150,
             useNativeDriver: false,
         }).start();
-    }, [buttonOpacity]);
+    };
 
-    const handlePresentModalPress = useCallback(() => {
+    const handlePresentModalPress = () => {
         bottomSheetModalRef.current?.present();
         setIsModalVisible(true);
         animateButton(true);
-    }, [animateButton]);
+    };
 
-    const handleSheetChanges = useCallback((index: number) => {
+    const handleSheetChanges =(index: number) => {
         if (index === -1) {
             setIsModalVisible(false);
             animateButton(false);
         }
-    }, [animateButton]);
+    };
 
-    const handleCheckout = useCallback(() => {
+    const handleCheckout =() => {
         try {
             bottomSheetModalRef.current?.close();
             navigation.navigate(AppStackRoutes.Checkout);
         } catch (error) {
             console.error('Navigation error:', error);
         }
-    }, [navigation]);
+    };
 
     const renderItem = useCallback(({item}: {item: CartItemDTO}) => {
         return <CartItemCard item={item} />;
     }, []);
 
-    const keyExtractor = useCallback((item: CartItemDTO) => item._id, []);
+    const keyExtractor = (item: CartItemDTO) => item._id;
 
     return (
         <BottomSheetModalProvider>

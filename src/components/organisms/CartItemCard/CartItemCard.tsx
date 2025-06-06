@@ -1,22 +1,15 @@
 import React, { memo, useCallback } from 'react';
 import {
   View,
-  StyleSheet,
-  Animated as RNAnimated,
   TouchableOpacity,
   Text,
   Image,
 } from 'react-native';
-import {
-  PanGestureHandler,
-  PanGestureHandlerGestureEvent,
-} from 'react-native-gesture-handler';
+import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, {
-  useAnimatedGestureHandler,
   useAnimatedStyle,
   useSharedValue,
   withTiming,
-  interpolate,
   runOnJS,
 } from 'react-native-reanimated';
 
@@ -27,19 +20,13 @@ import { CartItemCardProps } from './CartItemCard.type';
 import { getImageUrl } from '../../../lib/imageUtils';
 import useCartStore from '../../../stores/CartStore/CartStore';
 
-// ─── 1) Constants ───────────────────────────────────────────────────────────────
-//
-//    SWIPE_THRESHOLD: how far (negative) before auto-delete.
-//    PEAK_THRESHOLD: when to start fading in the red button.
-//
-const SWIPE_THRESHOLD = -100; // px
-const PEAK_THRESHOLD = -20;   // px
+const OPEN_POSITION = -120;
+const FULL_DELETE_THRESHOLD = -200;
 
 export const CartItemCard = memo(({ item }: CartItemCardProps) => {
   const { colors } = useTheme();
   const styles = createStyles(colors);
 
-  // Grab quantity and store actions
   const quantity = useCartStore((state) => {
     const found = state.items.find((i) => i._id === item._id);
     return found?.quantity || 1;
@@ -47,75 +34,64 @@ export const CartItemCard = memo(({ item }: CartItemCardProps) => {
   const updateQuantity = useCartStore((state) => state.updateQuantity);
   const removeItem = useCartStore((state) => state.removeItem);
 
-  // 1) SharedValue for horizontal translation
   const translateX = useSharedValue(0);
-  // 2) A flag so we only auto-delete once per gesture
-  const hasDeleted = useSharedValue(false);
+  const dragContext = useSharedValue(0);
+  const isDragging = useSharedValue(false);
 
-  // ─── 2) Gesture Handler ───────────────────────────────────────────────────────
-  const gestureHandler = useAnimatedGestureHandler<
-    PanGestureHandlerGestureEvent,
-    { startX: number }
-  >({
-    onStart: (_, ctx) => {
-      ctx.startX = translateX.value;
-      hasDeleted.value = false;
-    },
-    onActive: (event, ctx) => {
-      // Only swipe left; clamp at SWIPE_THRESHOLD
-      translateX.value = Math.max(ctx.startX + event.translationX, SWIPE_THRESHOLD);
-    },
-    onEnd: () => {
-      if (translateX.value <= SWIPE_THRESHOLD && !hasDeleted.value) {
-        // Fully swiped past threshold: auto-delete
-        hasDeleted.value = true;
-        // Animate off-screen (optional), then remove from store
-        translateX.value = withTiming(-300, { duration: 200 }, () => {
+  // 1) Build the pan gesture with a context model:
+  const panGesture = Gesture.Pan()
+    .onStart(() => {
+      isDragging.value = true;
+      // store the “starting” translateX in dragContext
+      dragContext.value = translateX.value;
+    })
+    .onUpdate((event) => {
+      // Now we add the delta (event.translationX) to the stored start offset
+      // Clamp so translateX never goes positive:
+      translateX.value = Math.min(dragContext.value + event.translationX, 0);
+    })
+    .onEnd(() => {
+      isDragging.value = false;
+
+      // 2) If you’ve dragged past FULL_DELETE_THRESHOLD, delete:
+      if (translateX.value <= FULL_DELETE_THRESHOLD) {
+        translateX.value = withTiming(-500, { duration: 200 }, () => {
           runOnJS(removeItem)(item._id);
         });
-      } else {
-        // Snap back
-        translateX.value = withTiming(0, { duration: 200 });
+        return;
       }
-    },
-  });
 
-  // ─── 3) Animated style for the row (so it slides left/right) ─────────────────
-  const rowStyle = useAnimatedStyle(() => {
-    return {
-      transform: [{ translateX: translateX.value }],
-    };
-  });
+      // 3) Else if you’re beyond OPEN_POSITION, lock there:
+      if (translateX.value <= OPEN_POSITION) {
+        translateX.value = withTiming(OPEN_POSITION, { duration: 200 });
+        return;
+      }
 
-  // ─── 4) Animated style for the “red Delete” button underneath ────────────────
+      // 4) Otherwise, snap fully closed:
+      translateX.value = withTiming(0, { duration: 200 });
+    });
+
+  // 5) Animated style that moves the card horizontally
+  const rowStyle = useAnimatedStyle(() => ({
+    transform: [{ translateX: translateX.value }],
+  }));
+
   const underlayStyle = useAnimatedStyle(() => {
-    // As translateX goes from 0 → SWIPE_THRESHOLD (0 → -100),
-    //   • opacity interpolates [0 → 1]  
-    //   • translateX of button goes [100 → 0]
-    const opacity = interpolate(
-      translateX.value,
-      [0, PEAK_THRESHOLD, SWIPE_THRESHOLD],
-      [0, 0.3, 1],
-      'clamp'
-    );
-    const tx = interpolate(
-      translateX.value,
-      [0, SWIPE_THRESHOLD],
-      [100, 0],
-      'clamp'
-    );
+    const absX = -translateX.value; 
+
     return {
-      opacity,
-      transform: [{ translateX: tx }],
+      opacity: absX > 0 ? 1 : 0,
+      width: absX,
+      transform: [{ translateX: 0 }],
     };
   });
 
-  // ─── 5) handle tap on the red “Delete” button ─────────────────────────────────
   const handleTapDelete = useCallback(() => {
-    removeItem(item._id);
-  }, [item._id, removeItem]);
+    if (!isDragging.value) {
+      removeItem(item._id);
+    }
+  }, [item._id, removeItem, isDragging]);
 
-  // ─── 6) handle quantity change passed down to the details component ───────────
   const handleQuantityChange = useCallback(
     (newQty: number) => {
       updateQuantity(item._id, newQty);
@@ -123,81 +99,37 @@ export const CartItemCard = memo(({ item }: CartItemCardProps) => {
     [item._id, updateQuantity]
   );
 
-  // ─── 7) UI ───────────────────────────────────────────────────────────────────
   return (
-    <View style={localStyles.wrapper}>
-      {/* A) The red “Delete” underlay */}
-      <Animated.View style={[localStyles.deleteButtonContainer, underlayStyle]}>
-        <TouchableOpacity style={localStyles.deleteButtonTouch} onPress={handleTapDelete}>
-          <Text style={localStyles.deleteText}>Delete</Text>
+    <View style={styles.wrapper}>
+      {/* delete button */}
+      <Animated.View style={[styles.deleteButtonContainer, underlayStyle]}>
+        <TouchableOpacity
+          style={[styles.deleteButtonTouch, { width: '100%' }]}
+          onPress={handleTapDelete}
+          activeOpacity={0.7}
+        >
+          <Text style={styles.deleteText}>Delete</Text>
         </TouchableOpacity>
       </Animated.View>
 
-      {/* B) The actual card content, panned by gestures */}
-      <PanGestureHandler onGestureEvent={gestureHandler}>
+      {/* card that slides */}
+      <GestureDetector gesture={panGesture}>
         <Animated.View style={[styles.container, rowStyle]}>
-          {/* Image portion */}
-          <View style={localStyles.imageContainer}>
+          <View style={styles.imageContainer}>
             <Image
               source={{ uri: getImageUrl(item.image || '') }}
-              style={localStyles.image}
+              style={styles.image}
               resizeMode="cover"
             />
           </View>
-
-          {/* Details portion (quantity controls, title, etc.) */}
           <CartItemCardDetails
             item={item}
             quantity={quantity}
             onQuantityChange={handleQuantityChange}
-            onRemoveItem={handleTapDelete} 
-            // NOTE: this “onRemoveItem” may get called if the user presses 
-            //       the small “×” inside CartItemCardDetails, if that exists.
+            onRemoveItem={handleTapDelete}
           />
         </Animated.View>
-      </PanGestureHandler>
+      </GestureDetector>
     </View>
   );
-});
-
-// ─── 8) Local Styles for the swipeable wrapper ─────────────────────────────────
-const localStyles = StyleSheet.create({
-  wrapper: {
-    width: '100%',
-    height: 100,
-    marginVertical: 8,
-    // If you want a little spacing around each card, adjust marginVertical
-  },
-  deleteButtonContainer: {
-    backgroundColor: '#FF3B30', // “destructive” red
-    position: 'absolute',
-    right: 0,
-    top: 0,
-    bottom: 0,
-    width: 100, // matches SWIPE_THRESHOLD magnitude
-    borderRadius: 8,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  deleteButtonTouch: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: 100,
-  },
-  deleteText: {
-    color: 'white',
-    fontWeight: '600',
-    fontSize: 16,
-  },
-  imageContainer: {
-    width: 120,
-    height: 100,
-    borderRadius: 8,
-    overflow: 'hidden',
-  },
-  image: {
-    width: '100%',
-    height: '100%',
-  },
 });

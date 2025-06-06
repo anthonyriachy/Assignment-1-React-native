@@ -21,7 +21,6 @@ export class UserService {
             const { data } = await axiosInstance.post(endpoints.auth.login, user, { isAuth: false });
             return data;
         } catch (error) {
-            console.log('error',error);
             throw new Error(handleError(error));
         }
     }
