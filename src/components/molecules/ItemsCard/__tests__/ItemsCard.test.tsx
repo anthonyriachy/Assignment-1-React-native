@@ -1,44 +1,31 @@
-// src/components/molecules/ItemsCard/__tests__/ItemsCard.test.tsx
+
 
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react-native';
 import { ItemsCard } from '../ItemsCard';
 import { ThemeProvider } from '../../../../context/ThemeContext/ThemeContext';
 import { ProductDTO } from '../../../../types/ProductDTO';
-
-// ─── M O C K   N A V I G A T I O N ───────────────────────────────────────────────
 jest.mock('@react-navigation/native', () => ({
   useNavigation: jest.fn().mockReturnValue({ dispatch: jest.fn() }),
   CommonActions: { navigate: jest.fn() },
 }));
-
-// ─── M O C K   U S E T H E M E ────────────────────────────────────────────────────
 jest.mock('../../../../hooks/UseTheme', () => ({
   useTheme: () => ({
     colors: { background: '#fff', text: '#000', primary: '#007AFF', border: '#ccc' },
     theme: 'light',
   }),
 }));
-
-// ─── M O C K   F A S T I M A G E ───────────────────────────────────────────────────
 jest.mock('react-native-fast-image', () => {
   const FastImage = () => null;
   FastImage.priority = { low: 0, normal: 1, high: 2 };
   FastImage.resizeMode = { contain: 'contain', cover: 'cover', stretch: 'stretch', center: 'center' };
   return FastImage;
 });
-
-// ─── M O C K   S H I M M E R   &   L I N E A R G R A D I E N T ────────────────────
 jest.mock('react-native-shimmer-placeholder', () => 'ShimmerPlaceholder');
 jest.mock('react-native-linear-gradient', () => 'LinearGradient');
-
-// ─── M O C K   S V G   I C O N S ───────────────────────────────────────────────────
 jest.mock('../../../../assets/icons/Heart.svg', () => 'HeartIcon');
 jest.mock('../../../../assets/icons/DateIcon.svg', () => 'DateIcon');
 jest.mock('../../../../assets/icons/LocationIcon.svg', () => 'LocationIcon');
-
-// ─── M O C K   C H I L D   C O M P O N E N T S ────────────────────────────────────
-// Note the three ".." to get from __tests__ → atoms
 jest.mock('../../../atoms/ItemsCardImage', () => {
   const React = require('react');
   const { View, Text } = require('react-native');

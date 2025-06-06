@@ -41,12 +41,10 @@ function Login({ navigation }: any) {
       return { loginResponse };
     },
     onSuccess: async () => {
-      // console.log('Processing pending deep link after login:', pendingDeepLink);
+      
       if (pendingDeepLink) {
         try { 
           const productId = pendingDeepLink.split('/').pop();
-          console.log('pendingDeepLink', pendingDeepLink);
-          console.log('Extracted product ID:', productId);
 
           if (productId) {
             // navigate to details 

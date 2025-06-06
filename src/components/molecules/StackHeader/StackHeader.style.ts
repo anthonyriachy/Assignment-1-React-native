@@ -8,7 +8,7 @@ export const createStyles = (colors: ThemeColors) => StyleSheet.create({
     justifyContent: 'space-between',
     paddingHorizontal: 16,
     backgroundColor: colors.background,
-    height: 60,
+    height: 80,
   },
   backButtonContainer: {
     width: 40,

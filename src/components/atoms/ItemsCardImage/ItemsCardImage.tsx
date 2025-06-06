@@ -1,15 +1,15 @@
 import React from 'react';
-import { Pressable, View } from 'react-native';
+import { Alert, Pressable, Share, View } from 'react-native';
 import { ItemsCardImageProps } from './ItemsCardImage.type';
-import CartIcon from '../../../assets/icons/shopping-cart-outline-svgrepo-com (2).svg';
+import ShareIcon from '../../../assets/icons/share.svg';
 import { createStyles } from './ItemsCardImage.style';
 import { useTheme } from '../../../hooks/UseTheme';
 import { useState, useCallback } from 'react';
 import ShimmerPlaceholder from 'react-native-shimmer-placeholder';
 import LinearGradient from 'react-native-linear-gradient';
 import FastImage from 'react-native-fast-image';
-import useCartStore from '../../../stores/CartStore/CartStore';
 import { useSuccessAlert } from '../../../hooks/useSuccessAlert';
+import { makeEncurtadorLink } from '../../../lib/makeUrl';
 
 export const ItemsCardImage = React.memo(({image, item}: ItemsCardImageProps) => {
 	const { colors } = useTheme();
@@ -24,21 +24,19 @@ export const ItemsCardImage = React.memo(({image, item}: ItemsCardImageProps) =>
 		setIsLoading(false);
 	}, []);
 
-	const handleAddToCart = useCallback(() => {
-		if ('_id' in item && 'images' in item) {
-			const cartItem = {
-				_id: item._id,
-				title: item.title,
-				price: item.price,
-				image: item.images[0].url
-			};
-			useCartStore.getState().addItem(cartItem);
-			setIsAddedToCart(true)
-			console.log('item added to cart', cartItem)
-		} else {
-			useCartStore.getState().addItem(item);
-		}
-	}, [item]);
+	const handleShare = useCallback(async () => {
+        try {
+            const shareUrl = await makeEncurtadorLink(item._id);
+            await Share.share({
+                message: `Check out this ${item.title} on our app!\n\n${item.description}\n\nPrice: $${item.price}\n\n${shareUrl}`,
+                url: shareUrl,
+                title: item.title,
+            });
+        } catch (error) {
+            console.error('Error sharing:', error);
+            Alert.alert('Error', 'Unable to share the product. Please try again later.');
+        }
+    }, [item._id, item.title, item.description, item.price]);
 
 	useSuccessAlert({
         success:isAddedToCart,
@@ -61,10 +59,12 @@ export const ItemsCardImage = React.memo(({image, item}: ItemsCardImageProps) =>
 					onLoadEnd={handleLoadEnd}
 				/>
 			</View>
-			<Pressable style={styles.heartIconContainer} onPress={handleAddToCart}>
-				<CartIcon width={20} height={20} />
+			<Pressable style={styles.heartIconContainer} onPress={handleShare}>
+				<ShareIcon width={20} height={20} />
 			</Pressable>
 		</View>
 	);
 });
 
+
+ 

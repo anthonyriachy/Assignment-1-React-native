@@ -4,7 +4,6 @@ import { render } from '../../../../src/test-utils/test-utils';
 import { VerificationCodeInput } from '../../atoms/VerificationCodeInput/VerificationCodeInput';
 import { ThemeProvider } from '../../../context/ThemeContext/ThemeContext';
 
-// Mock useTheme hook
 jest.mock('../../../hooks/UseTheme', () => ({
   useTheme: () => ({
     colors: {
@@ -129,11 +128,11 @@ describe('VerificationCodeInput', () => {
 
     const inputs = getAllByTestId(/verification-input-\d/);
     
-    // Test each input individually
+  
     fireEvent.changeText(inputs[0], '1');
     expect(mockSetCode).toHaveBeenCalledWith(['1', '', '', '', '', '']);
     
-    // Update the component with new state
+  
     rerender(
       <ThemeProvider>
         <VerificationCodeInput 
@@ -147,7 +146,7 @@ describe('VerificationCodeInput', () => {
     fireEvent.changeText(inputs[1], '2');
     expect(mockSetCode).toHaveBeenCalledWith(['1', '2', '', '', '', '']);
     
-    // Update the component with new state
+  
     rerender(
       <ThemeProvider>
         <VerificationCodeInput 

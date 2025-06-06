@@ -17,7 +17,7 @@ import { linking } from './linking.ts';
 const Stack = createStackNavigator<MainStackParamsList>();
 
 export default function MainNavigator() {
-    const { hasStoreLoaded, accessToken, user, setUser } = useAuthStore();
+    const { hasStoreLoaded, accessToken, user, setUser, refreshToken } = useAuthStore();
 
     useEffect(() => {
         const initializeAuth = async () => {
@@ -49,7 +49,7 @@ export default function MainNavigator() {
     }
 
    
-    const isAuthenticated = Boolean(accessToken);
+    const isAuthenticated = Boolean(accessToken) || Boolean(refreshToken);
 
     return (
         <NavigationContainer linking={linking}>

@@ -1,40 +1,52 @@
 import { StyleSheet } from "react-native";
 import { ThemeColors } from "../../../constants/theme";
 
-export const createStyles = (colors:ThemeColors) => StyleSheet.create({
-    container:{
-     borderRadius:8,
-     backgroundColor:colors.secondary,
-     flexDirection:'row',
-     gap:10,
+export const createStyles = (colors: ThemeColors) => StyleSheet.create({
+    wrapper: {
+        width: '100%',
+        height: 100,
+        marginVertical: 8,
+        backgroundColor: colors.background,
     },
-    imageContainer:{
-        width:120,
-        height:100,
-        borderRadius:8,
-        overflow:'hidden',
+    container: {
+        borderRadius: 8,
+        backgroundColor: colors.secondary,
+        flexDirection: 'row',
+        
     },
-    image:{
-        resizeMode:'cover',
-        width:'100%',
-        height:'100%',
-    },
-    deleteBackground: {
+    deleteButtonContainer: {
+        position: 'absolute',
+        right: 0,
+        top: 0,
+        bottom: 0,
+        borderRadius: 8,
         backgroundColor: '#FF3B30',
-        width: 100,
-        height: '100%',
         justifyContent: 'center',
         alignItems: 'center',
+        overflow: 'hidden',
     },
-    deleteTextContainer: {
-        width: '100%',
+    deleteButtonTouch: {
         height: '100%',
         justifyContent: 'center',
         alignItems: 'center',
     },
     deleteText: {
         color: 'white',
-        fontSize: 16,
         fontWeight: '600',
+        fontSize: 16,
+    },
+    imageContainer: {
+        width: 120,
+        height: 100,
+        borderTopLeftRadius:8,
+        borderBottomLeftRadius:8,
+        overflow: 'hidden',
+        backgroundColor: colors.background,
+    },
+    image: {
+        width: '100%',
+        height: '100%',
+        backgroundColor: colors.background,
+        resizeMode:'contain',
     }
 });

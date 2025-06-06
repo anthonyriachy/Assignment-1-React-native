@@ -31,24 +31,16 @@ export const linking: LinkingOptions<any> = {
         return null;
       }
 
+      useDeepLinkStore.getState().setPendingDeepLink(url);
+      
       if (!useAuthStore.getState().hasStoreLoaded) {
-        console.log('Auth store not loaded yet, storing deep link');
-        useDeepLinkStore.getState().setPendingDeepLink(url);
         return null;
       }
 
-      // Check if user is authenticated
       const { accessToken, user } = useAuthStore.getState();
       const isAuthenticated = Boolean(accessToken && user);
 
-      if (!isAuthenticated) {
-        console.log('User not authenticated, storing deep link:', url);
-        useDeepLinkStore.getState().setPendingDeepLink(url);
-        return null;
-      }
-
-      console.log('User authenticated, processing deep link:', url);
-      return url;
+      return isAuthenticated ? url : null;
     } catch (error) {
       console.error('Error getting initial URL:', error);
       return null;
@@ -58,24 +50,18 @@ export const linking: LinkingOptions<any> = {
   subscribe(listener) {
     const onReceiveURL = ({ url }: { url: string }) => {
       try {
+        useDeepLinkStore.getState().setPendingDeepLink(url);
+
         if (!useAuthStore.getState().hasStoreLoaded) {
-          console.log('Auth store not loaded yet, storing deep link');
-          useDeepLinkStore.getState().setPendingDeepLink(url);
           return;
         }
 
-        // Check if user is authenticated
         const { accessToken, user } = useAuthStore.getState();
         const isAuthenticated = Boolean(accessToken && user);
 
-        if (!isAuthenticated) {
-          console.log('User not authenticated, storing deep link:', url);
-          useDeepLinkStore.getState().setPendingDeepLink(url);
-          return;
+        if (isAuthenticated) {
+          listener(url);
         }
-
-        console.log('User authenticated, processing deep link:', url);
-        listener(url);
       } catch (error) {
         console.error('Error handling deep link:', error);
       }

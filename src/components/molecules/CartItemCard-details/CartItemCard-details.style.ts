@@ -8,9 +8,10 @@ export const createStyles = (colors:ThemeColors) => StyleSheet.create({
         backgroundColor:colors.card,
         paddingVertical:10,
         paddingRight:10,
+        paddingLeft:10,
         justifyContent:'space-between',
-        borderEndEndRadius:10,
-        borderEndStartRadius:10,
+        borderEndEndRadius:8,
+        borderEndStartRadius:8,
     },
     title:{
         fontSize:16,

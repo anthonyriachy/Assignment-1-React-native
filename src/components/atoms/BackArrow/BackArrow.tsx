@@ -5,6 +5,8 @@ import { styles } from "./BackArrow.style";
 import { useNavigation, CommonActions } from "@react-navigation/native";
 import { AppStackRoutes } from "../../../constants/AppStackRoutes";
 import { BackArrowProps } from "./BackArrow.type";
+import { BottomTabRoutes } from "../../../constants/BottomTabRoutes";
+
 export const BackArrow = ({onPress}:BackArrowProps) => {
     const navigation = useNavigation();
     return (
@@ -18,9 +20,29 @@ export const BackArrow = ({onPress}:BackArrowProps) => {
                 if (navigation.canGoBack()) {
                     navigation.goBack();
                 } else {
+                    // Navigate to home screen
                     navigation.dispatch(
-                        CommonActions.navigate({
-                            name: AppStackRoutes.AppStack
+                        CommonActions.reset({
+                            index: 0,
+                            routes: [
+                                {
+                                    name: 'AppStack',
+                                    state: {
+                                        routes: [
+                                            {
+                                                name: 'MainBottomTabs',
+                                                state: {
+                                                    routes: [
+                                                        {
+                                                            name: BottomTabRoutes.Home
+                                                        }
+                                                    ]
+                                                }
+                                            }
+                                        ]
+                                    }
+                                }
+                            ]
                         })
                     );
                 }

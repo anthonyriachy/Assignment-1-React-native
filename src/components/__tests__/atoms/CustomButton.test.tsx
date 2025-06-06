@@ -3,7 +3,6 @@ import { fireEvent } from '@testing-library/react-native';
 import { render } from '../../../../src/test-utils/test-utils';
 import { CustomButton } from '../../atoms/CustomButton/CustomButton';
 
-// Mock child components
 jest.mock('../../atoms/CustomText/CustomText', () => {
   const React = require('react');
   const { Text } = require('react-native');

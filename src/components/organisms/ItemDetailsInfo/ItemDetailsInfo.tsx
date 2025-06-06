@@ -22,6 +22,7 @@ import { useErrorAlert } from '../../../hooks/useErrorAlert';
 import { CustomText } from '../../atoms/CustomText/CustomText';
 import useCartStore from '../../../stores/CartStore/CartStore';
 import { CartItemDTO } from '../../../types/CartItemDTO';
+import { makeEncurtadorLink } from '../../../lib/makeUrl';
 
 export const ItemDetailsInfo = ({ item, onScroll, refreshing, onRefresh }: ItemDetailsInfoProps) => {
     const { colors } = useTheme();
@@ -121,10 +122,11 @@ export const ItemDetailsInfo = ({ item, onScroll, refreshing, onRefresh }: ItemD
 
     const handleShare = useCallback(async () => {
         try {
-            const shareUrl = `e-commerce://product/${item._id}`;
+            const shortUrl = await makeEncurtadorLink(item._id);
+            
             await Share.share({
-                message: `Check out this ${item.title} on our app!\n\n${item.description}\n\nPrice: $${item.price}\n\n${shareUrl}`,
-                url: shareUrl,
+                message: `Check out this ${item.title} on our app!\n\n${item.description}\n\nPrice: $${item.price}\n\n${shortUrl}`,
+                url: shortUrl,
                 title: item.title,
             });
         } catch (error) {

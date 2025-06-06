@@ -4,7 +4,6 @@ import { render } from '../../../../src/test-utils/test-utils';
 import { InputFieldSell } from '../../atoms/InputFieldSell/InputFieldSell';
 import { ThemeProvider } from '../../../context/ThemeContext/ThemeContext';
 
-// Mock child components
 jest.mock('../../atoms/CustomText/CustomText', () => {
   const React = require('react');
   const { Text } = require('react-native');
@@ -15,7 +14,6 @@ jest.mock('../../atoms/CustomText/CustomText', () => {
   };
 });
 
-// Mock ErrorText component
 jest.mock('../../atoms/ErrorText/ErrorText', () => {
   const React = require('react');
   const { Text } = require('react-native');
@@ -26,7 +24,6 @@ jest.mock('../../atoms/ErrorText/ErrorText', () => {
   };
 });
 
-// Mock useTheme hook
 jest.mock('../../../hooks/UseTheme', () => ({
   useTheme: () => ({
     colors: {
