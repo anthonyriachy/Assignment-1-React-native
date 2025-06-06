@@ -71,10 +71,8 @@ import { GetByIdResponse, GetProductsResponse, CreateProductResponse } from './P
                     },
                 }
             );
-            // 
             return response.data;
         } catch (error) {
-            // 
             throw new Error(handleError(error));
         }
     }
